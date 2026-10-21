@@ -557,7 +557,7 @@ body.is-library {
   font-family: var(--f-mono);
   font-size: 8px;
   font-weight: 400;
-  letter-spacing: .16em;
+  letter-spacing: .12em;
   text-transform: uppercase;
   color: var(--ink-3);
 }

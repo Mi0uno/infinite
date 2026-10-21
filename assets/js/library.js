@@ -84,6 +84,7 @@
 
   var gridEl = document.getElementById('grid');
   var kindList = document.getElementById('kindList');
+  var fieldList = document.getElementById('fieldList');
   var stateList = document.getElementById('stateList');
   var qEl = document.getElementById('q');
   var crumb = document.getElementById('crumb');
@@ -93,7 +94,7 @@
   var emptyQ = document.getElementById('emptyq');
   var resetEl = document.getElementById('reset');
 
-  if (gridEl && kindList && stateList) {
+  if (gridEl && kindList && fieldList && stateList) {
     var PER = 6;
 
     var items = Array.prototype.map.call(
@@ -102,6 +103,7 @@
         return {
           el: el,
           kind: el.getAttribute('data-kind') || '',
+          field: el.getAttribute('data-field') || '',
           state: el.getAttribute('data-state') || '',
           text: (el.getAttribute('data-text') || '').toLowerCase()
         };
@@ -109,6 +111,7 @@
     );
 
     var kind = '全部';
+    var field = '全部';
     var state = '全部';
     var kw = '';
     var page = 1;
@@ -168,6 +171,7 @@
       var q = kw.trim();
       var hits = items.filter(function (it) {
         return (kind === '全部' || it.kind === kind) &&
+               (field === '全部' || it.field === field) &&
                (state === '全部' || it.state === state) &&
                (!q || it.text.indexOf(q) > -1);
       });
@@ -190,12 +194,12 @@
       if (emptyQ) emptyQ.textContent = q;
 
       if (crumb) {
-        var label;
-        if (q) label = '「' + q + '」';
-        else if (kind !== '全部') label = wordOf(kindList, kind);
-        else if (state !== '全部') label = wordOf(stateList, state);
-        else label = '全部';
-        crumb.textContent = label;
+        var bits = [];
+        if (kind !== '全部') bits.push(wordOf(kindList, kind));
+        if (field !== '全部') bits.push(wordOf(fieldList, field));
+        if (state !== '全部') bits.push(wordOf(stateList, state));
+        if (q) bits.push('「' + q + '」');
+        crumb.textContent = bits.length ? bits.join(' · ') : '全部';
       }
 
       drawPager(pages, hits.length, from);
@@ -210,6 +214,13 @@
     kindList.addEventListener('change', function (e) {
       if (e.target.name !== 'kind') return;
       kind = e.target.value;
+      page = 1;
+      render(false);
+    });
+
+    fieldList.addEventListener('change', function (e) {
+      if (e.target.name !== 'field') return;
+      field = e.target.value;
       page = 1;
       render(false);
     });
