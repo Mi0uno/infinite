@@ -1162,7 +1162,7 @@ html.js .loader {
   inset: 0;
   z-index: 80;
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto 1fr;
   gap: 20px;
   padding: clamp(20px, 3vw, 42px);
   background: var(--paper);
@@ -1219,81 +1219,111 @@ html.js.is-loading body {
   color: var(--ink-3);
 }
 
-.ld-mid {
-  align-self: center;
-  min-width: 0;
-}
-
-.ld-title {
-  margin: 0;
-  font-family: var(--f-cjk);
-  font-size: clamp(40px, 8.4vw, 118px);
-  font-weight: 900;
-  line-height: .96;
-  letter-spacing: -.04em;
-}
-
-.ld-desc {
-  margin: 14px 0 0;
-  font-family: var(--f-mono);
-  font-size: 10.5px;
-  letter-spacing: .14em;
-  color: var(--ink-3);
-}
-
-.ld-foot {
+/* 转盘：一圈细环，四个方位的刻度压在环上，
+   数字钉在圆心。整块在页面正中，别的不许抢它。 */
+/* 盘和底下的字算一组，在剩下的空间里一起居中 */
+.ld-core {
+  place-self: center;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: end;
-  gap: 10px 20px;
-  padding-top: 14px;
-  border-top: 1px solid var(--ink);
+  justify-items: center;
+  gap: clamp(34px, 6vh, 64px);
 }
 
-.ld-track {
+.ld-dial {
   position: relative;
-  height: 3px;
-  background: var(--paper-deep);
-  overflow: hidden;
+  width: min(300px, 54vw);
+  aspect-ratio: 1;
 }
 
-.ld-track i {
+.ld-ring {
   display: block;
+  width: 100%;
   height: 100%;
-  width: 0;
-  background: var(--ink);
+  transform: rotate(-90deg);
+  overflow: visible;
+}
+
+.ld-ring circle {
+  fill: none;
+}
+
+.ld-ring-track {
+  stroke: var(--line);
+  stroke-width: 1;
+}
+
+.ld-ring-inner {
+  stroke: var(--line);
+  stroke-width: 1;
+  opacity: .55;
+}
+
+.ld-ring-fill {
+  stroke: var(--ink);
+  stroke-width: 1.6;
+  stroke-dasharray: 540.35;
+  stroke-dashoffset: 540.35;
+  transition: stroke-dashoffset .16s linear;
+}
+
+.ld-mk {
+  stroke: var(--ink);
+  stroke-width: 1;
 }
 
 .ld-num {
-  grid-row: 1 / span 2;
-  grid-column: 2;
+  position: absolute;
+  inset: 0;
   display: flex;
-  align-items: baseline;
+  align-items: center;
+  justify-content: center;
   gap: 2px;
   margin: 0;
   font-family: var(--f-mono);
-  font-size: clamp(30px, 3.6vw, 48px);
+  font-size: clamp(26px, 4.7vw, 44px);
   font-weight: 500;
-  line-height: .84;
+  line-height: 1;
   letter-spacing: -.03em;
   color: var(--ink);
   font-variant-numeric: tabular-nums;
 }
 
 .ld-num span {
-  font-size: .42em;
+  margin-bottom: .66em;
+  font-size: .4em;
   font-weight: 400;
   letter-spacing: .04em;
   color: var(--ink-3);
 }
 
-.ld-phase {
+.ld-cap {
+  text-align: center;
+}
+
+.ld-title {
   margin: 0;
+  font-family: var(--f-cjk);
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: .05em;
+}
+
+.ld-desc {
+  margin: 6px 0 0;
   font-family: var(--f-mono);
   font-size: 9.5px;
-  letter-spacing: .14em;
+  letter-spacing: .16em;
   color: var(--ink-3);
 }
+
+.ld-phase {
+  margin: 15px 0 0;
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: .2em;
+  color: var(--ink-3);
+}
+
 
 /* 满了之后先停一拍，再整体揭走 */
 html.js .loader.is-out {

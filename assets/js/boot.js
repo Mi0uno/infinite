@@ -13,10 +13,12 @@
   if (!el) return;
 
   var doc = document.documentElement;
-  var fill = document.getElementById('ldFill');
+  var ring = document.getElementById('ldRing');
   var pct = document.getElementById('ldPct');
   var phase = document.getElementById('ldPhase');
-  var bar = document.querySelector('.ld-track');
+
+  /* r=86 的周长，环从十二点开始收 */
+  var LEN = 2 * Math.PI * 86;
 
   var pad = function (n) {
     var s = String(Math.round(n));
@@ -24,8 +26,8 @@
   };
 
   var paint = function (v) {
-    if (fill) fill.style.width = v.toFixed(2) + '%';
     if (pct) pct.textContent = pad(v);
+    if (ring) ring.style.strokeDashoffset = (LEN * (1 - v / 100)).toFixed(2);
   };
 
   var finish = function () {
@@ -78,7 +80,6 @@
 
     paint(100);
     if (phase) phase.textContent = '就绪';
-    if (bar) bar.style.background = 'var(--ink)';
 
     window.setTimeout(function () {
       el.classList.add('is-out');
