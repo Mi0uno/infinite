@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>知识库 — INFINITE</title>
+<meta name="description" content="课程、笔记、知识库、课件、视频、幻灯片。做过的东西都在这，没做完的也在。">
+<meta name="theme-color" content="#ECEBE7">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230F0F0F'/%3E%3Crect x='6' y='12' width='20' height='8' fill='%23ECEBE7'/%3E%3C/svg%3E">
+<link rel="preload" href="assets/fonts/nssc-900.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/library.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body class="is-library">
+
+
+<div class="veil" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="scan" aria-hidden="true"></div>
+<div class="overlay" id="overlay" aria-hidden="true"></div>
+<div class="crop" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="mh-bar">
+      <a class="mh-brand" href="index.html">INFINITE<i></i></a>
+      <span class="mh-sub">知识库 —— 课、笔记、片子，都在这一页</span>
+      <span class="mh-clock"><b id="issue">LIBRARY</b> / <span id="clock">--:--:--</span> CST</span>
+    </div>
+    <nav class="mh-nav" aria-label="主导航">
+      <a href="index.html#index">索引</a>
+      <a href="archive.html">记录</a>
+      <a href="projects.html">项目</a>
+      <a href="library.html" class="is-active" aria-current="page">知识库</a>
+      <a href="about.html">关于</a>
+      <button type="button" id="gridBtn" class="mh-grid" aria-pressed="false">网格 <kbd>G</kbd></button>
+    </nav>
+  </div>
+</header>
+
+<main class="kb wrap" id="top">
+
+  <header class="kb-head">
+    <p class="kb-kicker">Library / 2024.06 — 2025.03</p>
+    <h1 class="kb-h1">知识库</h1>
+    <p class="kb-dek">六种东西，放在同一层。课程是连续的，笔记是碎的，知识库是长期改的，课件是给别人讲的，视频是没剪过的，幻灯片能直接在浏览器里翻。</p>
+
+    <dl class="kb-stat">
+      <div><dt>条目</dt><dd>14</dd></div>
+      <div><dt>类型</dt><dd>6</dd></div>
+      <div><dt>最长</dt><dd>6 小时 40 分</dd></div>
+      <div><dt>最近</dt><dd>2025.03</dd></div>
+    </dl>
+  </header>
+
+  <div class="kb-toolbar">
+    <nav class="kb-filter" id="filter" aria-label="按类型筛选">
+      <button type="button" class="is-on" data-kind="全部" aria-pressed="true">全部</button>
+      <button type="button" data-kind="course" aria-pressed="false">课程</button>
+      <button type="button" data-kind="note" aria-pressed="false">笔记</button>
+      <button type="button" data-kind="wiki" aria-pressed="false">知识库</button>
+      <button type="button" data-kind="deck" aria-pressed="false">课件</button>
+      <button type="button" data-kind="slide" aria-pressed="false">幻灯片</button>
+      <button type="button" data-kind="video" aria-pressed="false">视频</button>
+    </nav>
+
+    <div class="kb-search">
+      <label class="kb-search-l" for="q">搜索</label>
+      <input type="search" id="q" placeholder="标题 / 说明 / 类型" autocomplete="off" spellcheck="false" enterkeyhint="search">
+      <kbd class="kb-search-k" aria-hidden="true">/</kbd>
+    </div>
+  </div>
+
+  <ol class="kb-grid" id="grid">
+
+    <li class="kb-item" data-kind="course" data-text="逆向工程基础 12 讲 objdump 读到看懂一个 crackme 课程 12 讲 6 小时 40 分 2025.02 连载中">
+      <a class="kb-card" href="#">
+        <span class="kb-kind">课程<b>Course</b></span>
+        <span class="kb-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3 5.5h12M3 12h12M3 18.5h9"/><path d="M17.5 9l4 3-4 3z"/></svg></span>
+        <h2 class="kb-title">逆向工程基础 12 讲</h2>
+        <p class="kb-desc">从 objdump 读到看懂一个 crackme。中间那几讲讲的是我当时想错的地方。</p>
+        <span class="kb-meta"><b>12 讲 · 6 小时 40 分</b><i>2025.02</i></span>
+      </a>
+    </li>
+
+    <li class="kb-item" data-kind="note" data-text="x86-64 指令速查 笔记 43 条 8600 字 2025.01">
+      <a class="kb-card" href="#">
+        <span class="kb-kind">笔记<b>Note</b></span>
+        <span class="kb-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M5 3h9l5 5v13H5z"/><path d="M14 3v5h5M8.5 13h7M8.5 17h4"/></svg></span>
+        <h2 class="kb-title">x86-64 指令速查</h2>
+        <p class="kb-desc">我自己天天查的那一页。只有 43 条，都是真在反汇编里遇到过的。</p>
+        <span class="kb-meta"><b>43 条 · 8,600 字</b><i>2025.01</i></span>
+      </a>
+    </li>
+
+    <li class="kb-item" data-kind="wiki" data-text="协议字段手册 知识库 27 个协议 2024.12">
+      <a class="kb-card" href="#">
+        <span class="kb-kind">知识库<b>Wiki</b></span>
+        <span class="kb-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3.5 3.5h7v7h-7zM13.5 3.5h7v7h-7zM3.5 13.5h7v7h-7zM13.5 13.5h7v7h-7z"/></svg></span>
+        <h2 class="kb-title">协议字段手册</h2>
+        <p class="kb-desc">拆过的协议都记在这。字段名按抓包里的原样抄，没有一条是查文档抄来的。</p>
+        <span class="kb-meta"><b>27 个协议</b><i>2024.12</i></span>
+      </a>
+    </li>
+
+    <li class="kb-item" data-kind="deck" data-text="网络流量分析 四课时 课件 4 课时 82 页 2024.11">
+      <a class="kb-card" href="#">
+        <span class="kb-kind">课件<b>Deck</b></span>
+        <span class="kb-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3 4.5h18v11H3z"/><path d="M12 15.5v4M8.5 21h7"/></svg></span>
+        <h2 class="kb-title">网络流量分析 · 四课时</h2>
+        <p class="kb-desc">给新人培训用的。讲义、抓包样本、答案分开装，答案那份是防着提前翻的。</p>
+        <span class="kb-meta"><b>4 课时 · 82 页</b><i>2024.11</i></span>
+      </a>
+    </li>
+
+    <li class="kb-item" data-kind="slide" data-text="一个字节的一生 幻灯片 24 页 浏览器翻 2025.03">
+      <a class="kb-card" href="#">
+        <span class="kb-kind">幻灯片<b>Slide</b></span>
+        <span class="kb-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3.5 5.5h12v9h-12z"/><path d="M8.5 9.5h12v9h-12z"/></svg></span>
+        <h2 class="kb-title">一个字节的一生</h2>
+        <p class="kb-desc">从键盘按下到屏幕上出现，中间到底拷贝了几次。HTML 版，方向键就能翻。</p>
+        <span class="kb-meta"><b>24 页 · 浏览器翻</b><i>2025.03</i></span>
+      </a>
+    </li>
+
+    <li class="kb-item" data-kind="video" data-text="手把手拆一个 CRC 校验 视频 48 分 2025.02">
+      <a class="kb-card" href="#">
+        <span class="kb-kind">视频<b>Video</b></span>
+        <span class="kb-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="8.5"/><path d="M10 8.5l6 3.5-6 3.5z"/></svg></span>
+        <h2 class="kb-title">手把手拆一个 CRC 校验</h2>
+        <p class="kb-desc">48 分钟没剪辑，包括我卡住的那十七分钟——那段才是重点。</p>
+        <span class="kb-meta"><b>48 分</b><i>2025.02</i></span>
+      </a>
+    </li>
+
+    <li class="kb-gap" aria-hidden="true">
+      <span>这一格还空着</span>
+    </li>
+
+    <li class="kb-item" data-kind="note" data-text="Linux 排障清单 笔记 31 条 2024.10">
+      <a class="kb-card" href="#">
+        <span class="kb-kind">笔记<b>Note</b></span>
+        <span class="kb-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M5 3h9l5 5v13H5z"/><path d="M14 3v5h5M8.5 13h7M8.5 17h4"/></svg></span>
+        <h2 class="kb-title">Linux 排障清单</h2>
+        <p class="kb-desc">机器起不来的时候，按顺序问自己的 31 个问题。顺序是花钱买的。</p>
+        <span class="kb-meta"><b>31 条</b><i>2024.10</i></span>
+      </a>
+    </li>
+
+    <li class="kb-item" data-kind="wiki" data-text="常见错误码对照 知识库 210 条 四张表 2024.09">
+      <a class="kb-card" href="#">
+        <span class="kb-kind">知识库<b>Wiki</b></span>
+        <span class="kb-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3.5 3.5h7v7h-7zM13.5 3.5h7v7h-7zM3.5 13.5h7v7h-7zM13.5 13.5h7v7h-7z"/></svg></span>
+        <h2 class="kb-title">常见错误码对照</h2>
+        <p class="kb-desc">HTTP、systemd、gRPC、内核 panic 四张表拼在一起，按数值排，不按来源排。</p>
+        <span class="kb-meta"><b>210 条 · 四张表</b><i>2024.09</i></span>
+      </a>
+    </li>
+
+    <li class="kb-item" data-kind="deck" data-text="从零写一个调试器 课件 6 课时 140 页 2024.08">
+      <a class="kb-card" href="#">
+        <span class="kb-kind">课件<b>Deck</b></span>
+        <span class="kb-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3 4.5h18v11H3z"/><path d="M12 15.5v4M8.5 21h7"/></svg></span>
+        <h2 class="kb-title">从零写一个调试器</h2>
+        <p class="kb-desc">六节课，最后能单步执行自己写的程序。第六节开始就没有幻灯片了，全在终端里。</p>
+        <span class="kb-meta"><b>6 课时 · 140 页</b><i>2024.08</i></span>
+      </a>
+    </li>
+
+    <li class="kb-item" data-kind="course" data-text="密码学不神秘 入门 8 讲 课程 5 小时 2024.06">
+      <a class="kb-card" href="#">
+        <span class="kb-kind">课程<b>Course</b></span>
+        <span class="kb-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3 5.5h12M3 12h12M3 18.5h9"/><path d="M17.5 9l4 3-4 3z"/></svg></span>
+        <h2 class="kb-title">密码学不神秘 · 入门 8 讲</h2>
+        <p class="kb-desc">只讲能用手算出来的那部分。算不出来的留到进阶，而进阶我还没做完。</p>
+        <span class="kb-meta"><b>8 讲 · 5 小时</b><i>2024.06</i></span>
+      </a>
+    </li>
+
+    <li class="kb-item" data-kind="video" data-text="三十毫秒去哪了 视频 22 分 2024.12">
+      <a class="kb-card" href="#">
+        <span class="kb-kind">视频<b>Video</b></span>
+        <span class="kb-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="8.5"/><path d="M10 8.5l6 3.5-6 3.5z"/></svg></span>
+        <h2 class="kb-title">三十毫秒去哪了</h2>
+        <p class="kb-desc">一次真实的首屏性能排查，全程录屏。结论是一行 CSS，找它的过程是十一分钟。</p>
+        <span class="kb-meta"><b>22 分</b><i>2024.12</i></span>
+      </a>
+    </li>
+
+    <li class="kb-item" data-kind="slide" data-text="反设计的十一条规则 幻灯片 11 页 浏览器翻 2025.01">
+      <a class="kb-card" href="#">
+        <span class="kb-kind">幻灯片<b>Slide</b></span>
+        <span class="kb-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3.5 5.5h12v9h-12z"/><path d="M8.5 9.5h12v9h-12z"/></svg></span>
+        <h2 class="kb-title">反设计的十一条规则</h2>
+        <p class="kb-desc">这个站为什么长这样。十一条里只有三条是规则，剩下八条是例外。</p>
+        <span class="kb-meta"><b>11 页 · 浏览器翻</b><i>2025.01</i></span>
+      </a>
+    </li>
+
+    <li class="kb-item" data-kind="note" data-text="位运算的十七种用法 笔记 17 条 4200 字 2024.07">
+      <a class="kb-card" href="#">
+        <span class="kb-kind">笔记<b>Note</b></span>
+        <span class="kb-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M5 3h9l5 5v13H5z"/><path d="M14 3v5h5M8.5 13h7M8.5 17h4"/></svg></span>
+        <h2 class="kb-title">位运算的十七种用法</h2>
+        <p class="kb-desc">真实代码里的位运算，不是面试题。每一条都标了在哪个项目里第一次见到。</p>
+        <span class="kb-meta"><b>17 条 · 4,200 字</b><i>2024.07</i></span>
+      </a>
+    </li>
+
+    <li class="kb-item" data-kind="wiki" data-text="我踩过的坑 知识库 58 条 2025.03">
+      <a class="kb-card" href="#">
+        <span class="kb-kind">知识库<b>Wiki</b></span>
+        <span class="kb-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3.5 3.5h7v7h-7zM13.5 3.5h7v7h-7zM3.5 13.5h7v7h-7zM13.5 13.5h7v7h-7z"/></svg></span>
+        <h2 class="kb-title">我踩过的坑</h2>
+        <p class="kb-desc">按时间倒序，每条一句现象一句原因。没有劝告，只有记录——劝告没人看。</p>
+        <span class="kb-meta"><b>58 条</b><i>2025.03</i></span>
+      </a>
+    </li>
+
+  </ol>
+
+  <div class="kb-empty" id="empty" hidden>
+    <p>没有匹配的条目。</p>
+    <p class="kb-empty-q">关键词「<b id="emptyq"></b>」</p>
+    <button type="button" class="kb-reset" id="reset">清掉条件</button>
+  </div>
+
+  <footer class="kb-foot">
+    <span>十四个。做完了的、做了一半的、和只有标题的，都放在同一层——分开放会显得前者比后者重要。</span>
+    <span><a href="index.html#index">回到索引 ↑</a></span>
+  </footer>
+
+</main>
+
+<div class="crosshair" id="crosshair" aria-hidden="true"><i></i><i></i><span id="coords">0,0</span></div>
+
+<script src="assets/js/veil.js"></script>
+<script src="assets/js/library.js"></script>
+</body>
+</html>
