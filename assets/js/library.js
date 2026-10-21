@@ -22,46 +22,6 @@
   }
 
   /* ---------- 十字准星 ---------- */
-
-  var cross = document.getElementById('crosshair');
-  var coords = document.getElementById('coords');
-  var fine = window.matchMedia('(pointer: fine)').matches;
-
-  if (cross && coords && fine && !reduce) {
-    var tx = 0, ty = 0, cx = 0, cy = 0, live = false;
-    var hot = null;
-
-    window.addEventListener('pointermove', function (e) {
-      tx = e.clientX;
-      ty = e.clientY;
-      if (!live) {
-        live = true;
-        cx = tx;
-        cy = ty;
-        cross.classList.add('is-live');
-      }
-      coords.textContent = ('000' + Math.round(e.clientX)).slice(-4) + ' ' + ('000' + Math.round(e.clientY)).slice(-4);
-      var t = e.target;
-      var hit = t && t.closest ? t.closest('a,button,input,select,textarea,label,summary') : null;
-      if (hit !== hot) {
-        hot = hit;
-        cross.classList.toggle('is-hot', !!hit);
-      }
-    }, { passive: true });
-
-    window.addEventListener('pointerleave', function () {
-      live = false;
-      cross.classList.remove('is-live');
-    });
-
-    (function loop() {
-      cx += (tx - cx) * 0.22;
-      cy += (ty - cy) * 0.22;
-      cross.style.transform = 'translate3d(' + cx.toFixed(2) + 'px,' + cy.toFixed(2) + 'px,0)';
-      requestAnimationFrame(loop);
-    })();
-  }
-
   /* ---------- 筛选 / 搜索 / 分页 ---------- */
 
   var gridEl = document.getElementById('grid');

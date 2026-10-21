@@ -21,63 +21,6 @@
   }
 
   /* ---------- 十字准星 ---------- */
-
-  var cross = document.getElementById('crosshair');
-  var coords = document.getElementById('coords');
-  var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-
-  if (cross && fine && !reduce) {
-    var cx = window.innerWidth / 2;
-    var cy = window.innerHeight / 2;
-    var tx = cx;
-    var ty = cy;
-    var live = false;
-    var running = false;
-
-    var loop = function () {
-      cx += (tx - cx) * 0.22;
-      cy += (ty - cy) * 0.22;
-
-      cross.style.transform = 'translate3d(' + cx.toFixed(1) + 'px,' + cy.toFixed(1) + 'px,0)';
-
-      if (coords) coords.textContent = ('000' + Math.round(tx)).slice(-4) + ' ' + ('000' + Math.round(ty)).slice(-4);
-
-      if (Math.abs(tx - cx) < 0.4 && Math.abs(ty - cy) < 0.4) {
-        running = false;
-        return;
-      }
-
-      requestAnimationFrame(loop);
-    };
-
-    window.addEventListener('pointermove', function (e) {
-      tx = e.clientX;
-      ty = e.clientY;
-
-      if (!live) {
-        live = true;
-        cross.classList.add('is-live');
-      }
-
-      var t = e.target;
-      var hit = t && t.closest ? t.closest('a,button,input,select,textarea,label,summary') : null;
-      if (hit !== hot) {
-        hot = hit;
-        cross.classList.toggle('is-hot', !!hit);
-      }
-
-      if (!running) {
-        running = true;
-        requestAnimationFrame(loop);
-      }
-    }, { passive: true });
-
-    window.addEventListener('pointerleave', function () {
-      cross.classList.remove('is-live');
-      live = false;
-    });
-  }
-
   /* ---------- 单元开合：打开一个不动其它的，但记住上次看的是哪个 ---------- */
 
   var units = document.querySelectorAll('.cu-unit');

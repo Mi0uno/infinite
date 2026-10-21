@@ -24,39 +24,6 @@
   }
 
   /* ---------- 对准标记 ---------- */
-  const cross = document.getElementById('crosshair');
-  const coords = document.getElementById('coords');
-
-  if (cross && fine && !reduce) {
-    let tx = 0, ty = 0, cx = 0, cy = 0, raf = null;
-    let hot = null;
-
-    const loop = () => {
-      cx += (tx - cx) * 0.22;
-      cy += (ty - cy) * 0.22;
-      cross.style.transform = `translate3d(${cx.toFixed(1)}px, ${cy.toFixed(1)}px, 0)`;
-      raf = Math.abs(tx - cx) > 0.1 || Math.abs(ty - cy) > 0.1
-        ? requestAnimationFrame(loop)
-        : null;
-    };
-
-    addEventListener('pointermove', (e) => {
-      tx = e.clientX;
-      ty = e.clientY;
-      coords.textContent = ('000' + Math.round(tx)).slice(-4) + ' ' + ('000' + Math.round(ty)).slice(-4);
-      var t = e.target;
-      var hit = t && t.closest ? t.closest('a,button,input,select,textarea,label,summary') : null;
-      if (hit !== hot) {
-        hot = hit;
-        cross.classList.toggle('is-hot', !!hit);
-      }
-      cross.classList.add('is-live');
-      if (!raf) raf = requestAnimationFrame(loop);
-    }, { passive: true });
-
-    addEventListener('pointerleave', () => cross.classList.remove('is-live'));
-  }
-
   /* ---------- 阅读进度 + 目录高亮 ----------
      两件事共用一次滚动计算：同一帧里读高度与 rect，
      读一次布局，写两次 transform。 */
