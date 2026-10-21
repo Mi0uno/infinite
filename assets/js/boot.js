@@ -14,11 +14,17 @@
 
   var doc = document.documentElement;
   var ring = document.getElementById('ldRing');
+  var tipG = document.getElementById('ldTipG');
   var pct = document.getElementById('ldPct');
   var phase = document.getElementById('ldPhase');
 
-  /* r=86 的周长，环从十二点开始收 */
+  /* 弧长以浏览器实测为准，别拿 2πr 去猜 —— 差一点点，数字和弧就对不上 */
   var LEN = 2 * Math.PI * 86;
+  if (ring && ring.getTotalLength) {
+    var real = ring.getTotalLength();
+    if (real > 0) LEN = real;
+  }
+  if (ring) ring.style.strokeDasharray = LEN;
 
   var pad = function (n) {
     var s = String(Math.round(n));
@@ -28,6 +34,7 @@
   var paint = function (v) {
     if (pct) pct.textContent = pad(v);
     if (ring) ring.style.strokeDashoffset = (LEN * (1 - v / 100)).toFixed(2);
+    if (tipG) tipG.setAttribute('transform', 'rotate(' + (v * 3.6).toFixed(2) + ' 100 100)');
   };
 
   var finish = function () {

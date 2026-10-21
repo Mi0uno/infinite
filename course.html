@@ -25,13 +25,11 @@
     <div class="ld-core">
   <div class="ld-dial">
     <svg class="ld-ring" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
-      <circle class="ld-ring-track" cx="100" cy="100" r="86"></circle>
-      <circle class="ld-ring-inner" cx="100" cy="100" r="72"></circle>
-      <circle class="ld-ring-fill" id="ldRing" cx="100" cy="100" r="86"></circle>
-      <line class="ld-mk" x1="100" y1="2" x2="100" y2="12"></line>
-      <line class="ld-mk" x1="100" y1="188" x2="100" y2="198"></line>
-      <line class="ld-mk" x1="2" y1="100" x2="12" y2="100"></line>
-      <line class="ld-mk" x1="188" y1="100" x2="198" y2="100"></line>
+      <g transform="rotate(-90 100 100)">
+        <circle class="ld-ring-track" cx="100" cy="100" r="86"></circle>
+        <circle class="ld-ring-fill" id="ldRing" cx="100" cy="100" r="86"></circle>
+      </g>
+      <g id="ldTipG"><rect class="ld-tip" x="93" y="0" width="14" height="14"></rect></g>
     </svg>
     <p class="ld-num"><b id="ldPct">000</b><span>%</span></p>
   </div>
@@ -41,7 +39,6 @@
     <p class="ld-phase" id="ldPhase">正在取单元</p>
   </div>
   </div>
-</div>
 
 <div class="grain" aria-hidden="true"></div>
 <div class="scan" aria-hidden="true"></div>
