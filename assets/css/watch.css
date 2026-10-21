@@ -1,0 +1,561 @@
+/* ============================================================
+   INFINITE — 视频观看
+   舞台是墨色的一块屏幕，控件长在它下面，
+   没有片源的时候，屏上跑的是稿子 —— 同一根时间轴。
+   ============================================================ */
+
+/* ---------- 左栏：章节 ---------- */
+
+.wv-nav {
+  margin: 0;
+  padding: 6px 0 0;
+  list-style: none;
+}
+
+.wv-nav a {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  padding: 5px 8px 6px;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--ink-2);
+  transition: background-color .18s var(--ease), color .18s var(--ease);
+}
+
+.wv-nav a b {
+  flex: 0 0 auto;
+  font-family: var(--f-mono);
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: .04em;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.wv-nav a:hover {
+  background: var(--paper-deep);
+  color: var(--ink);
+}
+
+.wv-nav a.is-now {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.wv-nav a.is-now b {
+  color: var(--paper);
+  opacity: .6;
+}
+
+/* ---------- 头部 ---------- */
+
+.wv-head {
+  margin: clamp(18px, 2vw, 26px) 0 clamp(14px, 1.6vw, 20px);
+}
+
+.wv-h1 {
+  margin: 0;
+  font-size: clamp(28px, 3.5vw, 48px);
+  font-weight: 900;
+  line-height: 1.08;
+  letter-spacing: -.04em;
+}
+
+.wv-h1 em {
+  font-style: normal;
+  font-family: var(--f-mono);
+  font-size: .82em;
+  letter-spacing: -.02em;
+  padding: 0 .06em;
+  border-bottom: 3px solid var(--ink);
+}
+
+.wv-dek {
+  margin: 10px 0 0;
+  max-width: 32em;
+  font-size: clamp(13px, 1.1vw, 15px);
+  line-height: 1.7;
+  color: var(--ink-2);
+}
+
+/* ---------- 舞台 ---------- */
+
+.wv-stage {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: var(--ink);
+  border: 1px solid var(--ink);
+  container-type: size;
+  overflow: hidden;
+}
+
+.wv-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: transparent;
+}
+
+.wv-stage[data-mode="read"] .wv-video {
+  display: none;
+}
+
+/* 没有片源时屏上的稿子 */
+.wv-read {
+  position: absolute;
+  inset: 0;
+  display: none;
+  grid-template-rows: auto 1fr auto auto;
+  gap: 2cqw;
+  padding: 5cqw 6cqw;
+  color: var(--paper);
+}
+
+.wv-stage[data-mode="read"] .wv-read {
+  display: grid;
+}
+
+.wr-idx {
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: 1.35cqw;
+  letter-spacing: .18em;
+  color: rgba(236, 235, 231, .45);
+  font-variant-numeric: tabular-nums;
+}
+
+.wr-idx b {
+  font-weight: 400;
+  color: var(--paper);
+}
+
+.wr-line {
+  align-self: center;
+  margin: 0;
+  font-size: 3.1cqw;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: -.01em;
+  text-wrap: pretty;
+  color: var(--paper);
+}
+
+.wr-hint {
+  margin: 0;
+  align-self: end;
+  padding-top: 1.4cqw;
+  border-top: 1px solid rgba(236, 235, 231, .18);
+  font-family: var(--f-mono);
+  font-size: 1.2cqw;
+  letter-spacing: .04em;
+  color: rgba(236, 235, 231, .42);
+}
+
+/* 半透明遮罩，按下去的一瞬间闪一下 */
+.wv-scrim {
+  position: absolute;
+  inset: 0;
+  background: var(--ink);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s var(--ease);
+}
+
+.wv-scrim[hidden] {
+  display: none;
+}
+
+/* ---------- 控件 ---------- */
+
+.wv-ctl {
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 1.4vw, 18px);
+  margin-top: 8px;
+  padding: 10px 12px 11px;
+  background: var(--paper-deep);
+  border: 1px solid var(--ink);
+  border-top: 0;
+}
+
+.wv-play {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid var(--ink);
+  background: none;
+  color: var(--ink);
+  cursor: url("../cursor/hand.png") 13 3, pointer;
+  transition: background-color .16s var(--ease), color .16s var(--ease);
+}
+
+.wv-play svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+.wv-play .pv-b {
+  display: none;
+}
+
+.wv-play.is-on .pv-a {
+  display: none;
+}
+
+.wv-play.is-on .pv-b {
+  display: block;
+}
+
+.wv-play:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.wv-time {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  flex: 0 0 auto;
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  letter-spacing: .04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.wv-time b {
+  font-weight: 400;
+  color: var(--ink);
+}
+
+.wv-time i {
+  font-style: normal;
+  color: var(--ink-3);
+}
+
+.wv-time span {
+  color: var(--ink-3);
+}
+
+/* 进度条 */
+.wv-track {
+  position: relative;
+  flex: 1 1 auto;
+  height: 22px;
+  cursor: url("../cursor/hand.png") 13 3, pointer;
+  touch-action: none;
+}
+
+.wv-track::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  margin-top: -.5px;
+  background: var(--line);
+}
+
+.wv-fill {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 3px;
+  width: 0;
+  margin-top: -1.5px;
+  background: var(--ink);
+}
+
+.wv-knob {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  background: var(--ink);
+  transition: transform .16s var(--ease);
+}
+
+.wv-track:hover .wv-knob,
+.wv-track:focus-visible .wv-knob {
+  transform: scale(1.6);
+}
+
+.wv-marks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.wv-mark {
+  position: absolute;
+  top: 50%;
+  width: 1px;
+  height: 7px;
+  margin-top: -3.5px;
+  background: var(--ink-3);
+  opacity: .55;
+}
+
+.wv-track:focus-visible {
+  outline: 1px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.wv-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+}
+
+.wv-rate,
+.wv-btn {
+  padding: 4px 8px 5px;
+  border: 1px solid var(--line);
+  background: none;
+  font-family: var(--f-mono);
+  font-size: 9.5px;
+  letter-spacing: .08em;
+  color: var(--ink-2);
+  cursor: url("../cursor/hand.png") 13 3, pointer;
+  transition: border-color .16s var(--ease), background-color .16s var(--ease), color .16s var(--ease);
+}
+
+.wv-rate {
+  min-width: 42px;
+  font-variant-numeric: tabular-nums;
+}
+
+.wv-btn:hover,
+.wv-rate:hover {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* ---------- 满屏 ---------- */
+
+body.is-full {
+  overflow: hidden;
+}
+
+body.is-full .wv-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 600;
+  width: 100vw;
+  height: 100vh;
+  aspect-ratio: auto;
+  border: 0;
+}
+
+/* 满屏之后控件还留在页面上，看不看得见无所谓，但不能挡住舞台 */
+body.is-full .wv-ctl {
+  visibility: hidden;
+}
+
+/* ---------- 转录 ---------- */
+
+.wv-sub {
+  margin-top: clamp(24px, 2.8vw, 40px);
+}
+
+.wv-line {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--gutter);
+  margin: 0 0 2px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid var(--ink);
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: .12em;
+  color: var(--ink-3);
+}
+
+.wv-line b {
+  font-weight: 400;
+  color: var(--ink-2);
+}
+
+.wv-lines {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wv-lines a {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--gutter);
+  padding: 8px 10px 9px 2px;
+  border-top: 1px dashed var(--line);
+  transition: background-color .16s var(--ease), color .16s var(--ease);
+}
+
+.wv-lines li:first-child a {
+  border-top: 0;
+}
+
+.wv-lines a:hover {
+  background: var(--paper-deep);
+}
+
+.ws-t {
+  font-family: var(--f-mono);
+  font-size: 9.5px;
+  letter-spacing: .04em;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.ws-s {
+  min-width: 0;
+  font-size: 13.5px;
+  line-height: 1.62;
+  color: var(--ink-2);
+}
+
+/* 正在念的那一句 */
+.wv-lines li.is-now a {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.wv-lines li.is-now .ws-t {
+  color: var(--paper);
+  opacity: .6;
+}
+
+.wv-lines li.is-now .ws-s {
+  color: var(--paper);
+}
+
+/* ---------- 微残缺 ---------- */
+
+.wv-lines li:nth-child(7) .ws-s {
+  letter-spacing: -.008em;
+}
+
+.wv-lines li:nth-child(11) a {
+  transform: translateX(2px);
+}
+
+.wv-stage::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 22%;
+  height: 2px;
+  background: var(--paper);
+  opacity: .28;
+  pointer-events: none;
+}
+
+.wv-stage[data-mode="read"]::after {
+  opacity: .16;
+}
+
+/* ---------- 断点 ---------- */
+
+@media (max-width: 900px) {
+  .wv-nav {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+
+  .wv-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .wv-nav li {
+    flex: 0 0 auto;
+  }
+
+  .wv-nav a {
+    padding: 5px 10px 6px;
+    border: 1px solid var(--line);
+    white-space: nowrap;
+  }
+
+  .wv-ctl {
+    flex-wrap: wrap;
+    gap: 8px 12px;
+  }
+
+  .wv-track {
+    order: 3;
+    flex: 1 0 100%;
+  }
+
+  .wv-right {
+    margin-left: auto;
+  }
+
+  .wr-line {
+    font-size: 4.4cqw;
+  }
+
+  .wr-hint {
+    display: none;
+  }
+
+  .wv-read {
+    grid-template-rows: auto 1fr auto;
+  }
+}
+
+@media (max-width: 620px) {
+  .wv-stage {
+    aspect-ratio: 4 / 3;
+  }
+
+  .wr-line {
+    font-size: 5cqw;
+  }
+
+  .wv-lines a {
+    grid-template-columns: 46px minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .wv-line {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .ws-s {
+    font-size: 12.5px;
+  }
+
+  .wv-btn--hide {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wv-nav a,
+  .wv-play,
+  .wv-btn,
+  .wv-rate,
+  .wv-knob,
+  .wv-lines a,
+  .wv-scrim {
+    transition: none;
+  }
+}

@@ -1364,3 +1364,70 @@ html.is-loading .kb-pager,
 html.is-loading .kb-foot {
   animation: none;
 }
+
+/* ============================================================
+   内页共用的两小块
+   .cu-facts / .kb-back 原来写在 course.css 里，课件页和观看页
+   不加载那份表，结果左栏那几行字裸着排成大号正文。
+   放到这里，谁用 shell 都拿得到。
+   ============================================================ */
+
+.cu-facts {
+  margin: 0;
+  padding: 4px 0 0;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.cu-facts > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 3px 8px 4px;
+}
+
+.cu-facts dt {
+  color: var(--ink-3);
+  letter-spacing: .06em;
+}
+
+.cu-facts dd {
+  margin: 0;
+  color: var(--ink);
+}
+
+.kb-back {
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  transition: color .18s var(--ease);
+}
+
+.kb-back:hover {
+  color: var(--ink);
+}
+
+@media (max-width: 900px) {
+  .cu-facts {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .cu-facts::-webkit-scrollbar { display: none; }
+
+  .cu-facts > div {
+    flex: 0 0 auto;
+    padding: 0;
+    gap: 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kb-back { transition: none; }
+}

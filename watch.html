@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>手把手拆一个 CRC 校验 — INFINITE</title>
+<meta name="description" content="48 分 12 秒，八章。从找到一个不该出现的余数，到写出三种实现互相验证。">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#ECEBE7">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230F0F0F'/%3E%3Crect x='6' y='14' width='20' height='4' fill='%23ECEBE7'/%3E%3C/svg%3E">
+<link rel="preload" href="assets/fonts/nssc-900.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/nssc-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/library.css">
+<link rel="stylesheet" href="assets/css/watch.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body class="is-watch">
+
+<div class="loader" id="loader" role="status" aria-label="正在载入">
+  <div class="ld-head">
+    <span class="ld-mark">INFINITE<em>LAB</em><i></i></span>
+    <span class="ld-tag">Video</span>
+  </div>
+  <div class="ld-core">
+    <div class="ld-dial">
+      <svg class="ld-ring" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+        <g transform="rotate(-90 100 100)">
+          <circle class="ld-ring-track" cx="100" cy="100" r="86"></circle>
+          <circle class="ld-ring-fill" id="ldRing" cx="100" cy="100" r="86"></circle>
+        </g>
+        <g id="ldTipG"><rect class="ld-tip" x="93" y="0" width="14" height="14"></rect></g>
+      </svg>
+      <p class="ld-num"><b id="ldPct">000</b><span>%</span></p>
+    </div>
+    <div class="ld-cap">
+      <p class="ld-title">手把手拆一个 CRC 校验</p>
+      <p class="ld-desc">八章 · 48 分 12 秒</p>
+      <p class="ld-phase" id="ldPhase">正在对时</p>
+    </div>
+  </div>
+</div>
+
+<div class="grain" aria-hidden="true"></div>
+<div class="scan" aria-hidden="true"></div>
+<div class="crop" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<div class="kb-shell">
+
+  <!-- 左栏：章节 -->
+  <aside class="kb-side">
+    <div class="ks-brand">
+      <a href="index.html" class="ks-mark">INFINITE<em>LAB</em><i></i></a>
+      <span>视频</span>
+    </div>
+
+    <div class="ks-scroll">
+      <div class="ks-block">
+        <p class="ks-label">章节</p>
+        <ul class="wv-nav" id="wvNav">
+          <li><a href="#t0" class="is-now" data-t="0" aria-current="true"><b>00:00</b>为什么是 CRC 而不是哈希</a></li>
+          <li><a href="#t200" data-t="200"><b>03:20</b>先看它错在哪</a></li>
+          <li><a href="#t465" data-t="465"><b>07:45</b>反推多项式</a></li>
+          <li><a href="#t850" data-t="850"><b>14:10</b>表格法是这么来的</a></li>
+          <li><a href="#t1350" data-t="1350"><b>22:30</b>找到那个魔数</a></li>
+          <li><a href="#t1745" data-t="1745"><b>29:05</b>写一份自己的实现</a></li>
+          <li><a href="#t2200" data-t="2200"><b>36:40</b>对拍：三种实现互验</a></li>
+          <li><a href="#t2630" data-t="2630"><b>43:50</b>收尾：CRC 不防篡改</a></li>
+        </ul>
+      </div>
+
+      <div class="ks-block">
+        <p class="ks-label">这一份</p>
+        <dl class="cu-facts">
+          <div><dt>时长</dt><dd>48 分 12 秒</dd></div>
+          <div><dt>章节</dt><dd>8 章</dd></div>
+          <div><dt>领域</dt><dd>逆向</dd></div>
+          <div><dt>录制</dt><dd>2025.02</dd></div>
+        </dl>
+      </div>
+
+      <div class="ks-block">
+        <p class="ks-label">进度</p>
+        <div class="ks-meter"><div class="ks-bar" id="wvBar" style="--p:0%"></div></div>
+        <p class="ks-num"><b id="wvSeen">0</b> / 48 分<span id="wvPct">0%</span></p>
+      </div>
+    </div>
+
+    <div class="ks-foot">
+      <a href="library.html" class="kb-back">回知识库 ↑</a>
+    </div>
+  </aside>
+
+  <main class="kb-main">
+
+    <header class="kb-top">
+      <a class="kb-up" href="library.html"><i>&#8592;</i>视频</a>
+      <p class="kb-crumb">
+        <span>Library</span><i>/</i>
+        <a href="library.html">知识库</a><i>/</i>
+        <b>手把手拆一个 CRC 校验</b>
+      </p>
+      <p class="kb-clock">VIDEO / <span id="clock">--:--:--</span> CST</p>
+    </header>
+
+    <div class="kb-body">
+
+      <div class="wv-head">
+        <h1 class="wv-h1">手把手拆一个<br><em>CRC</em> 校验</h1>
+        <p class="wv-dek">48 分钟没剪过，包括我卡住的那十七分钟 —— 那一段才是重点。</p>
+      </div>
+
+      <!-- 播放台 -->
+      <div class="wv-stage" id="wvStage" data-mode="read">
+        <video class="wv-video" id="wvVideo" playsinline preload="none" aria-label="手把手拆一个 CRC 校验"></video>
+
+        <!-- 没有片源时，这里跑的是稿子 -->
+        <div class="wv-read" id="wvRead" aria-live="polite">
+          <p class="wr-idx"><b id="wrNo">01</b> / <span id="wrTotal">12</span></p>
+          <p class="wr-line" id="wrLine">这一条我拆了三遍才拆对。先把结论放前面：校验和没坏，你看的那一位错了。</p>
+          <p class="wr-hint" id="wrHint">片源没挂上来 —— 按下播放，走的是这一版的稿子。</p>
+        </div>
+
+        <div class="wv-scrim" id="wvScrim" hidden></div>
+      </div>
+
+      <!-- 控件 -->
+      <div class="wv-ctl" id="wvCtl">
+        <button type="button" class="wv-play" id="wvPlay" aria-label="播放">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path class="pv-a" d="M7 4l14 8-14 8z"></path><path class="pv-b" d="M6 4h3.4v16H6zM14.6 4H18v16h-3.4z"></path></svg>
+        </button>
+
+        <p class="wv-time"><b id="wvNow">00:00</b><i>/</i><span id="wvLen">48:12</span></p>
+
+        <div class="wv-track" id="wvTrack" role="slider" tabindex="0" aria-label="播放进度" aria-valuemin="0" aria-valuemax="2892" aria-valuenow="0">
+          <span class="wv-fill" id="wvFill"></span>
+          <span class="wv-knob" id="wvKnob"></span>
+          <span class="wv-marks" id="wvMarks" aria-hidden="true"></span>
+        </div>
+
+        <div class="wv-right">
+          <button type="button" class="wv-rate" id="wvRate" aria-label="播放速度">1.0×</button>
+          <button type="button" class="wv-btn" id="wvMute" aria-label="静音">音量</button>
+          <button type="button" class="wv-btn" id="wvFull" aria-label="满屏">满屏</button>
+        </div>
+      </div>
+
+      <!-- 转录 -->
+      <section class="wv-sub" aria-label="转录">
+        <p class="wv-line"><b>逐句</b><span>点时间码跳过去 · 空格播放暂停</span></p>
+        <ol class="wv-lines" id="wvLines">
+          <li data-t="0"><a href="#t0"><span class="ws-t">00:00</span><span class="ws-s">这一条我拆了三遍才拆对。先把结论放前面：校验和没坏，你看的那一位错了。</span></a></li>
+          <li data-t="34"><a href="#t34"><span class="ws-t">00:34</span><span class="ws-s">CRC 不是加密，它连密钥都没有。它只干一件事：让一段数据在传过去之后，能闻出味道不对。</span></a></li>
+          <li data-t="118"><a href="#t118"><span class="ws-t">01:58</span><span class="ws-s">很多人一上来就查表，表是结果，不是过程。先手算一遍，你才知道那张表为什么长那样。</span></a></li>
+          <li data-t="200"><a href="#t200"><span class="ws-t">03:20</span><span class="ws-s">先看它错在哪。这里余数应该是 0，实际出来是 0x1C。差的不是一位，是一整个字节的顺序。</span></a></li>
+          <li data-t="312"><a href="#t312"><span class="ws-t">05:12</span><span class="ws-s">我把输入反过来喂了一遍，余数还是不对，说明问题不在喂的顺序，在初始值。</span></a></li>
+          <li data-t="465"><a href="#t465"><span class="ws-t">07:45</span><span class="ws-s">反推多项式：把余数当已知，把多项式当未知。这一步用笔比用键盘快。</span></a></li>
+          <li data-t="598"><a href="#t598"><span class="ws-t">09:58</span><span class="ws-s">我这里卡了十七分钟。卡住的原因是我想一次解出八位，其实只能一位一位往下推。</span></a></li>
+          <li data-t="850"><a href="#t850"><span class="ws-t">14:10</span><span class="ws-s">表格法是这么来的：每一位的余数只取决于最高位，所以可以预先算好 256 种情况查表。</span></a></li>
+          <li data-t="1350"><a href="#t1350"><span class="ws-t">22:30</span><span class="ws-s">找到那个魔数了，0xEDB88320。它是 0x04C11DB7 的倒置，不是另一个多项式。</span></a></li>
+          <li data-t="1745"><a href="#t1745"><span class="ws-t">29:05</span><span class="ws-s">现在写一份自己的实现，二十行，不加表，先跑通再加表。</span></a></li>
+          <li data-t="2200"><a href="#t2200"><span class="ws-t">36:40</span><span class="ws-s">对拍：手算、逐位、查表，三种实现喂同一批数据，结果必须一模一样。</span></a></li>
+          <li data-t="2630"><a href="#t2630"><span class="ws-t">43:50</span><span class="ws-s">收尾一句：CRC 不防篡改。能改数据的人，顺手也能把 CRC 改成对得上。</span></a></li>
+        </ol>
+      </section>
+
+      <footer class="kb-foot">
+        <p>片源没挂上来的时候，这一页跑的是稿子 —— 时间轴是真的，画面是字。有声那一版在硬盘里，还没传。</p>
+        <a href="library.html" class="kb-back">回知识库 ↑</a>
+      </footer>
+
+    </div>
+  </main>
+</div>
+
+<script src="assets/js/veil.js"></script>
+<script src="assets/js/boot.js"></script>
+<script src="assets/js/watch.js"></script>
+</body>
+</html>

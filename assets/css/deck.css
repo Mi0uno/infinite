@@ -1,0 +1,518 @@
+/* ============================================================
+   INFINITE — 课件查看
+   舞台是 16:10 的一张纸，字号用 cqw 跟着舞台缩放，
+   满屏和窗口里看到的是同一版排版。
+   ============================================================ */
+
+/* ---------- 左栏：页码目录 ---------- */
+
+.dk-nav {
+  margin: 0;
+  padding: 6px 0 0;
+  list-style: none;
+}
+
+.dk-nav a {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  padding: 5px 8px 6px;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--ink-2);
+  transition: background-color .18s var(--ease), color .18s var(--ease);
+}
+
+.dk-nav a b {
+  flex: 0 0 auto;
+  font-family: var(--f-mono);
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: .08em;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.dk-nav a:hover {
+  background: var(--paper-deep);
+  color: var(--ink);
+}
+
+.dk-nav a.is-now {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.dk-nav a.is-now b {
+  color: var(--paper);
+  opacity: .6;
+}
+
+/* ---------- 工具条 ---------- */
+
+.dk-tool {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(14px, 2vw, 28px);
+  margin: clamp(18px, 2vw, 26px) 0 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--ink);
+}
+
+.dk-count {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: 12px;
+  letter-spacing: .08em;
+  font-variant-numeric: tabular-nums;
+}
+
+.dk-count b {
+  font-weight: 400;
+  color: var(--ink);
+}
+
+.dk-count i {
+  font-style: normal;
+  color: var(--ink-3);
+}
+
+.dk-count span {
+  color: var(--ink-3);
+}
+
+.dk-hint {
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: .08em;
+  color: var(--ink-3);
+}
+
+.dk-hint kbd {
+  font: inherit;
+  padding: 1px 4px 2px;
+  border: 1px solid var(--line);
+  color: var(--ink-2);
+}
+
+.dk-acts {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.dk-btn {
+  padding: 4px 9px 5px;
+  border: 1px solid var(--line);
+  background: none;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: .06em;
+  color: var(--ink-2);
+  cursor: url("../cursor/hand.png") 13 3, pointer;
+  transition: border-color .16s var(--ease), background-color .16s var(--ease), color .16s var(--ease);
+}
+
+.dk-btn:hover:not(:disabled) {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.dk-btn:disabled {
+  opacity: .35;
+  cursor: url("../cursor/arrow.png") 1 1, default;
+}
+
+.dk-btn--w {
+  letter-spacing: .1em;
+}
+
+/* ---------- 舞台 ---------- */
+
+.dk-stage {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background: var(--paper-deep);
+  border: 1px solid var(--ink);
+  container-type: size;
+  overflow: hidden;
+}
+
+/* 舞台上那条极淡的网格，当投影幕的纹理用 */
+.dk-stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(15, 15, 15, .035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 15, 15, .035) 1px, transparent 1px);
+  background-size: 5% 8%;
+  pointer-events: none;
+}
+
+.dk-slide {
+  position: absolute;
+  inset: 0;
+  display: none;
+  grid-template-rows: auto auto 1fr auto;
+  gap: 2.4cqw;
+  padding: 5.2cqw 6cqw 4.4cqw;
+}
+
+.dk-slide.is-on {
+  display: grid;
+}
+
+.ds-kicker {
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: 1.5cqw;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.ds-h {
+  margin: 0;
+  font-size: 4.4cqw;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -.03em;
+  text-wrap: balance;
+}
+
+.ds-h--xl {
+  font-size: 8.4cqw;
+  line-height: 1.02;
+  letter-spacing: -.045em;
+}
+
+.ds-p {
+  margin: 0;
+  max-width: 34em;
+  font-size: 1.9cqw;
+  line-height: 1.7;
+  color: var(--ink-2);
+}
+
+.ds-p code {
+  font-family: var(--f-mono);
+  font-size: .92em;
+  padding: 0 .25em;
+  background: rgba(15, 15, 15, .06);
+}
+
+.ds-meta {
+  margin: 0;
+  align-self: end;
+  font-family: var(--f-mono);
+  font-size: 1.4cqw;
+  letter-spacing: .12em;
+  color: var(--ink-3);
+}
+
+.ds-note {
+  margin: 0;
+  align-self: end;
+  padding-top: 1.6cqw;
+  border-top: 1px solid var(--line);
+  font-family: var(--f-mono);
+  font-size: 1.35cqw;
+  line-height: 1.6;
+  letter-spacing: .04em;
+  color: var(--ink-3);
+}
+
+/* 示意图 */
+/* 图不铺满整行：铺满之后一张示意图比标题还抢，
+   而且横线会一直顶到裁切边 */
+.ds-fig {
+  align-self: center;
+  justify-self: start;
+  margin: 0;
+  padding: 0;
+  width: 76%;
+  max-width: 760px;
+}
+
+.ds-fig svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* 描边跟着画布缩放：non-scaling-stroke 在 5% 大小的舞台上
+   会把线画成一根发丝，跟周围的字不是一个重量 */
+.df-l,
+.df-b {
+  fill: none;
+  stroke: var(--ink-2);
+  stroke-width: .55;
+}
+
+.df-b--solid {
+  fill: var(--ink);
+  stroke: var(--ink);
+}
+
+.df-b--fill {
+  fill: var(--ink-3);
+  stroke: var(--ink-3);
+}
+
+.df-t {
+  fill: var(--ink);
+  font-family: var(--f-mono);
+  font-size: 3.4px;
+  letter-spacing: .06em;
+}
+
+.df-t--s {
+  fill: var(--ink-3);
+  font-size: 2.9px;
+}
+
+/* 末页：结算 */
+.dk-slide--end {
+  align-content: start;
+}
+
+.ds-big {
+  margin: 0;
+  font-size: 13cqw;
+  font-weight: 900;
+  line-height: .9;
+  letter-spacing: -.06em;
+  color: var(--ink);
+}
+
+.ds-list {
+  margin: 1.2cqw 0 0;
+  padding: 0;
+  list-style: none;
+  columns: 2;
+  column-gap: 4cqw;
+}
+
+.ds-list li {
+  display: flex;
+  align-items: baseline;
+  gap: .8cqw;
+  padding: .55cqw 0;
+  border-top: 1px dashed var(--line);
+  font-size: 1.55cqw;
+  line-height: 1.4;
+  color: var(--ink-2);
+  break-inside: avoid;
+}
+
+.ds-list b {
+  font-family: var(--f-mono);
+  font-size: 1.2cqw;
+  font-weight: 400;
+  color: var(--ink-3);
+}
+
+/* ---------- 舞台下方 ---------- */
+
+.dk-foot {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(16px, 2vw, 30px);
+  margin-top: 12px;
+}
+
+.dk-dots {
+  display: flex;
+  gap: 4px;
+  flex: 0 0 auto;
+  margin: 3px 0 0;
+  padding: 0;
+}
+
+.dk-dot {
+  width: 14px;
+  height: 3px;
+  background: var(--line);
+  transition: background-color .2s var(--ease);
+}
+
+.dk-dot.is-on {
+  background: var(--ink);
+}
+
+.dk-note {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  text-align: left;
+  cursor: url("../cursor/hand.png") 13 3, pointer;
+}
+
+.dn-label {
+  flex: 0 0 auto;
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.dn-text {
+  min-width: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+
+.dk-note:hover .dn-text {
+  color: var(--ink);
+}
+
+/* ---------- 满屏 ---------- */
+
+body.is-full {
+  overflow: hidden;
+}
+
+body.is-full .dk-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 600;
+  width: 100vw;
+  height: 100vh;
+  aspect-ratio: auto;
+  border: 0;
+}
+
+body.is-full .dk-tool {
+  visibility: hidden;
+}
+
+/* ---------- 微残缺 ---------- */
+
+.dk-stage::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 38%;
+  height: 1px;
+  background: var(--ink-3);
+  pointer-events: none;
+}
+
+.dk-slide[data-no="04"] .ds-p {
+  margin-left: -.4cqw;
+}
+
+.dk-slide[data-no="07"] .ds-note {
+  border-top-width: .5px;
+}
+
+.dk-slide[data-no="09"] .ds-fig {
+  transform: translateY(1px);
+}
+
+/* ---------- 断点 ---------- */
+
+@media (max-width: 900px) {
+  .dk-nav {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+
+  .dk-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .dk-nav li {
+    flex: 0 0 auto;
+  }
+
+  .dk-nav a {
+    padding: 5px 10px 6px;
+    border: 1px solid var(--line);
+    white-space: nowrap;
+  }
+
+  .dk-tool {
+    flex-wrap: wrap;
+    gap: 8px 16px;
+  }
+
+  .dk-hint {
+    display: none;
+  }
+
+  /* 小屏上舞台按 4:3 排，16:10 里字会小到看不清 */
+  .dk-stage {
+    aspect-ratio: 4 / 3;
+  }
+
+  .ds-h {
+    font-size: 5.6cqw;
+  }
+
+  .ds-h--xl {
+    font-size: 10cqw;
+  }
+
+  .ds-p {
+    font-size: 2.5cqw;
+  }
+
+  .ds-kicker {
+    font-size: 2cqw;
+  }
+
+  .ds-note {
+    font-size: 1.9cqw;
+  }
+
+  .ds-list li {
+    font-size: 2.1cqw;
+  }
+
+  .dk-foot {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 620px) {
+  .dk-stage {
+    aspect-ratio: 3 / 4;
+  }
+
+  .dk-slide {
+    grid-template-rows: auto auto 1fr;
+    padding: 6cqw;
+  }
+
+  .ds-note {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dk-nav a,
+  .dk-btn,
+  .dk-dot {
+    transition: none;
+  }
+}

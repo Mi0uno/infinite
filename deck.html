@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>一个字节的一生 — INFINITE</title>
+<meta name="description" content="从键盘按下到屏幕上出现，一个字节在中间被完整拷贝了七次。十页幻灯片，一次一次的拷贝。">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#ECEBE7">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230F0F0F'/%3E%3Crect x='6' y='14' width='20' height='4' fill='%23ECEBE7'/%3E%3C/svg%3E">
+<link rel="preload" href="assets/fonts/nssc-900.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/nssc-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/library.css">
+<link rel="stylesheet" href="assets/css/deck.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body class="is-deck">
+
+<div class="loader" id="loader" role="status" aria-label="正在载入">
+  <div class="ld-head">
+    <span class="ld-mark">INFINITE<em>LAB</em><i></i></span>
+    <span class="ld-tag">Slide</span>
+  </div>
+  <div class="ld-core">
+    <div class="ld-dial">
+      <svg class="ld-ring" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+        <g transform="rotate(-90 100 100)">
+          <circle class="ld-ring-track" cx="100" cy="100" r="86"></circle>
+          <circle class="ld-ring-fill" id="ldRing" cx="100" cy="100" r="86"></circle>
+        </g>
+        <g id="ldTipG"><rect class="ld-tip" x="93" y="0" width="14" height="14"></rect></g>
+      </svg>
+      <p class="ld-num"><b id="ldPct">000</b><span>%</span></p>
+    </div>
+    <div class="ld-cap">
+      <p class="ld-title">一个字节的一生</p>
+      <p class="ld-desc">十页 · 一个字节 · 七次拷贝</p>
+      <p class="ld-phase" id="ldPhase">正在排版</p>
+    </div>
+  </div>
+</div>
+
+<div class="grain" aria-hidden="true"></div>
+<div class="scan" aria-hidden="true"></div>
+<div class="crop" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<div class="kb-shell">
+
+  <!-- 左栏：页码目录 -->
+  <aside class="kb-side">
+    <div class="ks-brand">
+      <a href="index.html" class="ks-mark">INFINITE<em>LAB</em><i></i></a>
+      <span>幻灯片</span>
+    </div>
+
+    <div class="ks-scroll">
+      <div class="ks-block">
+        <p class="ks-label">页</p>
+        <ul class="dk-nav" id="dkNav">
+          <li><a href="#s1" class="is-now" aria-current="true"><b>01</b>封面</a></li>
+          <li><a href="#s2"><b>02</b>按下它</a></li>
+          <li><a href="#s3"><b>03</b>中断</a></li>
+          <li><a href="#s4"><b>04</b>行规程</a></li>
+          <li><a href="#s5"><b>05</b>read</a></li>
+          <li><a href="#s6"><b>06</b>stdio</a></li>
+          <li><a href="#s7"><b>07</b>write</a></li>
+          <li><a href="#s8"><b>08</b>终端</a></li>
+          <li><a href="#s9"><b>09</b>上屏</a></li>
+          <li><a href="#s10"><b>10</b>结算</a></li>
+        </ul>
+      </div>
+
+      <div class="ks-block">
+        <p class="ks-label">这一份</p>
+        <dl class="cu-facts">
+          <div><dt>页数</dt><dd>10 页</dd></div>
+          <div><dt>领域</dt><dd>系统</dd></div>
+          <div><dt>格式</dt><dd>HTML</dd></div>
+          <div><dt>版本</dt><dd>2025.03</dd></div>
+        </dl>
+      </div>
+
+      <div class="ks-block">
+        <p class="ks-label">进度</p>
+        <div class="ks-meter"><div class="ks-bar" id="dkBar" style="--p:10%"></div></div>
+        <p class="ks-num"><b id="dkNow">1</b> / 10 页<span id="dkPct">10%</span></p>
+      </div>
+    </div>
+
+    <div class="ks-foot">
+      <a href="library.html" class="kb-back">回知识库 ↑</a>
+    </div>
+  </aside>
+
+  <main class="kb-main">
+
+    <header class="kb-top">
+      <a class="kb-up" href="library.html"><i>&#8592;</i>幻灯片</a>
+      <p class="kb-crumb">
+        <span>Library</span><i>/</i>
+        <a href="library.html">知识库</a><i>/</i>
+        <b>一个字节的一生</b>
+      </p>
+      <p class="kb-clock">SLIDE / <span id="clock">--:--:--</span> CST</p>
+    </header>
+
+    <div class="kb-body">
+
+      <!-- 工具条：页码 + 操作 -->
+      <div class="dk-tool">
+        <p class="dk-count"><b id="dkNo">01</b><i>/</i><span>10</span></p>
+        <p class="dk-hint">方向键翻页 · <kbd>F</kbd> 满屏 · <kbd>Esc</kbd> 退出</p>
+        <div class="dk-acts">
+          <button type="button" class="dk-btn" id="dkPrev" aria-label="上一页">←</button>
+          <button type="button" class="dk-btn" id="dkNext" aria-label="下一页">→</button>
+          <button type="button" class="dk-btn dk-btn--w" id="dkFull">满屏</button>
+        </div>
+      </div>
+
+      <!-- 舞台 -->
+      <div class="dk-stage" id="dkStage" aria-live="polite">
+
+        <section class="dk-slide is-on" id="s1" data-no="01">
+          <p class="ds-kicker">Slide · 2025.03</p>
+          <h2 class="ds-h ds-h--xl">一个字节<br>的一生</h2>
+          <p class="ds-p">从手指压下去，到屏幕上亮起来。</p>
+          <p class="ds-meta">十页 · 一次一次的拷贝</p>
+        </section>
+
+        <section class="dk-slide" id="s2" data-no="02">
+          <p class="ds-kicker">02 — 按下它</p>
+          <h2 class="ds-h">键盘不知道什么是「字符」</h2>
+          <p class="ds-p">它只知道哪一个开关合上了。这个信息叫 scancode，一次三个字节：按下码、抬起码、外加一个用来区分多字节的 <code>0xE0</code>。</p>
+          <figure class="ds-fig">
+            <svg viewBox="0 0 100 30" aria-hidden="true">
+              <rect class="df-b" x="6" y="6" width="26" height="18"></rect>
+              <rect class="df-b" x="37" y="6" width="26" height="18"></rect>
+              <rect class="df-b" x="68" y="6" width="26" height="18"></rect>
+              <text class="df-t" x="19" y="17" text-anchor="middle">1C</text>
+              <text class="df-t" x="50" y="17" text-anchor="middle">9C</text>
+              <text class="df-t" x="81" y="17" text-anchor="middle">E0</text>
+            </svg>
+          </figure>
+          <p class="ds-note">十六进制是 keyboard 那一侧的语言，不是你的。</p>
+        </section>
+
+        <section class="dk-slide" id="s3" data-no="03">
+          <p class="ds-kicker">03 — 中断</p>
+          <h2 class="ds-h">CPU 手里的事被打断了</h2>
+          <p class="ds-p">IRQ&nbsp;1 抬起来，内核的键盘驱动从键盘控制器里把 scancode 读走，翻成键码，塞进这个 tty 的输入队列。</p>
+          <figure class="ds-fig">
+            <svg viewBox="0 0 100 30" aria-hidden="true">
+              <path class="df-l" d="M4 15h22M40 15h18M72 15h18"></path>
+              <rect class="df-b" x="26" y="7" width="14" height="16"></rect>
+              <rect class="df-b" x="58" y="7" width="14" height="16"></rect>
+              <path class="df-l" d="M90 11.5L95 15l-5 3.5z"></path>
+              <text class="df-t df-t--s" x="33" y="4" text-anchor="middle">驱动</text>
+              <text class="df-t df-t--s" x="65" y="4" text-anchor="middle">队列</text>
+              <text class="df-t df-t--s" x="13" y="12" text-anchor="middle">IRQ</text>
+            </svg>
+          </figure>
+          <p class="ds-note">此时它已经是一字节了，但还不在你的程序里。</p>
+        </section>
+
+        <section class="dk-slide" id="s4" data-no="04">
+          <p class="ds-kicker">04 — 行规程</p>
+          <h2 class="ds-h">谁来决定这个字节归谁</h2>
+          <p class="ds-p">line discipline 站在中间。回显要不要、退格删不删、Ctrl-C 是不是信号 —— 都是它说了算，不是键盘，也不是你的程序。</p>
+          <figure class="ds-fig">
+            <svg viewBox="0 0 100 32" aria-hidden="true">
+              <rect class="df-b" x="4" y="8" width="20" height="16"></rect>
+              <rect class="df-b df-b--solid" x="40" y="4" width="20" height="24"></rect>
+              <rect class="df-b" x="76" y="8" width="20" height="16"></rect>
+              <path class="df-l" d="M24 16h16M60 16h16"></path>
+              <text class="df-t df-t--s" x="14" y="31" text-anchor="middle">输入</text>
+              <text class="df-t df-t--s" x="50" y="31" text-anchor="middle">规程</text>
+              <text class="df-t df-t--s" x="86" y="31" text-anchor="middle">进程</text>
+            </svg>
+          </figure>
+          <p class="ds-note">这一步是纯逻辑，一次拷贝都没有。</p>
+        </section>
+
+        <section class="dk-slide" id="s5" data-no="05">
+          <p class="ds-kicker">05 — read</p>
+          <h2 class="ds-h">第一次交到你手上</h2>
+          <p class="ds-p"><code>read(0, buf, 1)</code> 返回的那一克数据，是内核把环形缓冲区里的字节 <code>copy_to_user</code> 过来的。内核态 → 用户态，第一次拷贝。</p>
+          <figure class="ds-fig">
+            <svg viewBox="0 0 100 26" aria-hidden="true">
+              <rect class="df-b" x="4" y="5" width="36" height="16"></rect>
+              <rect class="df-b df-b--solid" x="60" y="5" width="36" height="16"></rect>
+              <path class="df-l" d="M40 13h16M56 10l4 3-4 3z"></path>
+              <text class="df-t df-t--s" x="22" y="16" text-anchor="middle">内核</text>
+              <text class="df-t df-t--s" x="78" y="16" text-anchor="middle">buf</text>
+            </svg>
+          </figure>
+          <p class="ds-note">清零一次、写入一次，两个地址空间。</p>
+        </section>
+
+        <section class="dk-slide" id="s6" data-no="06">
+          <p class="ds-kicker">06 — stdio</p>
+          <h2 class="ds-h">你的 printf 没打算马上写出去</h2>
+          <p class="ds-p">它先抄进 <code>FILE</code> 那块 4&nbsp;KB 的缓冲，攒着。遇到换行、缓冲满、或者你要读输入，才真正调一次 write。</p>
+          <figure class="ds-fig">
+            <svg viewBox="0 0 100 28" aria-hidden="true">
+              <path class="df-l" d="M4 14h18"></path>
+              <rect class="df-b" x="22" y="6" width="34" height="16"></rect>
+              <rect class="df-b df-b--fill" x="24" y="8" width="7" height="12"></rect>
+              <path class="df-l" d="M56 14h18M74 11l5 3-5 3z"></path>
+              <text class="df-t df-t--s" x="39" y="4" text-anchor="middle">4 KB</text>
+            </svg>
+          </figure>
+          <p class="ds-note">第二次拷贝，抄进用户态自己的缓冲区。</p>
+        </section>
+
+        <section class="dk-slide" id="s7" data-no="07">
+          <p class="ds-kicker">07 — write</p>
+          <h2 class="ds-h">回到内核去</h2>
+          <p class="ds-p">缓冲区满了，<code>write(1, buf, n)</code> 把这一段再 <code>copy_from_user</code> 回内核。第三次拷贝，方向和你 read 时相反。</p>
+          <figure class="ds-fig">
+            <svg viewBox="0 0 100 26" aria-hidden="true">
+              <rect class="df-b df-b--solid" x="4" y="5" width="36" height="16"></rect>
+              <rect class="df-b" x="60" y="5" width="36" height="16"></rect>
+              <path class="df-l" d="M40 13h16M56 10l4 3-4 3z"></path>
+              <text class="df-t df-t--s" x="22" y="16" text-anchor="middle">buf</text>
+              <text class="df-t df-t--s" x="78" y="16" text-anchor="middle">pty</text>
+            </svg>
+          </figure>
+          <p class="ds-note">到这里，内核已经拿到你要显示的字符串了。</p>
+        </section>
+
+        <section class="dk-slide" id="s8" data-no="08">
+          <p class="ds-kicker">08 — 终端</p>
+          <h2 class="ds-h">终端只认转义序列</h2>
+          <p class="ds-p">它不认识「字」，只认识 <code>ESC&nbsp;[</code> 开头的一串坐标与属性。谁把字符变成画，是这个软件的事，不是内核的事。</p>
+          <figure class="ds-fig">
+            <svg viewBox="0 0 100 26" aria-hidden="true">
+              <rect class="df-b" x="4" y="4" width="40" height="18"></rect>
+              <path class="df-l" d="M9 9h30M9 13h20M9 17h26"></path>
+              <path class="df-l" d="M48 13h16M64 10l5 3-5 3z"></path>
+              <rect class="df-b df-b--fill" x="76" y="6" width="18" height="14"></rect>
+            </svg>
+          </figure>
+          <p class="ds-note">第四次拷贝：字符进字形缓存。</p>
+        </section>
+
+        <section class="dk-slide" id="s9" data-no="09">
+          <p class="ds-kicker">09 — 上屏</p>
+          <h2 class="ds-h">最后两跳</h2>
+          <p class="ds-p">字形位图写进纹理 → 合成器把这一层贴到屏幕上。这两跳已经不是字符，是像素了，但它仍然是那块内存被搬来搬去。</p>
+          <figure class="ds-fig">
+            <svg viewBox="0 0 100 36" aria-hidden="true">
+              <rect class="df-b" x="6" y="6" width="22" height="16"></rect>
+              <rect class="df-b df-b--solid" x="39" y="3" width="22" height="22"></rect>
+              <rect class="df-b" x="72" y="6" width="22" height="16"></rect>
+              <path class="df-l" d="M28 14h11M61 14h11"></path>
+              <text class="df-t df-t--s" x="17" y="32" text-anchor="middle">位图</text>
+              <text class="df-t df-t--s" x="50" y="32" text-anchor="middle">纹理</text>
+              <text class="df-t df-t--s" x="83" y="32" text-anchor="middle">屏幕</text>
+            </svg>
+          </figure>
+          <p class="ds-note">第五、第六次。到这里它终于发光了。</p>
+        </section>
+
+        <section class="dk-slide dk-slide--end" id="s10" data-no="10">
+          <p class="ds-kicker">10 — 结算</p>
+          <p class="ds-big">七次</p>
+          <h2 class="ds-h">一个字节，被完整搬了七次</h2>
+          <ol class="ds-list">
+            <li><b>1</b>内核环形缓冲 → 你的 buf</li>
+            <li><b>2</b>buf → stdio 的 4 KB</li>
+            <li><b>3</b>stdio → 内核 pty</li>
+            <li><b>4</b>pty → 终端的字符网格</li>
+            <li><b>5</b>字符 → 字形位图</li>
+            <li><b>6</b>位图 → GPU 纹理</li>
+            <li><b>7</b>纹理 → 帧缓冲</li>
+          </ol>
+          <p class="ds-note">所以「输入延迟」这个词，问的从来不是一次操作，是七次里的哪一次。</p>
+        </section>
+
+      </div>
+
+      <!-- 舞台下方：页码点 + 备注 -->
+      <div class="dk-foot">
+        <p class="dk-dots" id="dkDots" aria-hidden="true"></p>
+        <button type="button" class="dk-note" id="dkNote" aria-expanded="false">
+          <span class="dn-label">备注</span>
+          <span class="dn-text" id="dnText">这一份没有演讲者备注 —— 讲的时候就是照着这几行字念。</span>
+        </button>
+      </div>
+
+      <footer class="kb-foot">
+        <p>幻灯片是 HTML，不是 PDF。要带走就右键另存，或者直接 <code>Cmd/Ctrl + P</code> 打成纸。</p>
+        <a href="library.html" class="kb-back">回知识库 ↑</a>
+      </footer>
+
+    </div>
+  </main>
+</div>
+
+<script src="assets/js/veil.js"></script>
+<script src="assets/js/boot.js"></script>
+<script src="assets/js/deck.js"></script>
+</body>
+</html>

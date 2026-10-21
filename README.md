@@ -13,6 +13,10 @@
 | `archive.html` | 归档：年份 + 标签 + 搜索 + 翻页，可切全览 |
 | `projects.html` | 项目列表：状态 + 栈 + 搜索 + 翻页 |
 | `about.html` | 自述、时间线（有一段是断的）、装备清单、联系 |
+| `library.html` | 知识库：左栏分类 / 状态 / 进度，右栏分组条目，课程 / 笔记 / 知识库 / 课件 / 幻灯片 / 视频六种 |
+| `course.html` | 课程详情：封面 + 六个单元 + 十二讲，原生 `<details>` 折叠 |
+| `deck.html` | 课件查看：十页幻灯片在 16:10 的舞台上翻，方向键 / F / Esc |
+| `watch.html` | 视频观看：没有片源时舞台上跑稿子，播放进度跟逐句转录是同一根时间轴 |
 
 ## 结构
 
@@ -23,19 +27,29 @@ assets/
   css/archive.css      归档页
   css/projects.css     项目页
   css/about.css        关于页
+  css/library.css      知识库 + 左侧栏外壳（内页共用）
+  css/course.css       课程详情
+  css/deck.css         课件查看
+  css/watch.css        视频观看
   js/main.js           首页：时钟、网格、视差、无限流、深度暗化、信号衰减
   js/post.js           文章页：进度条、目录高亮
   js/archive.js        归档：筛选 / 搜索 / 分页 / 全览
   js/projects.js       项目页：筛选 / 搜索 / 分页
   js/about.js          关于页
-  js/veil.js           换页遮罩（五个页面共用）
+  js/boot.js           载入页的环与数字（知识库 / 课程 / 课件 / 视频共用）
+  js/library.js        知识库：筛选 / 搜索 / 分页
+  js/course.js         课程详情
+  js/deck.js           课件：翻页 / 满屏 / 备注
+  js/watch.js          视频：播放钟、进度拖拽、章节与逐句同步
+  js/veil.js           换页遮罩（所有页面共用）
   fonts/               自托管字体子集
 ```
 
 ## 约束
 
 - **无外部依赖**。没有框架、没有 CDN、没有统计、没有 Cookie。断网也是这个样子。
-- **字体自托管**。Noto Sans SC 按页面实际用到的汉字子集化（约 980 字符，四个字重各 126–130 KB）。改文案后需要重新子集化，否则新汉字会回退到系统字体。
+- **字体自托管**。Noto Sans SC 按页面实际用到的汉字子集化（约 840 字符，四个字重各 108–112 KB）。改文案后需要重新子集化，否则新汉字会回退到系统字体。
+  子集化命令：`python -m fontTools.subset <源>.woff2 --text-file=_chars.txt --flavor=woff2 --layout-features=* --no-hinting --desubroutinize --drop-tables+=DSIG --output-file=assets/fonts/nssc-400.woff2`
 - **滚动只写 `opacity` 和 `transform`**。整页一个 rAF 循环，不触发重排；屏幕外条目走 `content-visibility: auto`。
 - 全站黑白灰，没有第二色。
 
