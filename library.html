@@ -23,217 +23,310 @@
 <div class="overlay" id="overlay" aria-hidden="true"></div>
 <div class="crop" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
 
-<header class="masthead">
-  <div class="wrap">
-    <div class="mh-bar">
-      <a class="mh-brand" href="index.html">INFINITE<i></i></a>
-      <span class="mh-sub">知识库 —— 课、笔记、片子，都在这一页</span>
-      <span class="mh-clock"><b id="issue">LIBRARY</b> / <span id="clock">--:--:--</span> CST</span>
+<div class="kb-shell">
+
+  <!-- ============ 左栏：这是个系统，不是一页文章 ============ -->
+  <aside class="kb-side" id="side">
+
+    <a class="ks-brand" href="index.html">
+      <span class="ks-mark">INFINITE<i></i></span>
+      <span class="ks-here">知识库</span>
+    </a>
+
+    <div class="ks-scroll">
+
+      <nav class="ks-block" aria-label="按类型">
+        <p class="ks-label">分类</p>
+        <ul class="ks-list" id="kindList">
+          <li><input type="radio" name="kind" id="k-0" value="全部" class="ks-radio" checked><label for="k-0"><span>全部</span><b>14</b></label></li>
+          <li><input type="radio" name="kind" id="k-1" value="course" class="ks-radio"><label for="k-1"><span>课程</span><b>2</b></label></li>
+          <li><input type="radio" name="kind" id="k-2" value="note" class="ks-radio"><label for="k-2"><span>笔记</span><b>3</b></label></li>
+          <li><input type="radio" name="kind" id="k-3" value="wiki" class="ks-radio"><label for="k-3"><span>知识库</span><b>3</b></label></li>
+          <li><input type="radio" name="kind" id="k-4" value="deck" class="ks-radio"><label for="k-4"><span>课件</span><b>2</b></label></li>
+          <li><input type="radio" name="kind" id="k-5" value="slide" class="ks-radio"><label for="k-5"><span>幻灯片</span><b>2</b></label></li>
+          <li><input type="radio" name="kind" id="k-6" value="video" class="ks-radio"><label for="k-6"><span>视频</span><b>2</b></label></li>
+        </ul>
+      </nav>
+
+      <nav class="ks-block" aria-label="按状态">
+        <p class="ks-label">状态</p>
+        <ul class="ks-list" id="stateList">
+          <li><input type="radio" name="state" id="s-0" value="全部" class="ks-radio" checked><label for="s-0"><span>全部</span><b>14</b></label></li>
+          <li><input type="radio" name="state" id="s-1" value="doing" class="ks-radio"><label for="s-1"><span>在读</span><b>3</b></label></li>
+          <li><input type="radio" name="state" id="s-2" value="todo" class="ks-radio"><label for="s-2"><span>没开始</span><b>1</b></label></li>
+          <li><input type="radio" name="state" id="s-3" value="done" class="ks-radio"><label for="s-3"><span>看完了</span><b>10</b></label></li>
+        </ul>
+      </nav>
+
+      <div class="ks-block ks-meter">
+        <p class="ks-label">整体进度</p>
+        <div class="ks-bar"><i id="barTotal" style="--p:71%"></i></div>
+        <p class="ks-num"><b id="doneNum">10</b> / 14 看完<span id="pct">71%</span></p>
+      </div>
+
     </div>
-    <nav class="mh-nav" aria-label="主导航">
-      <a href="index.html#index">索引</a>
-      <a href="archive.html">记录</a>
-      <a href="projects.html">项目</a>
-      <a href="library.html" class="is-active" aria-current="page">知识库</a>
-      <a href="about.html">关于</a>
-      <button type="button" id="gridBtn" class="mh-grid" aria-pressed="false">网格 <kbd>G</kbd></button>
-    </nav>
-  </div>
-</header>
 
-<main class="kb wrap" id="top">
-
-  <header class="kb-head">
-    <p class="kb-kicker">Library / 2024.06 — 2025.03</p>
-    <h1 class="kb-h1">知识库</h1>
-    <p class="kb-dek">六种东西，放在同一层。课程是连续的，笔记是碎的，知识库是长期改的，课件是给别人讲的，视频是没剪过的，幻灯片能直接在浏览器里翻。</p>
-
-    <dl class="kb-stat">
-      <div><dt>条目</dt><dd>14</dd></div>
-      <div><dt>类型</dt><dd>6</dd></div>
-      <div><dt>最长</dt><dd>6 小时 40 分</dd></div>
-      <div><dt>最近</dt><dd>2025.03</dd></div>
-    </dl>
-  </header>
-
-  <div class="kb-toolbar">
-    <nav class="kb-filter" id="filter" aria-label="按类型筛选">
-      <button type="button" class="is-on" data-kind="全部" aria-pressed="true">全部</button>
-      <button type="button" data-kind="course" aria-pressed="false">课程</button>
-      <button type="button" data-kind="note" aria-pressed="false">笔记</button>
-      <button type="button" data-kind="wiki" aria-pressed="false">知识库</button>
-      <button type="button" data-kind="deck" aria-pressed="false">课件</button>
-      <button type="button" data-kind="slide" aria-pressed="false">幻灯片</button>
-      <button type="button" data-kind="video" aria-pressed="false">视频</button>
-    </nav>
-
-    <div class="kb-search">
-      <label class="kb-search-l" for="q">搜索</label>
-      <input type="search" id="q" placeholder="标题 / 说明 / 类型" autocomplete="off" spellcheck="false" enterkeyhint="search">
-      <kbd class="kb-search-k" aria-hidden="true">/</kbd>
+    <div class="ks-foot">
+      <button type="button" id="gridBtn" class="ks-grid" aria-pressed="false">网格 <kbd>G</kbd></button>
+      <a href="index.html#index">回到索引 ↑</a>
     </div>
+
+  </aside>
+
+  <!-- ============ 右栏：内容 ============ -->
+  <div class="kb-main">
+
+    <header class="kb-top">
+      <p class="kb-crumb">Library<i>/</i><b id="crumb">全部</b></p>
+
+      <div class="kb-search">
+        <label class="kb-search-l" for="q">搜索</label>
+        <input type="search" id="q" placeholder="标题 / 说明 / 类型" autocomplete="off" spellcheck="false" enterkeyhint="search">
+        <kbd class="kb-search-k" aria-hidden="true">/</kbd>
+      </div>
+
+      <p class="kb-clock"><b id="issue">LIBRARY</b> / <span id="clock">--:--:--</span></p>
+    </header>
+
+    <main class="kb-body" id="top">
+
+      <section class="kb-hero">
+        <p class="kb-kicker">2024.06 — 2025.03 · 十四件</p>
+        <h1 class="kb-h1">知识库</h1>
+        <p class="kb-dek">六种东西，放在同一层。课程是连续的，笔记是碎的，知识库是长期改的，课件是给别人讲的，视频是没剪过的，幻灯片能直接在浏览器里翻。</p>
+      </section>
+
+      <!-- 继续：一条大的 -->
+      <section class="kb-continue">
+        <p class="kb-sec-label">接着上次 <b>—</b> 最近动过的三项</p>
+        <ol class="kb-cont-list">
+          <li>
+            <a href="#">
+              <span class="kc-kind">课程 <b>Course</b></span>
+              <span class="kc-title">逆向工程基础 12 讲</span>
+              <span class="kc-bar"><i style="--p:40%"></i></span>
+              <span class="kc-num">第 5 讲 / 12</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <span class="kc-kind">课件 <b>Deck</b></span>
+              <span class="kc-title">从零写一个调试器</span>
+              <span class="kc-bar"><i style="--p:80%"></i></span>
+              <span class="kc-num">第 5 课时 / 6</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <span class="kc-kind">视频 <b>Video</b></span>
+              <span class="kc-title">手把手拆一个 CRC 校验</span>
+              <span class="kc-bar"><i style="--p:65%"></i></span>
+              <span class="kc-num">31 分 / 48</span>
+            </a>
+          </li>
+        </ol>
+      </section>
+
+      <!-- 全部条目：按类型分组 -->
+      <section class="kb-all">
+        <p class="kb-sec-label">全部 <b>—</b> 按类型</p>
+
+        <div class="kb-groups" id="groups">
+
+          <section class="kb-group" data-group="course">
+            <h2 class="kg-head"><span class="kg-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3 5.5h12M3 12h12M3 18.5h9"/><path d="M17.5 9l4 3-4 3z"/></svg></span>课程<b>Course</b><i>2</i></h2>
+            <ol class="kb-rows">
+              <li class="kb-item" data-kind="course" data-state="doing" data-p="40" data-text="逆向工程基础 12 讲 objdump 读到看懂一个 crackme 课程 12 讲 6 小时 40 分 2025.02 在读">
+                <a class="kb-row" href="#">
+                  <span class="kr-num">001</span>
+                  <span class="kr-title">逆向工程基础 12 讲</span>
+                  <span class="kr-desc">从 objdump 读到看懂一个 crackme。中间那几讲讲的是我当时想错的地方。</span>
+                  <span class="kr-bar"><i style="--p:40%"></i></span>
+                  <span class="kr-state">在读</span>
+                  <span class="kr-date">2025.02</span>
+                </a>
+              </li>
+              <li class="kb-item" data-kind="course" data-state="todo" data-p="0" data-text="密码学不神秘 入门 8 讲 课程 5 小时 2024.06 没开始">
+                <a class="kb-row" href="#">
+                  <span class="kr-num">010</span>
+                  <span class="kr-title">密码学不神秘 · 入门 8 讲</span>
+                  <span class="kr-desc">只讲能用手算出来的那部分。算不出来的留到进阶，而进阶我还没做完。</span>
+                  <span class="kr-bar"><i style="--p:0%"></i></span>
+                  <span class="kr-state">没开始</span>
+                  <span class="kr-date">2024.06</span>
+                </a>
+              </li>
+            </ol>
+          </section>
+
+          <section class="kb-group" data-group="note">
+            <h2 class="kg-head"><span class="kg-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M5 3h9l5 5v13H5z"/><path d="M14 3v5h5M8.5 13h7M8.5 17h4"/></svg></span>笔记<b>Note</b><i>3</i></h2>
+            <ol class="kb-rows">
+              <li class="kb-item" data-kind="note" data-state="done" data-p="100" data-text="x86-64 指令速查 笔记 43 条 8600 字 2025.01 看完了">
+                <a class="kb-row" href="#">
+                  <span class="kr-num">002</span>
+                  <span class="kr-title">x86-64 指令速查</span>
+                  <span class="kr-desc">我自己天天查的那一页。只有 43 条，都是真在反汇编里遇到过的。</span>
+                  <span class="kr-bar"><i style="--p:100%"></i></span>
+                  <span class="kr-state">看完了</span>
+                  <span class="kr-date">2025.01</span>
+                </a>
+              </li>
+              <li class="kb-item" data-kind="note" data-state="done" data-p="100" data-text="Linux 排障清单 笔记 31 条 2024.10 看完了">
+                <a class="kb-row" href="#">
+                  <span class="kr-num">007</span>
+                  <span class="kr-title">Linux 排障清单</span>
+                  <span class="kr-desc">机器起不来的时候，按顺序问自己的 31 个问题。顺序是花钱买的。</span>
+                  <span class="kr-bar"><i style="--p:100%"></i></span>
+                  <span class="kr-state">看完了</span>
+                  <span class="kr-date">2024.10</span>
+                </a>
+              </li>
+              <li class="kb-item" data-kind="note" data-state="done" data-p="100" data-text="位运算的十七种用法 笔记 17 条 4200 字 2024.07 看完了">
+                <a class="kb-row" href="#">
+                  <span class="kr-num">013</span>
+                  <span class="kr-title">位运算的十七种用法</span>
+                  <span class="kr-desc">真实代码里的位运算，不是面试题。每一条都标了在哪个项目里第一次见到。</span>
+                  <span class="kr-bar"><i style="--p:100%"></i></span>
+                  <span class="kr-state">看完了</span>
+                  <span class="kr-date">2024.07</span>
+                </a>
+              </li>
+            </ol>
+          </section>
+
+          <section class="kb-group" data-group="wiki">
+            <h2 class="kg-head"><span class="kg-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3.5 3.5h7v7h-7zM13.5 3.5h7v7h-7zM3.5 13.5h7v7h-7zM13.5 13.5h7v7h-7z"/></svg></span>知识库<b>Wiki</b><i>3</i></h2>
+            <ol class="kb-rows">
+              <li class="kb-item" data-kind="wiki" data-state="done" data-p="100" data-text="协议字段手册 知识库 27 个协议 2024.12 看完了">
+                <a class="kb-row" href="#">
+                  <span class="kr-num">003</span>
+                  <span class="kr-title">协议字段手册</span>
+                  <span class="kr-desc">拆过的协议都记在这。字段名按抓包里的原样抄，没有一条是查文档抄来的。</span>
+                  <span class="kr-bar"><i style="--p:100%"></i></span>
+                  <span class="kr-state">看完了</span>
+                  <span class="kr-date">2024.12</span>
+                </a>
+              </li>
+              <li class="kb-item" data-kind="wiki" data-state="done" data-p="100" data-text="常见错误码对照 知识库 210 条 四张表 2024.09 看完了">
+                <a class="kb-row" href="#">
+                  <span class="kr-num">008</span>
+                  <span class="kr-title">常见错误码对照</span>
+                  <span class="kr-desc">HTTP、systemd、gRPC、内核 panic 四张表拼在一起，按数值排，不按来源排。</span>
+                  <span class="kr-bar"><i style="--p:100%"></i></span>
+                  <span class="kr-state">看完了</span>
+                  <span class="kr-date">2024.09</span>
+                </a>
+              </li>
+              <li class="kb-item" data-kind="wiki" data-state="done" data-p="100" data-text="我踩过的坑 知识库 58 条 2025.03 看完了">
+                <a class="kb-row" href="#">
+                  <span class="kr-num">014</span>
+                  <span class="kr-title">我踩过的坑</span>
+                  <span class="kr-desc">按时间倒序，每条一句现象一句原因。没有劝告，只有记录——劝告没人看。</span>
+                  <span class="kr-bar"><i style="--p:100%"></i></span>
+                  <span class="kr-state">看完了</span>
+                  <span class="kr-date">2025.03</span>
+                </a>
+              </li>
+            </ol>
+          </section>
+
+          <section class="kb-group" data-group="deck">
+            <h2 class="kg-head"><span class="kg-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3 4.5h18v11H3z"/><path d="M12 15.5v4M8.5 21h7"/></svg></span>课件<b>Deck</b><i>2</i></h2>
+            <ol class="kb-rows">
+              <li class="kb-item" data-kind="deck" data-state="done" data-p="100" data-text="网络流量分析 四课时 课件 4 课时 82 页 2024.11 看完了">
+                <a class="kb-row" href="#">
+                  <span class="kr-num">004</span>
+                  <span class="kr-title">网络流量分析 · 四课时</span>
+                  <span class="kr-desc">给新人培训用的。讲义、抓包样本、答案分开装，答案那份是防着提前翻的。</span>
+                  <span class="kr-bar"><i style="--p:100%"></i></span>
+                  <span class="kr-state">看完了</span>
+                  <span class="kr-date">2024.11</span>
+                </a>
+              </li>
+              <li class="kb-item" data-kind="deck" data-state="doing" data-p="80" data-text="从零写一个调试器 课件 6 课时 140 页 2024.08 在读">
+                <a class="kb-row" href="#">
+                  <span class="kr-num">009</span>
+                  <span class="kr-title">从零写一个调试器</span>
+                  <span class="kr-desc">六节课，最后能单步执行自己写的程序。第六节开始就没有幻灯片了，全在终端里。</span>
+                  <span class="kr-bar"><i style="--p:80%"></i></span>
+                  <span class="kr-state">在读</span>
+                  <span class="kr-date">2024.08</span>
+                </a>
+              </li>
+            </ol>
+          </section>
+
+          <section class="kb-group" data-group="slide">
+            <h2 class="kg-head"><span class="kg-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3.5 5.5h12v9h-12z"/><path d="M8.5 9.5h12v9h-12z"/></svg></span>幻灯片<b>Slide</b><i>2</i></h2>
+            <ol class="kb-rows">
+              <li class="kb-item" data-kind="slide" data-state="done" data-p="100" data-text="一个字节的一生 幻灯片 24 页 浏览器翻 2025.03 看完了">
+                <a class="kb-row" href="#">
+                  <span class="kr-num">005</span>
+                  <span class="kr-title">一个字节的一生</span>
+                  <span class="kr-desc">从键盘按下到屏幕上出现，中间到底拷贝了几次。HTML 版，方向键就能翻。</span>
+                  <span class="kr-bar"><i style="--p:100%"></i></span>
+                  <span class="kr-state">看完了</span>
+                  <span class="kr-date">2025.03</span>
+                </a>
+              </li>
+              <li class="kb-item" data-kind="slide" data-state="done" data-p="100" data-text="反设计的十一条规则 幻灯片 11 页 浏览器翻 2025.01 看完了">
+                <a class="kb-row" href="#">
+                  <span class="kr-num">012</span>
+                  <span class="kr-title">反设计的十一条规则</span>
+                  <span class="kr-desc">这个站为什么长这样。十一条里只有三条是规则，剩下八条是例外。</span>
+                  <span class="kr-bar"><i style="--p:100%"></i></span>
+                  <span class="kr-state">看完了</span>
+                  <span class="kr-date">2025.01</span>
+                </a>
+              </li>
+            </ol>
+          </section>
+
+          <section class="kb-group" data-group="video">
+            <h2 class="kg-head"><span class="kg-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="8.5"/><path d="M10 8.5l6 3.5-6 3.5z"/></svg></span>视频<b>Video</b><i>2</i></h2>
+            <ol class="kb-rows">
+              <li class="kb-item" data-kind="video" data-state="doing" data-p="65" data-text="手把手拆一个 CRC 校验 视频 48 分 2025.02 在读">
+                <a class="kb-row" href="#">
+                  <span class="kr-num">006</span>
+                  <span class="kr-title">手把手拆一个 CRC 校验</span>
+                  <span class="kr-desc">48 分钟没剪辑，包括我卡住的那十七分钟——那段才是重点。</span>
+                  <span class="kr-bar"><i style="--p:65%"></i></span>
+                  <span class="kr-state">在读</span>
+                  <span class="kr-date">2025.02</span>
+                </a>
+              </li>
+              <li class="kb-item" data-kind="video" data-state="done" data-p="100" data-text="三十毫秒去哪了 视频 22 分 2024.12 看完了">
+                <a class="kb-row" href="#">
+                  <span class="kr-num">011</span>
+                  <span class="kr-title">三十毫秒去哪了</span>
+                  <span class="kr-desc">一次真实的首屏性能排查，全程录屏。结论是一行 CSS，找它的过程是十一分钟。</span>
+                  <span class="kr-bar"><i style="--p:100%"></i></span>
+                  <span class="kr-state">看完了</span>
+                  <span class="kr-date">2024.12</span>
+                </a>
+              </li>
+            </ol>
+          </section>
+
+        </div>
+
+        <div class="kb-empty" id="empty" hidden>
+          <p>没有匹配的条目。</p>
+          <p class="kb-empty-q">关键词「<b id="emptyq"></b>」</p>
+          <button type="button" class="kb-reset" id="reset">清掉条件</button>
+        </div>
+
+      </section>
+
+      <footer class="kb-foot">
+        <span>十四个。做完了的、做了一半的、和只有标题的，都放在同一层——分开放会显得前者比后者重要。</span>
+        <span><a href="index.html#index">回到索引 ↑</a></span>
+      </footer>
+
+    </main>
   </div>
-
-  <ol class="kb-grid" id="grid">
-
-    <li class="kb-item" data-kind="course" data-text="逆向工程基础 12 讲 objdump 读到看懂一个 crackme 课程 12 讲 6 小时 40 分 2025.02 连载中">
-      <a class="kb-card" href="#">
-        <span class="kb-kind">课程<b>Course</b></span>
-        <span class="kb-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3 5.5h12M3 12h12M3 18.5h9"/><path d="M17.5 9l4 3-4 3z"/></svg></span>
-        <h2 class="kb-title">逆向工程基础 12 讲</h2>
-        <p class="kb-desc">从 objdump 读到看懂一个 crackme。中间那几讲讲的是我当时想错的地方。</p>
-        <span class="kb-meta"><b>12 讲 · 6 小时 40 分</b><i>2025.02</i></span>
-      </a>
-    </li>
-
-    <li class="kb-item" data-kind="note" data-text="x86-64 指令速查 笔记 43 条 8600 字 2025.01">
-      <a class="kb-card" href="#">
-        <span class="kb-kind">笔记<b>Note</b></span>
-        <span class="kb-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M5 3h9l5 5v13H5z"/><path d="M14 3v5h5M8.5 13h7M8.5 17h4"/></svg></span>
-        <h2 class="kb-title">x86-64 指令速查</h2>
-        <p class="kb-desc">我自己天天查的那一页。只有 43 条，都是真在反汇编里遇到过的。</p>
-        <span class="kb-meta"><b>43 条 · 8,600 字</b><i>2025.01</i></span>
-      </a>
-    </li>
-
-    <li class="kb-item" data-kind="wiki" data-text="协议字段手册 知识库 27 个协议 2024.12">
-      <a class="kb-card" href="#">
-        <span class="kb-kind">知识库<b>Wiki</b></span>
-        <span class="kb-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3.5 3.5h7v7h-7zM13.5 3.5h7v7h-7zM3.5 13.5h7v7h-7zM13.5 13.5h7v7h-7z"/></svg></span>
-        <h2 class="kb-title">协议字段手册</h2>
-        <p class="kb-desc">拆过的协议都记在这。字段名按抓包里的原样抄，没有一条是查文档抄来的。</p>
-        <span class="kb-meta"><b>27 个协议</b><i>2024.12</i></span>
-      </a>
-    </li>
-
-    <li class="kb-item" data-kind="deck" data-text="网络流量分析 四课时 课件 4 课时 82 页 2024.11">
-      <a class="kb-card" href="#">
-        <span class="kb-kind">课件<b>Deck</b></span>
-        <span class="kb-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3 4.5h18v11H3z"/><path d="M12 15.5v4M8.5 21h7"/></svg></span>
-        <h2 class="kb-title">网络流量分析 · 四课时</h2>
-        <p class="kb-desc">给新人培训用的。讲义、抓包样本、答案分开装，答案那份是防着提前翻的。</p>
-        <span class="kb-meta"><b>4 课时 · 82 页</b><i>2024.11</i></span>
-      </a>
-    </li>
-
-    <li class="kb-item" data-kind="slide" data-text="一个字节的一生 幻灯片 24 页 浏览器翻 2025.03">
-      <a class="kb-card" href="#">
-        <span class="kb-kind">幻灯片<b>Slide</b></span>
-        <span class="kb-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3.5 5.5h12v9h-12z"/><path d="M8.5 9.5h12v9h-12z"/></svg></span>
-        <h2 class="kb-title">一个字节的一生</h2>
-        <p class="kb-desc">从键盘按下到屏幕上出现，中间到底拷贝了几次。HTML 版，方向键就能翻。</p>
-        <span class="kb-meta"><b>24 页 · 浏览器翻</b><i>2025.03</i></span>
-      </a>
-    </li>
-
-    <li class="kb-item" data-kind="video" data-text="手把手拆一个 CRC 校验 视频 48 分 2025.02">
-      <a class="kb-card" href="#">
-        <span class="kb-kind">视频<b>Video</b></span>
-        <span class="kb-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="8.5"/><path d="M10 8.5l6 3.5-6 3.5z"/></svg></span>
-        <h2 class="kb-title">手把手拆一个 CRC 校验</h2>
-        <p class="kb-desc">48 分钟没剪辑，包括我卡住的那十七分钟——那段才是重点。</p>
-        <span class="kb-meta"><b>48 分</b><i>2025.02</i></span>
-      </a>
-    </li>
-
-    <li class="kb-gap" aria-hidden="true">
-      <span>这一格还空着</span>
-    </li>
-
-    <li class="kb-item" data-kind="note" data-text="Linux 排障清单 笔记 31 条 2024.10">
-      <a class="kb-card" href="#">
-        <span class="kb-kind">笔记<b>Note</b></span>
-        <span class="kb-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M5 3h9l5 5v13H5z"/><path d="M14 3v5h5M8.5 13h7M8.5 17h4"/></svg></span>
-        <h2 class="kb-title">Linux 排障清单</h2>
-        <p class="kb-desc">机器起不来的时候，按顺序问自己的 31 个问题。顺序是花钱买的。</p>
-        <span class="kb-meta"><b>31 条</b><i>2024.10</i></span>
-      </a>
-    </li>
-
-    <li class="kb-item" data-kind="wiki" data-text="常见错误码对照 知识库 210 条 四张表 2024.09">
-      <a class="kb-card" href="#">
-        <span class="kb-kind">知识库<b>Wiki</b></span>
-        <span class="kb-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3.5 3.5h7v7h-7zM13.5 3.5h7v7h-7zM3.5 13.5h7v7h-7zM13.5 13.5h7v7h-7z"/></svg></span>
-        <h2 class="kb-title">常见错误码对照</h2>
-        <p class="kb-desc">HTTP、systemd、gRPC、内核 panic 四张表拼在一起，按数值排，不按来源排。</p>
-        <span class="kb-meta"><b>210 条 · 四张表</b><i>2024.09</i></span>
-      </a>
-    </li>
-
-    <li class="kb-item" data-kind="deck" data-text="从零写一个调试器 课件 6 课时 140 页 2024.08">
-      <a class="kb-card" href="#">
-        <span class="kb-kind">课件<b>Deck</b></span>
-        <span class="kb-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3 4.5h18v11H3z"/><path d="M12 15.5v4M8.5 21h7"/></svg></span>
-        <h2 class="kb-title">从零写一个调试器</h2>
-        <p class="kb-desc">六节课，最后能单步执行自己写的程序。第六节开始就没有幻灯片了，全在终端里。</p>
-        <span class="kb-meta"><b>6 课时 · 140 页</b><i>2024.08</i></span>
-      </a>
-    </li>
-
-    <li class="kb-item" data-kind="course" data-text="密码学不神秘 入门 8 讲 课程 5 小时 2024.06">
-      <a class="kb-card" href="#">
-        <span class="kb-kind">课程<b>Course</b></span>
-        <span class="kb-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3 5.5h12M3 12h12M3 18.5h9"/><path d="M17.5 9l4 3-4 3z"/></svg></span>
-        <h2 class="kb-title">密码学不神秘 · 入门 8 讲</h2>
-        <p class="kb-desc">只讲能用手算出来的那部分。算不出来的留到进阶，而进阶我还没做完。</p>
-        <span class="kb-meta"><b>8 讲 · 5 小时</b><i>2024.06</i></span>
-      </a>
-    </li>
-
-    <li class="kb-item" data-kind="video" data-text="三十毫秒去哪了 视频 22 分 2024.12">
-      <a class="kb-card" href="#">
-        <span class="kb-kind">视频<b>Video</b></span>
-        <span class="kb-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="8.5"/><path d="M10 8.5l6 3.5-6 3.5z"/></svg></span>
-        <h2 class="kb-title">三十毫秒去哪了</h2>
-        <p class="kb-desc">一次真实的首屏性能排查，全程录屏。结论是一行 CSS，找它的过程是十一分钟。</p>
-        <span class="kb-meta"><b>22 分</b><i>2024.12</i></span>
-      </a>
-    </li>
-
-    <li class="kb-item" data-kind="slide" data-text="反设计的十一条规则 幻灯片 11 页 浏览器翻 2025.01">
-      <a class="kb-card" href="#">
-        <span class="kb-kind">幻灯片<b>Slide</b></span>
-        <span class="kb-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3.5 5.5h12v9h-12z"/><path d="M8.5 9.5h12v9h-12z"/></svg></span>
-        <h2 class="kb-title">反设计的十一条规则</h2>
-        <p class="kb-desc">这个站为什么长这样。十一条里只有三条是规则，剩下八条是例外。</p>
-        <span class="kb-meta"><b>11 页 · 浏览器翻</b><i>2025.01</i></span>
-      </a>
-    </li>
-
-    <li class="kb-item" data-kind="note" data-text="位运算的十七种用法 笔记 17 条 4200 字 2024.07">
-      <a class="kb-card" href="#">
-        <span class="kb-kind">笔记<b>Note</b></span>
-        <span class="kb-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M5 3h9l5 5v13H5z"/><path d="M14 3v5h5M8.5 13h7M8.5 17h4"/></svg></span>
-        <h2 class="kb-title">位运算的十七种用法</h2>
-        <p class="kb-desc">真实代码里的位运算，不是面试题。每一条都标了在哪个项目里第一次见到。</p>
-        <span class="kb-meta"><b>17 条 · 4,200 字</b><i>2024.07</i></span>
-      </a>
-    </li>
-
-    <li class="kb-item" data-kind="wiki" data-text="我踩过的坑 知识库 58 条 2025.03">
-      <a class="kb-card" href="#">
-        <span class="kb-kind">知识库<b>Wiki</b></span>
-        <span class="kb-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3.5 3.5h7v7h-7zM13.5 3.5h7v7h-7zM3.5 13.5h7v7h-7zM13.5 13.5h7v7h-7z"/></svg></span>
-        <h2 class="kb-title">我踩过的坑</h2>
-        <p class="kb-desc">按时间倒序，每条一句现象一句原因。没有劝告，只有记录——劝告没人看。</p>
-        <span class="kb-meta"><b>58 条</b><i>2025.03</i></span>
-      </a>
-    </li>
-
-  </ol>
-
-  <div class="kb-empty" id="empty" hidden>
-    <p>没有匹配的条目。</p>
-    <p class="kb-empty-q">关键词「<b id="emptyq"></b>」</p>
-    <button type="button" class="kb-reset" id="reset">清掉条件</button>
-  </div>
-
-  <footer class="kb-foot">
-    <span>十四个。做完了的、做了一半的、和只有标题的，都放在同一层——分开放会显得前者比后者重要。</span>
-    <span><a href="index.html#index">回到索引 ↑</a></span>
-  </footer>
-
-</main>
+</div>
 
 <div class="crosshair" id="crosshair" aria-hidden="true"><i></i><i></i><span id="coords">0,0</span></div>
 

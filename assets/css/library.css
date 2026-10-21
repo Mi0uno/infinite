@@ -1,360 +1,739 @@
 /* ============================================================
    INFINITE — 知识库
-   六种东西平铺在同一层，谁也没比谁重要。
-   卡片不用方框，用一条顶线立着——线是网格，框是装饰。
+   这一页不是文章，是个系统：左边是分类树，右边是目录。
+   所以它不用 .wrap，自己划一道竖线把版面切成两半。
    ============================================================ */
 
-.kb {
-  padding-top: clamp(30px, 4.4vw, 62px);
-  padding-bottom: clamp(40px, 5vw, 76px);
+body.is-library {
+  background: var(--paper);
 }
 
-/* ---------- 头部 ---------- */
-
-.kb-kicker {
-  font-family: var(--f-mono);
-  font-size: 10px;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: var(--ink-3);
+.kb-shell {
+  display: grid;
+  grid-template-columns: 252px minmax(0, 1fr);
+  min-height: 100vh;
+  min-height: 100svh;
 }
 
-.kb-h1 {
-  margin-top: clamp(8px, 1.1vw, 14px);
-  font-family: var(--f-cjk);
-  font-size: clamp(46px, 8.4vw, 128px);
-  font-weight: 900;
-  line-height: .98;
-  letter-spacing: -.04em;
-}
+/* ============================================================
+   左栏
+   ============================================================ */
 
-.kb-dek {
-  margin-top: clamp(14px, 1.8vw, 24px);
-  max-width: 34em;
-  font-size: clamp(16px, 1.7vw, 22px);
-  font-weight: 300;
-  line-height: 1.55;
-  letter-spacing: -.01em;
-  color: var(--ink-2);
-  text-wrap: pretty;
-}
-
-.kb-stat {
-  display: flex;
-  flex-wrap: wrap;
-  gap: clamp(18px, 2.6vw, 44px);
-  margin-top: clamp(22px, 2.8vw, 38px);
-  padding-top: clamp(14px, 1.6vw, 20px);
-  border-top: 1px solid var(--line);
-  font-family: var(--f-mono);
-  font-size: 10.5px;
-}
-
-.kb-stat > div {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-}
-
-.kb-stat dt {
-  font-size: 9px;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-}
-
-.kb-stat dd {
-  margin: 0;
-  color: var(--ink);
-  font-variant-numeric: tabular-nums;
-}
-
-/* ---------- 工具条 ---------- */
-
-.kb-toolbar {
+.kb-side {
   position: sticky;
   top: 0;
-  z-index: 6;
-  margin-top: clamp(22px, 2.8vw, 40px);
-  padding: 9px 0 10px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100svh;
+  border-right: 1px solid var(--ink);
   background: var(--paper);
-  border-top: 1px solid var(--ink);
+}
+
+.ks-brand {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 20px 18px 16px;
   border-bottom: 1px solid var(--ink);
+}
+
+.ks-mark {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: 9px 20px;
+  gap: 7px;
+  font-family: var(--f-display);
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: -.02em;
 }
 
-.kb-filter {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-}
-
-.kb-filter button {
-  padding: 4px 10px 5px;
-  font-family: var(--f-mono);
-  font-size: 10px;
-  letter-spacing: .06em;
-  color: var(--ink-2);
-  background: transparent;
-  border: 1px solid var(--line);
-  cursor: pointer;
-  transition: background-color .16s var(--ease), color .16s var(--ease), border-color .16s var(--ease);
-}
-
-.kb-filter button:hover {
-  border-color: var(--ink);
-  color: var(--ink);
-}
-
-.kb-filter button.is-on {
+.ks-mark i {
+  display: block;
+  width: 7px;
+  height: 7px;
   background: var(--ink);
-  border-color: var(--ink);
-  color: var(--paper);
+  transform: translate(.4px, -.4px);
 }
 
-.kb-search {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-left: auto;
-  min-width: min(300px, 42vw);
-  padding-bottom: 3px;
+.ks-here {
+  font-family: var(--f-mono);
+  font-size: 9.5px;
+  letter-spacing: .14em;
+  color: var(--ink-3);
 }
 
-.kb-search::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 1px;
-  background: linear-gradient(to right, var(--line) 0 88%, transparent 88%);
+.ks-scroll {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 20px 12px 24px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
 }
 
-.kb-search:focus-within::after {
-  background: linear-gradient(to right, var(--ink) 0 97%, transparent 97%);
+.ks-block + .ks-block {
+  margin-top: 26px;
 }
 
-.kb-search-l {
+.ks-label {
+  margin: 0 0 9px;
+  padding-left: 8px;
   font-family: var(--f-mono);
   font-size: 9px;
-  letter-spacing: .14em;
+  letter-spacing: .18em;
   text-transform: uppercase;
   color: var(--ink-3);
-  white-space: nowrap;
 }
 
-.kb-search input {
-  flex: 1;
-  min-width: 0;
-  padding: 0;
-  font-family: var(--f-mono), var(--f-cjk);
-  font-size: 11px;
-  color: var(--ink);
-  background: transparent;
-  border: 0;
-  outline: none;
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-.kb-search input::placeholder {
-  color: var(--ink-3);
-}
-
-.kb-search input::-webkit-search-cancel-button {
-  -webkit-appearance: none;
-}
-
-.kb-search-k {
-  font-family: var(--f-mono);
-  font-size: 9px;
-  color: var(--ink-3);
-  border: 1px solid var(--line);
-  padding: 0 4px;
-  line-height: 1.5;
-}
-
-/* ---------- 网格 ---------- */
-
-.kb-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(18px, 2.2vw, 34px) var(--gutter);
-  margin: clamp(20px, 2.4vw, 34px) 0 0;
+.ks-list {
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.kb-item {
-  display: flex;
-  min-width: 0;
-}
-
-/* display: flex 会盖掉 [hidden] 的默认 none，得显式说一次 */
-.kb-item[hidden],
-.kb-gap[hidden] { display: none; }
-
-.kb-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  min-height: clamp(180px, 15vw, 216px);
-  padding: 13px 0 0;
-  border-top: 1px solid var(--ink);
-}
-
-.kb-kind {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  font-family: var(--f-mono);
-  font-size: 10px;
-  letter-spacing: .1em;
-  color: var(--ink-2);
-  text-transform: uppercase;
-}
-
-.kb-kind b {
-  font-weight: 400;
-  font-size: 9px;
-  letter-spacing: .16em;
-  color: var(--ink-3);
-}
-
-.kb-glyph {
+.ks-radio {
   position: absolute;
-  top: 6px;
-  right: 0;
-  width: 30px;
-  height: 30px;
-  color: var(--ink-3);
-  transition: color .2s var(--ease), transform .3s var(--ease);
+  width: 1px;
+  height: 1px;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
-.kb-glyph svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-.kb-title {
-  margin-top: clamp(16px, 1.9vw, 26px);
-  font-family: var(--f-cjk);
-  font-size: clamp(17px, 1.42vw, 21px);
-  font-weight: 500;
-  line-height: 1.34;
-  letter-spacing: -.012em;
-  transition: transform .26s var(--ease);
-}
-
-.kb-desc {
-  margin-top: 9px;
-  font-size: 13px;
-  line-height: 1.72;
-  color: var(--ink-2);
-  text-wrap: pretty;
-}
-
-.kb-meta {
+.ks-list label {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 12px;
-  margin-top: auto;
-  padding-top: clamp(18px, 2vw, 28px);
+  gap: 8px;
+  padding: 6px 8px;
+  font-family: var(--f-cjk);
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: background-color .16s var(--ease), color .16s var(--ease), transform .16s var(--ease);
+}
+
+.ks-radio:focus-visible + label {
+  outline: 2px solid var(--ink);
+  outline-offset: -2px;
+}
+
+.ks-list label span {
+  min-width: 0;
+}
+
+.ks-list label b {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: .06em;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.ks-list label:hover {
+  background: var(--paper-deep);
+  color: var(--ink);
+}
+
+/* 高亮交给 :checked——浏览器自己保证选中的那个一定亮，
+   不靠脚本记状态，少一处能对不上的地方 */
+.ks-radio:checked + label {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.ks-radio:checked + label b {
+  color: var(--ink-3);
+}
+
+.ks-list li:nth-child(3) label:hover,
+.ks-list li:nth-child(5) label:hover {
+  transform: translateX(2px);
+}
+
+/* 整体进度 */
+.ks-bar {
+  height: 3px;
+  margin: 2px 8px 0;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.ks-bar i {
+  display: block;
+  height: 100%;
+  width: var(--p, 0%);
+  background: var(--ink);
+  transition: width .5s var(--ease);
+}
+
+.ks-num {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  margin: 9px 0 0;
+  padding-left: 8px;
   font-family: var(--f-mono);
   font-size: 10px;
   letter-spacing: .04em;
   color: var(--ink-3);
 }
 
-.kb-meta b {
+.ks-num b {
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.ks-num span {
+  margin-left: auto;
+  padding-right: 8px;
+  color: var(--ink-2);
+}
+
+.ks-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 12px 14px calc(14px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--line);
+  font-family: var(--f-mono);
+  font-size: 9.5px;
+  letter-spacing: .08em;
+}
+
+.ks-foot a,
+.ks-grid {
+  color: var(--ink-2);
+  transition: color .18s var(--ease), border-color .18s var(--ease);
+}
+
+.ks-foot a:hover,
+.ks-grid:hover {
+  color: var(--ink);
+}
+
+.ks-grid {
+  padding: 4px 7px 5px;
+  border: 1px solid var(--line);
+  background: transparent;
+  font: inherit;
+  letter-spacing: .1em;
+  cursor: pointer;
+}
+
+.ks-grid[aria-pressed="true"] {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.ks-grid kbd {
+  padding-left: 3px;
+  font: inherit;
+  color: var(--ink-3);
+}
+
+/* ============================================================
+   右栏
+   ============================================================ */
+
+.kb-main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.kb-top {
+  position: sticky;
+  top: 0;
+  z-index: 6;
+  display: flex;
+  align-items: baseline;
+  gap: clamp(14px, 2vw, 30px);
+  padding: 16px clamp(20px, 3.2vw, 52px) 13px;
+  border-bottom: 1px solid var(--ink);
+  background: var(--paper);
+}
+
+.kb-crumb {
+  margin: 0;
+  flex: 0 0 auto;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.kb-crumb i {
+  padding: 0 .55em;
+  font-style: normal;
+  color: var(--line);
+}
+
+.kb-crumb b {
+  font-weight: 500;
+  letter-spacing: .04em;
+  color: var(--ink);
+}
+
+.kb-search {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  flex: 1 1 auto;
+  max-width: 340px;
+  margin-left: auto;
+  border-bottom: 1px solid var(--line);
+  transition: border-color .2s var(--ease);
+}
+
+.kb-search:focus-within {
+  border-bottom-color: var(--ink);
+}
+
+.kb-search-l {
+  flex: 0 0 auto;
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.kb-search input {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+  padding: 2px 0 5px;
+  border: 0;
+  background: transparent;
+  font-family: var(--f-mono), var(--f-cjk);
+  font-size: 11.5px;
+  letter-spacing: .02em;
+  color: var(--ink);
+  outline: none;
+}
+
+.kb-search input::placeholder {
+  color: var(--line);
+}
+
+.kb-search input::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+.kb-search-k {
+  flex: 0 0 auto;
+  padding-bottom: 5px;
+  font-family: var(--f-mono);
+  font-size: 9px;
+  color: var(--ink-3);
+}
+
+.kb-clock {
+  margin: 0 0 0 12px;
+  flex: 0 0 auto;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.kb-clock b {
   font-weight: 400;
   color: var(--ink-2);
 }
 
-.kb-meta i {
-  font-style: normal;
+.kb-body {
+  padding: 0 clamp(20px, 3.2vw, 52px) 0;
+}
+
+/* ---------- 起头 ---------- */
+
+.kb-hero {
+  padding: clamp(28px, 3.4vw, 52px) 0 0;
+}
+
+.kb-kicker {
+  margin: 0 0 14px;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.kb-h1 {
+  margin: 0;
+  font-family: var(--f-cjk);
+  font-size: clamp(42px, 5.4vw, 78px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -.03em;
+}
+
+.kb-dek {
+  max-width: 42em;
+  margin: clamp(16px, 1.8vw, 24px) 0 0;
+  font-size: clamp(15px, 1.28vw, 17px);
+  line-height: 1.72;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+
+/* ---------- 小标题 ---------- */
+
+.kb-sec-label {
+  display: flex;
+  align-items: baseline;
+  gap: .5em;
+  margin: clamp(30px, 3.6vw, 54px) 0 0;
+  padding-bottom: 11px;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.kb-sec-label b {
+  font-weight: 400;
+  color: var(--line);
+}
+
+/* ---------- 接着上次 ---------- */
+
+.kb-cont-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gutter);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kb-cont-list a {
+  display: flex;
+  flex-direction: column;
+  padding: 15px 16px 16px;
+  border-top: 1px solid var(--ink);
+  background: var(--paper-deep);
+  transition: background-color .2s var(--ease), color .2s var(--ease);
+}
+
+.kb-cont-list a:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.kc-kind {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  font-family: var(--f-cjk);
+  font-size: 11px;
+  color: var(--ink-3);
+}
+
+.kc-kind b {
+  font-family: var(--f-mono);
+  font-size: 8.5px;
+  font-weight: 400;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.kc-title {
+  display: block;
+  margin: 5px 0 14px;
+  font-size: 15.5px;
+  font-weight: 500;
+  line-height: 1.42;
+  letter-spacing: -.012em;
+}
+
+.kc-bar {
+  display: block;
+  margin-top: auto;
+  height: 2px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.kc-bar i {
+  display: block;
+  height: 100%;
+  width: var(--p, 0%);
+  background: var(--ink);
+}
+
+.kb-cont-list a:hover .kc-bar {
+  background: var(--ink-2);
+}
+
+.kb-cont-list a:hover .kc-bar i {
+  background: var(--paper);
+}
+
+.kc-num {
+  display: block;
+  margin-top: 8px;
+  font-family: var(--f-mono);
+  font-size: 9.5px;
+  letter-spacing: .06em;
+  color: var(--ink-3);
   font-variant-numeric: tabular-nums;
 }
 
-/* hover 只动 transform 和颜色，不碰 padding，不触发重排 */
-.kb-card:hover .kb-title {
-  transform: translateX(5px);
+/* ---------- 分组 ---------- */
+
+.kb-group + .kb-group {
+  margin-top: clamp(26px, 3vw, 44px);
 }
 
-.kb-card:hover .kb-glyph {
+.kg-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  padding-bottom: 9px;
+  font-family: var(--f-cjk);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .04em;
   color: var(--ink);
 }
 
-/* 空着的那一格：虚线，故意不填 */
-.kb-gap {
+.kg-head::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(to right, var(--ink) 0 72%, transparent 72% calc(72% + 26px), var(--ink) calc(72% + 26px) 100%);
+}
+
+.kg-glyph {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: clamp(180px, 15vw, 216px);
-  border: 1px dashed var(--line);
+  width: 15px;
+  height: 15px;
+  color: var(--ink-2);
+}
+
+.kg-glyph svg {
+  width: 100%;
+  height: 100%;
+}
+
+.kg-head b {
+  font-family: var(--f-mono);
+  font-size: 8.5px;
+  font-weight: 400;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.kg-head i {
+  margin-left: auto;
   font-family: var(--f-mono);
   font-size: 9.5px;
-  letter-spacing: .18em;
+  font-style: normal;
+  letter-spacing: .06em;
   color: var(--ink-3);
-  transform: translateY(1px);
+}
+
+/* ---------- 条目行 ---------- */
+
+.kb-rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kb-row {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr) 96px 54px 54px;
+  column-gap: clamp(12px, 1.4vw, 22px);
+  row-gap: 3px;
+  align-items: baseline;
+  padding: 12px 8px 13px;
+  border-bottom: 1px solid var(--line);
+  transition: background-color .2s var(--ease), color .2s var(--ease);
+}
+
+.kr-num {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: .08em;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.kr-title {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: -.012em;
+}
+
+.kr-desc {
+  grid-column: 2;
+  grid-row: 2;
+  min-width: 0;
+  overflow: hidden;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--ink-3);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kr-bar {
+  grid-column: 3;
+  grid-row: 1 / span 2;
+  align-self: center;
+  height: 2px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.kr-bar i {
+  display: block;
+  height: 100%;
+  width: var(--p, 0%);
+  background: var(--ink-2);
+}
+
+.kr-state {
+  grid-column: 4;
+  grid-row: 1 / span 2;
+  align-self: center;
+  font-family: var(--f-mono);
+  font-size: 9.5px;
+  letter-spacing: .06em;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+.kr-date {
+  grid-column: 5;
+  grid-row: 1 / span 2;
+  align-self: center;
+  justify-self: end;
+  font-family: var(--f-mono);
+  font-size: 9.5px;
+  letter-spacing: .04em;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.kb-row:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.kb-row:hover .kr-num,
+.kb-row:hover .kr-desc,
+.kb-row:hover .kr-date {
+  color: var(--ink-3);
+}
+
+.kb-row:hover .kr-state {
+  color: var(--paper);
+}
+
+.kb-row:hover .kr-bar {
+  background: var(--ink-2);
+}
+
+.kb-row:hover .kr-bar i {
+  background: var(--paper);
+}
+
+/* 停下来的那几条：状态用斜体，进度条不填满 */
+.kb-item[data-state="todo"] .kr-state {
+  font-style: italic;
+  color: var(--ink-3);
+}
+
+.kb-item[data-state="doing"] .kr-state {
+  color: var(--ink);
+  font-weight: 500;
 }
 
 /* ---------- 微残缺 ---------- */
 
-/* 第四张的顶线细一半 */
-.kb-item:nth-child(4) .kb-card { border-top-width: .5px; }
+.kb-item:nth-child(2) .kr-bar i {
+  /* 满了还多出两像素：机器算的进度，总差一点 */
+  width: calc(var(--p, 100%) + 2px);
+}
 
-/* 第八张整体没坐到底线上 */
-.kb-item:nth-child(8) .kb-card { transform: translateY(3px); }
+.kb-item:nth-child(3) .kr-date {
+  transform: translateY(1px);
+}
 
-/* 第十一张的记号歪了三度 */
-.kb-item:nth-child(11) .kb-glyph { transform: rotate(-3deg); }
+.kb-item:nth-child(1) .kr-num {
+  transform: translateY(-.5px);
+}
 
-/* 第十三张的日期掉出基线 */
-.kb-item:nth-child(13) .kb-meta i { transform: translateY(1px); display: inline-block; }
+.kb-group:nth-child(4) .kg-head::after {
+  background: linear-gradient(to right, var(--ink) 0 41%, transparent 41% calc(41% + 26px), var(--ink) calc(41% + 26px) 100%);
+}
 
-/* ---------- 空结果 ---------- */
+.kb-group:nth-child(5) .kr-title {
+  letter-spacing: -.024em;
+}
+
+/* ---------- 空 / 页脚 ---------- */
 
 .kb-empty {
-  padding: clamp(46px, 6vw, 92px) 0;
+  margin: clamp(28px, 3.4vw, 48px) 0 0;
+  padding: clamp(26px, 3vw, 44px) 0;
+  border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
+  font-size: 13.5px;
+  color: var(--ink-2);
 }
 
 .kb-empty p {
-  font-size: 14px;
-  color: var(--ink-2);
+  margin: 0;
 }
 
 .kb-empty-q {
   margin-top: 6px !important;
   font-family: var(--f-mono);
-  font-size: 11px !important;
-  color: var(--ink-3) !important;
+  font-size: 11px;
+  color: var(--ink-3);
 }
 
 .kb-empty-q b {
-  font-weight: 400;
+  font-weight: 500;
   color: var(--ink);
 }
 
 .kb-reset {
-  margin-top: 18px;
-  padding: 5px 12px 6px;
-  font-family: var(--f-mono);
-  font-size: 10px;
-  letter-spacing: .08em;
-  color: var(--ink);
-  background: transparent;
+  margin-top: 16px;
+  padding: 7px 14px 8px;
   border: 1px solid var(--ink);
+  background: transparent;
+  font-family: var(--f-cjk);
+  font-size: 12px;
+  color: var(--ink);
   cursor: pointer;
+  transition: background-color .18s var(--ease), color .18s var(--ease);
 }
 
 .kb-reset:hover {
@@ -362,67 +741,161 @@
   color: var(--paper);
 }
 
-/* ---------- 页脚 ---------- */
-
 .kb-foot {
   display: flex;
-  flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
-  gap: 12px var(--gutter);
-  margin-top: clamp(38px, 5vw, 76px);
-  padding-top: 16px;
-  border-top: 2px solid var(--ink);
+  gap: var(--gutter);
+  margin-top: clamp(34px, 4.4vw, 64px);
+  padding: 16px 0 calc(30px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--ink);
   font-family: var(--f-mono);
-  font-size: 10px;
-  letter-spacing: .03em;
+  font-size: 9.5px;
+  letter-spacing: .06em;
   color: var(--ink-3);
 }
 
 .kb-foot a {
   color: var(--ink-2);
-  border-bottom: 1px solid var(--line);
 }
 
 .kb-foot a:hover {
   color: var(--ink);
-  border-bottom-color: var(--ink);
 }
 
-/* ---------- 断点 ---------- */
+/* ============================================================
+   断点
+   ============================================================ */
 
-@media (max-width: 1080px) {
-  .kb-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .kb-filter button { font-size: 9.5px; padding: 4px 8px 5px; }
+@media (max-width: 1180px) {
+  .kb-shell { grid-template-columns: 216px minmax(0, 1fr); }
+
+  .kb-row { grid-template-columns: 34px minmax(0, 1fr) 76px 50px 48px; }
+
+  .kb-cont-list a { padding: 13px 13px 14px; }
 }
 
-@media (max-width: 860px) {
-  .kb-search { min-width: 0; flex: 1 1 100%; margin-left: 0; }
-  .kb-toolbar { gap: 8px; }
-  .kb-stat { gap: 16px 26px; }
+@media (max-width: 1000px) {
+  .kb-search { max-width: 240px; }
+  .kb-clock { display: none; }
 }
 
-@media (max-width: 760px) {
-  .kb-grid { grid-template-columns: minmax(0, 1fr); gap: 22px; }
-  .kb-card { min-height: 0; padding-bottom: 22px; }
-  .kb-gap { min-height: 96px; }
-  .kb-title { margin-top: 14px; }
-  .kb-meta { padding-top: 18px; }
+/* 侧栏折成横条：它不再是框，是自己一行 */
+@media (max-width: 900px) {
+  .kb-shell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .kb-side {
+    position: static;
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .ks-brand { padding-bottom: 12px; }
+
+  .ks-scroll {
+    display: block;
+    overflow: visible;
+    padding: 12px 16px 14px;
+  }
+
+  .ks-block + .ks-block { margin-top: 13px; }
+
+  .ks-label { padding-left: 0; margin-bottom: 7px; }
+
+  /* 每一组自己横滚，三组纵向排开——挤成一行会让状态和进度滚出屏外 */
+  .ks-list {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+
+  .ks-list::-webkit-scrollbar { display: none; }
+
+  .ks-list li { flex: 0 0 auto; }
+
+  .ks-list label {
+    padding: 5px 10px 6px;
+    border: 1px solid var(--line);
+    white-space: nowrap;
+  }
+
+  .ks-radio:checked + label { border-color: var(--ink); }
+
+  .ks-meter { max-width: 240px; }
+  .ks-bar { margin: 0; }
+  .ks-num { padding-left: 0; padding-right: 0; }
+
+  .ks-foot {
+    border-top: 1px solid var(--line);
+    padding: 10px 16px;
+  }
+
+  .kb-top {
+    position: static;
+    padding: 14px 20px 12px;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+  }
+
+  .kb-search { max-width: none; flex: 1 1 100%; margin-left: 0; }
+
+  .kb-body { padding: 0 20px 0; }
+
+  .kb-cont-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .kb-cont-list li:last-child { display: none; }
 }
 
-@media (max-width: 520px) {
-  .kb-h1 { letter-spacing: -.03em; }
-  .kb-filter { gap: 4px; }
-  .kb-filter button { font-size: 9px; padding: 3px 7px 4px; letter-spacing: .02em; }
-  .kb-foot { font-size: 9.5px; }
+@media (max-width: 700px) {
+  .kb-cont-list { grid-template-columns: minmax(0, 1fr); }
+  .kb-cont-list li:nth-child(2) { display: none; }
+
+  .kb-row {
+    grid-template-columns: 32px minmax(0, 1fr) 46px;
+    row-gap: 4px;
+    padding: 11px 6px 12px;
+  }
+
+  .kr-num { grid-row: 1 / span 3; }
+  .kr-title { grid-column: 2; grid-row: 1; }
+  .kr-desc { grid-column: 2; grid-row: 2; white-space: normal; }
+  .kr-state {
+    grid-column: 2;
+    grid-row: 3;
+    align-self: start;
+    font-size: 9px;
+  }
+  .kr-bar {
+    grid-column: 3;
+    grid-row: 1 / span 3;
+    align-self: center;
+  }
+  .kr-date { display: none; }
+
+  .kb-foot {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 460px) {
+  .kb-h1 { font-size: clamp(34px, 11vw, 44px); }
+  .kr-bar { display: none; }
+  .kb-row { grid-template-columns: 30px minmax(0, 1fr); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .kb-card,
-  .kb-title,
-  .kb-glyph,
-  .kb-filter button {
+  .ks-list label,
+  .ks-bar i,
+  .kb-cont-list a,
+  .kb-row,
+  .kb-reset,
+  .kb-search {
     transition: none;
   }
-  .kb-item:nth-child(8) .kb-card { transform: none; }
 }

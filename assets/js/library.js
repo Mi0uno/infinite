@@ -1,6 +1,6 @@
 /* ==========================================================
    INFINITE — 知识库脚本
-   时钟 / 网格显影 / 十字准星 / 类型筛选 / 搜索
+   时钟 / 网格显影 / 十字准星 / 分类 + 状态 + 搜索
    ========================================================== */
 
 (function () {
@@ -39,12 +39,11 @@
   }
 
   window.addEventListener('keydown', function (e) {
-    if (e.key === 'g' || e.key === 'G') {
-      if (e.metaKey || e.ctrlKey || e.altKey) return;
-      var t = e.target;
-      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
-      setGrid(!overlay.classList.contains('is-on'));
-    }
+    if (e.key !== 'g' && e.key !== 'G') return;
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    var t = e.target;
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+    setGrid(!overlay.classList.contains('is-on'));
   });
 
   /* ---------- 十字准星 ---------- */
@@ -81,82 +80,124 @@
     })();
   }
 
-  /* ---------- 类型筛选 / 搜索 ---------- */
+  /* ---------- 筛选 / 搜索 ---------- */
 
-  var gridEl = document.getElementById('grid');
-  var filterEl = document.getElementById('filter');
+  var groupsEl = document.getElementById('groups');
+  var kindList = document.getElementById('kindList');
+  var stateList = document.getElementById('stateList');
   var qEl = document.getElementById('q');
+  var crumb = document.getElementById('crumb');
   var emptyEl = document.getElementById('empty');
   var emptyQ = document.getElementById('emptyq');
   var resetEl = document.getElementById('reset');
 
-  if (gridEl && filterEl && qEl) {
+  if (groupsEl && kindList && stateList) {
     var items = Array.prototype.map.call(
-      gridEl.querySelectorAll('.kb-item'),
+      groupsEl.querySelectorAll('.kb-item'),
       function (el) {
         return {
           el: el,
           kind: el.getAttribute('data-kind') || '',
+          state: el.getAttribute('data-state') || '',
           text: (el.getAttribute('data-text') || '').toLowerCase()
         };
       }
     );
 
-    var gap = gridEl.querySelector('.kb-gap');
+    var groups = Array.prototype.map.call(
+      groupsEl.querySelectorAll('.kb-group'),
+      function (el) {
+        return { el: el, key: el.getAttribute('data-group') || '' };
+      }
+    );
+
     var kind = '全部';
+    var state = '全部';
     var kw = '';
+
+    var wordOf = function (list, val) {
+      var input = list.querySelector('input[value="' + val + '"]');
+      var label = input && input.nextElementSibling;
+      var span = label && label.querySelector('span');
+      return span ? span.textContent.trim() : '全部';
+    };
 
     var apply = function () {
       var q = kw.trim();
+      var seen = {};
       var shown = 0;
 
       items.forEach(function (it) {
-        var on = (kind === '全部' || it.kind === kind) && (!q || it.text.indexOf(q) > -1);
+        var on = (kind === '全部' || it.kind === kind) &&
+                 (state === '全部' || it.state === state) &&
+                 (!q || it.text.indexOf(q) > -1);
         it.el.hidden = !on;
-        if (on) shown++;
+        if (on) {
+          shown++;
+          seen[it.kind] = (seen[it.kind] || 0) + 1;
+        }
       });
 
-      /* 空格只在什么都没筛的时候出现——它是版面的空缺，不是结果 */
-      if (gap) gap.hidden = !(kind === '全部' && !q);
+      /* 组里一条都不剩就整组收起来，别留个空标题 */
+      groups.forEach(function (g) {
+        g.el.hidden = !seen[g.key];
+      });
 
       if (emptyEl) emptyEl.hidden = shown > 0;
+
       if (emptyQ) emptyQ.textContent = q;
+
+      if (crumb) {
+        var label;
+        if (q) label = '「' + q + '」';
+        else if (kind !== '全部') label = wordOf(kindList, kind);
+        else if (state !== '全部') label = wordOf(stateList, state);
+        else label = '全部';
+        crumb.textContent = label;
+      }
+
     };
 
-    var setKind = function (next) {
-      kind = next;
-      Array.prototype.forEach.call(filterEl.querySelectorAll('button'), function (b) {
-        var on = (b.getAttribute('data-kind') || '全部') === next;
-        b.classList.toggle('is-on', on);
-        b.setAttribute('aria-pressed', on ? 'true' : 'false');
-      });
+    /* 高亮由 :checked 管，脚本只读选中值 */
+    kindList.addEventListener('change', function (e) {
+      if (!e.target.name || e.target.name !== 'kind') return;
+      kind = e.target.value;
       apply();
-    };
+    });
 
-    filterEl.addEventListener('click', function (e) {
-      var btn = e.target.closest ? e.target.closest('button') : null;
-      if (!btn) return;
-      setKind(btn.getAttribute('data-kind') || '全部');
+    stateList.addEventListener('change', function (e) {
+      if (!e.target.name || e.target.name !== 'state') return;
+      state = e.target.value;
+      apply();
     });
 
     var timer = null;
-    qEl.addEventListener('input', function () {
-      clearTimeout(timer);
-      timer = setTimeout(function () {
-        kw = qEl.value.toLowerCase();
-        apply();
-      }, 130);
-    });
+    if (qEl) {
+      qEl.addEventListener('input', function () {
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+          kw = qEl.value.toLowerCase();
+          apply();
+        }, 130);
+      });
+    }
 
     if (resetEl) {
       resetEl.addEventListener('click', function () {
-        qEl.value = '';
+        if (qEl) qEl.value = '';
         kw = '';
-        setKind('全部');
+        kind = '全部';
+        state = '全部';
+        var ka = kindList.querySelector('input[value="全部"]');
+        var sa = stateList.querySelector('input[value="全部"]');
+        if (ka) ka.checked = true;
+        if (sa) sa.checked = true;
+        apply();
       });
     }
 
     window.addEventListener('keydown', function (e) {
+      if (!qEl) return;
       if (e.key === '/' && document.activeElement !== qEl) {
         e.preventDefault();
         qEl.focus();
