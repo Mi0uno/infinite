@@ -49,6 +49,15 @@ body.is-library {
   letter-spacing: -.02em;
 }
 
+.ks-mark em {
+  margin-left: 5px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  letter-spacing: .1em;
+  color: var(--ink-3);
+}
+
 .ks-mark i {
   display: block;
   width: 7px;
@@ -1207,6 +1216,15 @@ html.js.is-loading body {
   font-size: 17px;
   font-weight: 900;
   letter-spacing: -.02em;
+}
+
+.ld-mark em {
+  margin-left: 6px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  letter-spacing: .1em;
+  color: var(--ink-3);
 }
 
 .ld-mark i {
