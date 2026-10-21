@@ -107,14 +107,19 @@
   var units = document.querySelectorAll('.cu-unit');
 
   Array.prototype.forEach.call(units, function (unit) {
-    unit.addEventListener('toggle', function () {
-      if (!unit.open) return;
+    var head = unit.querySelector('.cu-head');
+    if (!head) return;
 
-      /* 展开时把标题顶到视口上沿下一点，不然一开就看不见内容 */
-      var top = unit.getBoundingClientRect().top + window.scrollY - 72;
-      if (top < window.scrollY) return;
+    /* 用 click 不用 toggle：load 时带 open 的 details 也会发 toggle，
+       页面一进来就自己滚到第三个单元去了。 */
+    head.addEventListener('click', function () {
+      if (unit.open) return;   /* 这一下是收起，不动滚动 */
 
-      window.scrollTo({ top: top, behavior: reduce ? 'auto' : 'smooth' });
+      setTimeout(function () {
+        var top = unit.getBoundingClientRect().top + window.scrollY - 72;
+        if (top <= window.scrollY) return;
+        window.scrollTo({ top: top, behavior: reduce ? 'auto' : 'smooth' });
+      }, 0);
     });
   });
 

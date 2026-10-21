@@ -258,6 +258,37 @@ body.is-library {
   background: var(--paper);
 }
 
+/* 顶栏上的返回：面包屑说你在哪，这个带你出去 */
+.kb-up {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  flex: 0 0 auto;
+  margin-right: 4px;
+  padding: 3px 9px 4px;
+  border: 1px solid var(--line);
+  font-family: var(--f-mono);
+  font-size: 9.5px;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+  transition: border-color .16s var(--ease), background-color .16s var(--ease), color .16s var(--ease);
+}
+
+.kb-up i {
+  font-style: normal;
+  transition: transform .2s var(--ease);
+}
+
+.kb-up:hover {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.kb-up:hover i {
+  transform: translateX(-3px);
+}
+
 .kb-crumb {
   margin: 0;
   flex: 0 0 auto;
@@ -871,6 +902,9 @@ body.is-library {
     border-top: 1px solid var(--line);
     padding: 10px 16px;
   }
+
+  /* 顶栏已经有返回了，底下这个就是重复 */
+  .ks-foot .kb-back { display: none; }
 
   .kb-top {
     position: static;
