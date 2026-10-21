@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>逆向工程基础 12 讲 — INFINITE</title>
+<meta name="description" content="从 objdump 读到看懂一个 crackme。六个单元，十二讲，其中三讲讲的是我当时想错的地方。">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#ECEBE7">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230F0F0F'/%3E%3Crect x='6' y='14' width='20' height='4' fill='%23ECEBE7'/%3E%3C/svg%3E">
+<link rel="preload" href="assets/fonts/nssc-900.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/nssc-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/library.css">
+<link rel="stylesheet" href="assets/css/course.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body class="is-course">
+
+<div class="grain" aria-hidden="true"></div>
+<div class="scan" aria-hidden="true"></div>
+<div class="overlay" id="overlay" aria-hidden="true"></div>
+<div class="crop" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<div class="kb-shell">
+
+  <!-- 左栏：这门课自己的目录 -->
+  <aside class="kb-side">
+    <div class="ks-brand">
+      <a href="index.html">INFINITE <i></i></a>
+      <span>知识库</span>
+    </div>
+
+    <div class="ks-scroll">
+      <div class="ks-block">
+        <p class="ks-label">单元</p>
+        <ul class="cu-nav">
+          <li><a href="#u1" class="is-done"><b>01</b>工具与起点</a></li>
+          <li><a href="#u2" class="is-done"><b>02</b>从字符串看起</a></li>
+          <li><a href="#u3" class="is-now" aria-current="true"><b>03</b>反汇编的第一遍</a></li>
+          <li><a href="#u4"><b>04</b>交叉引用与结构体</a></li>
+          <li><a href="#u5"><b>05</b>绕过校验</a></li>
+          <li><a href="#u6"><b>06</b>把它写下来</a></li>
+        </ul>
+      </div>
+
+      <div class="ks-block">
+        <p class="ks-label">这门课</p>
+        <dl class="cu-facts">
+          <div><dt>讲数</dt><dd>12 讲</dd></div>
+          <div><dt>时长</dt><dd>6 时 40 分</dd></div>
+          <div><dt>难度</dt><dd>需要会 C</dd></div>
+          <div><dt>更新</dt><dd>2025.02</dd></div>
+        </dl>
+      </div>
+
+      <div class="ks-block">
+        <p class="ks-label">进度</p>
+        <div class="ks-meter"><div class="ks-bar" style="--p:40%"></div></div>
+        <p class="ks-num"><b>5</b> / 12 讲<span>40%</span></p>
+      </div>
+    </div>
+
+    <div class="ks-foot">
+      <button class="ks-key" id="gridBtn" type="button" aria-pressed="false">网格 <kbd>G</kbd></button>
+      <a href="library.html" class="kb-back">回知识库 ↑</a>
+    </div>
+  </aside>
+
+  <main class="kb-main">
+
+    <header class="kb-top">
+      <p class="kb-crumb">
+        <span>Library</span><i>/</i>
+        <a href="library.html">知识库</a><i>/</i>
+        <b>逆向工程基础</b>
+      </p>
+      <p class="kb-clock">COURSE / <span id="clock">--:--:--</span> CST</p>
+    </header>
+
+    <div class="kb-body">
+
+      <!-- 课程头：封面 + 信息 -->
+      <section class="cu-hero">
+        <div class="cu-cover">
+          <svg class="kc-fig" viewBox="0 0 100 44" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
+            <path d="M6 4H94M6 18H94M6 32H94M6 4V40M34 4V40M62 4V40M94 4V40"/>
+            <rect class="fig-solid" x="62" y="18" width="32" height="14"/>
+          </svg>
+          <span class="kc-no">001</span>
+        </div>
+
+        <div class="cu-info">
+          <p class="cu-kicker">课程 · Course · 2025.02</p>
+          <h1 class="cu-h1">逆向工程基础<br>12 讲</h1>
+          <p class="cu-dek">从 objdump 读到看懂一个 crackme。中间那几讲讲的是我当时想错的地方。</p>
+          <a class="cu-cta" href="#u3"><span>继续 · 第 5 讲</span><i>→</i></a>
+        </div>
+      </section>
+
+      <!-- 单元 -->
+      <section class="cu-list" aria-label="课程单元">
+        <p class="cu-line"><b>六个单元</b><span>十二讲 · 6 小时 40 分</span></p>
+
+        <details class="cu-unit" id="u1" open>
+          <summary class="cu-head">
+            <span class="cu-no">01</span>
+            <span class="cu-wrap">
+              <span class="cu-title">工具与起点</span>
+              <span class="cu-sub">先认工具，再认程序 —— 这两讲没有一行逆向</span>
+            </span>
+            <span class="cu-state is-done">看完了</span>
+            <span class="cu-bar"><i style="--p:100%"></i></span>
+          </summary>
+          <ol class="cu-lessons">
+            <li class="cu-lesson is-done"><a href="#">
+              <span class="cl-no">01</span>
+              <span class="cl-title">objdump 与 readelf 该先看哪个</span>
+              <span class="cl-time">24 分</span>
+            </a></li>
+            <li class="cu-lesson is-done"><a href="#">
+              <span class="cl-no">02</span>
+              <span class="cl-title">一个 hello world 的六个段</span>
+              <span class="cl-time">28 分</span>
+            </a></li>
+          </ol>
+        </details>
+
+        <details class="cu-unit" id="u2" open>
+          <summary class="cu-head">
+            <span class="cu-no">02</span>
+            <span class="cu-wrap">
+              <span class="cu-title">从字符串看起</span>
+              <span class="cu-sub">程序说的话，比程序做的事更好读</span>
+            </span>
+            <span class="cu-state is-done">看完了</span>
+            <span class="cu-bar"><i style="--p:100%"></i></span>
+          </summary>
+          <ol class="cu-lessons">
+            <li class="cu-lesson is-done"><a href="#">
+              <span class="cl-no">03</span>
+              <span class="cl-title">strings 找不到的字符串</span>
+              <span class="cl-time">38 分</span>
+            </a></li>
+            <li class="cu-lesson is-done"><a href="#">
+              <span class="cl-no">04</span>
+              <span class="cl-title">常量是怎么被编译器藏起来的</span>
+              <span class="cl-time">37 分</span>
+            </a></li>
+          </ol>
+        </details>
+
+        <details class="cu-unit" id="u3" open>
+          <summary class="cu-head">
+            <span class="cu-no">03</span>
+            <span class="cu-wrap">
+              <span class="cu-title">反汇编的第一遍</span>
+              <span class="cu-sub">不要读懂，先读顺 —— 认出行，不认意思</span>
+            </span>
+            <span class="cu-state is-now">在读</span>
+            <span class="cu-bar"><i style="--p:50%"></i></span>
+          </summary>
+          <ol class="cu-lessons">
+            <li class="cu-lesson is-now"><a href="#">
+              <span class="cl-no">05</span>
+              <span class="cl-title">从入口点开始读，读到第一个 call</span>
+              <span class="cl-time">41 分</span>
+            </a></li>
+            <li class="cu-lesson"><a href="#">
+              <span class="cl-no">06</span>
+              <span class="cl-title">调用约定：参数到底在哪个寄存器</span>
+              <span class="cl-time">39 分</span>
+            </a></li>
+          </ol>
+        </details>
+
+        <details class="cu-unit" id="u4">
+          <summary class="cu-head">
+            <span class="cu-no">04</span>
+            <span class="cu-wrap">
+              <span class="cu-title">交叉引用与结构体</span>
+              <span class="cu-sub">一堆 mov 其实是一个 struct</span>
+            </span>
+            <span class="cu-state">没开始</span>
+            <span class="cu-bar"><i style="--p:0%"></i></span>
+          </summary>
+          <ol class="cu-lessons">
+            <li class="cu-lesson"><a href="#">
+              <span class="cl-no">07</span>
+              <span class="cl-title">把一堆 mov 读成一个 struct</span>
+              <span class="cl-time">34 分</span>
+            </a></li>
+            <li class="cu-lesson"><a href="#">
+              <span class="cl-no">08</span>
+              <span class="cl-title">xref 表是怎么帮你省两小时的</span>
+              <span class="cl-time">36 分</span>
+            </a></li>
+          </ol>
+        </details>
+
+        <details class="cu-unit" id="u5">
+          <summary class="cu-head">
+            <span class="cu-no">05</span>
+            <span class="cu-wrap">
+              <span class="cu-title">绕过校验</span>
+              <span class="cu-sub">找那个 jne —— 这一个字节的代价</span>
+            </span>
+            <span class="cu-state">没开始</span>
+            <span class="cu-bar"><i style="--p:0%"></i></span>
+          </summary>
+          <ol class="cu-lessons">
+            <li class="cu-lesson"><a href="#">
+              <span class="cl-no">09</span>
+              <span class="cl-title">找那个 jne</span>
+              <span class="cl-time">31 分</span>
+            </a></li>
+            <li class="cu-lesson"><a href="#">
+              <span class="cl-no">10</span>
+              <span class="cl-title">改一个字节，还是改一条逻辑</span>
+              <span class="cl-time">34 分</span>
+            </a></li>
+          </ol>
+        </details>
+
+        <details class="cu-unit" id="u6">
+          <summary class="cu-head">
+            <span class="cu-no">06</span>
+            <span class="cu-wrap">
+              <span class="cu-title">把它写下来</span>
+              <span class="cu-sub">写完才算看懂，讲一遍才算写完</span>
+            </span>
+            <span class="cu-state">没开始</span>
+            <span class="cu-bar"><i style="--p:0%"></i></span>
+          </summary>
+          <ol class="cu-lessons">
+            <li class="cu-lesson"><a href="#">
+              <span class="cl-no">11</span>
+              <span class="cl-title">笔记该记什么，不该记什么</span>
+              <span class="cl-time">26 分</span>
+            </a></li>
+            <li class="cu-lesson"><a href="#">
+              <span class="cl-no">12</span>
+              <span class="cl-title">复现一遍：从零到跑通</span>
+              <span class="cl-time">32 分</span>
+            </a></li>
+          </ol>
+        </details>
+      </section>
+
+      <footer class="kb-foot">
+        <p>这门课没有配套的源码包。要练手就自己找一个 crackme —— 别人练过的那些，答案已经在网上了。</p>
+        <a href="library.html" class="kb-back">回知识库 ↑</a>
+      </footer>
+
+    </div>
+  </main>
+</div>
+
+<div class="crosshair" id="crosshair" aria-hidden="true"><i></i><i></i><span id="coords">0,0</span></div>
+
+<script src="assets/js/veil.js"></script>
+<script src="assets/js/course.js"></script>
+</body>
+</html>

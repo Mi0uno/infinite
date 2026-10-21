@@ -80,20 +80,24 @@
     })();
   }
 
-  /* ---------- 筛选 / 搜索 ---------- */
+  /* ---------- 筛选 / 搜索 / 分页 ---------- */
 
-  var groupsEl = document.getElementById('groups');
+  var gridEl = document.getElementById('grid');
   var kindList = document.getElementById('kindList');
   var stateList = document.getElementById('stateList');
   var qEl = document.getElementById('q');
   var crumb = document.getElementById('crumb');
+  var countEl = document.getElementById('count');
+  var pagerEl = document.getElementById('pager');
   var emptyEl = document.getElementById('empty');
   var emptyQ = document.getElementById('emptyq');
   var resetEl = document.getElementById('reset');
 
-  if (groupsEl && kindList && stateList) {
+  if (gridEl && kindList && stateList) {
+    var PER = 6;
+
     var items = Array.prototype.map.call(
-      groupsEl.querySelectorAll('.kb-item'),
+      gridEl.querySelectorAll('.kc-item'),
       function (el) {
         return {
           el: el,
@@ -104,16 +108,10 @@
       }
     );
 
-    var groups = Array.prototype.map.call(
-      groupsEl.querySelectorAll('.kb-group'),
-      function (el) {
-        return { el: el, key: el.getAttribute('data-group') || '' };
-      }
-    );
-
     var kind = '全部';
     var state = '全部';
     var kw = '';
+    var page = 1;
 
     var wordOf = function (list, val) {
       var input = list.querySelector('input[value="' + val + '"]');
@@ -122,29 +120,73 @@
       return span ? span.textContent.trim() : '全部';
     };
 
-    var apply = function () {
-      var q = kw.trim();
-      var seen = {};
-      var shown = 0;
+    var mk = function (tag, cls, text) {
+      var e = document.createElement(tag);
+      if (cls) e.className = cls;
+      if (text != null) e.textContent = text;
+      return e;
+    };
 
-      items.forEach(function (it) {
-        var on = (kind === '全部' || it.kind === kind) &&
-                 (state === '全部' || it.state === state) &&
-                 (!q || it.text.indexOf(q) > -1);
-        it.el.hidden = !on;
-        if (on) {
-          shown++;
-          seen[it.kind] = (seen[it.kind] || 0) + 1;
+    var drawPager = function (pages, total, from) {
+      pagerEl.innerHTML = '';
+
+      if (!total) {
+        pagerEl.appendChild(mk('span', 'kb-pgmeta', '0 条'));
+        return;
+      }
+
+      var prev = mk('button', 'kb-pg', '← 上一页');
+      prev.type = 'button';
+      prev.setAttribute('data-go', 'prev');
+      prev.disabled = page <= 1;
+      pagerEl.appendChild(prev);
+
+      for (var i = 1; i <= pages; i++) {
+        var b = mk('button', 'kb-pg', i < 10 ? '0' + i : '' + i);
+        b.type = 'button';
+        b.setAttribute('data-go', String(i));
+        if (i === page) {
+          b.classList.add('is-cur');
+          b.setAttribute('aria-current', 'page');
         }
+        pagerEl.appendChild(b);
+      }
+
+      var next = mk('button', 'kb-pg', '下一页 →');
+      next.type = 'button';
+      next.setAttribute('data-go', 'next');
+      next.disabled = page >= pages;
+      pagerEl.appendChild(next);
+
+      pagerEl.appendChild(
+        mk('span', 'kb-pgmeta', (from + 1) + '—' + Math.min(from + PER, total) +
+           ' / ' + total + ' 条 · ' + page + '/' + pages + ' 页')
+      );
+    };
+
+    var render = function (scroll) {
+      var q = kw.trim();
+      var hits = items.filter(function (it) {
+        return (kind === '全部' || it.kind === kind) &&
+               (state === '全部' || it.state === state) &&
+               (!q || it.text.indexOf(q) > -1);
       });
 
-      /* 组里一条都不剩就整组收起来，别留个空标题 */
-      groups.forEach(function (g) {
-        g.el.hidden = !seen[g.key];
-      });
+      var pages = Math.max(1, Math.ceil(hits.length / PER));
+      if (page > pages) page = pages;
 
-      if (emptyEl) emptyEl.hidden = shown > 0;
+      var from = (page - 1) * PER;
 
+      items.forEach(function (it) { it.el.hidden = true; });
+      hits.slice(from, from + PER).forEach(function (it) { it.el.hidden = false; });
+
+      if (countEl) {
+        countEl.textContent = hits.length === items.length
+          ? items.length + ' 条'
+          : hits.length + ' / ' + items.length + ' 条';
+      }
+
+      if (emptyEl) emptyEl.hidden = hits.length > 0;
       if (emptyQ) emptyQ.textContent = q;
 
       if (crumb) {
@@ -156,19 +198,39 @@
         crumb.textContent = label;
       }
 
+      drawPager(pages, hits.length, from);
+
+      /* 换页时回上边，不然翻完还停在半截 */
+      if (scroll) {
+        var top = gridEl.getBoundingClientRect().top + window.scrollY - 96;
+        window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+      }
     };
 
-    /* 高亮由 :checked 管，脚本只读选中值 */
     kindList.addEventListener('change', function (e) {
-      if (!e.target.name || e.target.name !== 'kind') return;
+      if (e.target.name !== 'kind') return;
       kind = e.target.value;
-      apply();
+      page = 1;
+      render(false);
     });
 
     stateList.addEventListener('change', function (e) {
-      if (!e.target.name || e.target.name !== 'state') return;
+      if (e.target.name !== 'state') return;
       state = e.target.value;
-      apply();
+      page = 1;
+      render(false);
+    });
+
+    pagerEl.addEventListener('click', function (e) {
+      var btn = e.target.closest ? e.target.closest('button') : null;
+      if (!btn || btn.disabled) return;
+      var go = btn.getAttribute('data-go');
+
+      if (go === 'prev') page = Math.max(1, page - 1);
+      else if (go === 'next') page = page + 1;
+      else page = parseInt(go, 10) || 1;
+
+      render(true);
     });
 
     var timer = null;
@@ -177,7 +239,8 @@
         clearTimeout(timer);
         timer = setTimeout(function () {
           kw = qEl.value.toLowerCase();
-          apply();
+          page = 1;
+          render(false);
         }, 130);
       });
     }
@@ -188,11 +251,12 @@
         kw = '';
         kind = '全部';
         state = '全部';
+        page = 1;
         var ka = kindList.querySelector('input[value="全部"]');
         var sa = stateList.querySelector('input[value="全部"]');
         if (ka) ka.checked = true;
         if (sa) sa.checked = true;
-        apply();
+        render(false);
       });
     }
 
@@ -205,11 +269,12 @@
       if (e.key === 'Escape' && document.activeElement === qEl) {
         qEl.value = '';
         kw = '';
-        apply();
+        page = 1;
+        render(false);
         qEl.blur();
       }
     });
 
-    apply();
+    render(false);
   }
 })();

@@ -1,0 +1,517 @@
+/* ============================================================
+   INFINITE — 课程详情
+   左侧这门课自己的目录，右侧封面 + 单元 + 课时。
+   单元用原生 <details>，没有脚本也能展开。
+   ============================================================ */
+
+/* ---------- 左栏：单元目录 ---------- */
+
+.cu-nav {
+  margin: 0;
+  padding: 6px 0 0;
+  list-style: none;
+}
+
+.cu-nav a {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  padding: 6px 8px 7px;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--ink-2);
+  transition: background-color .18s var(--ease), color .18s var(--ease);
+}
+
+.cu-nav a b {
+  flex: 0 0 auto;
+  font-family: var(--f-mono);
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: .08em;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.cu-nav a:hover {
+  background: var(--paper-deep);
+  color: var(--ink);
+}
+
+.cu-nav a.is-done b {
+  color: var(--ink-2);
+}
+
+.cu-nav a.is-now {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.cu-nav a.is-now b {
+  color: var(--paper);
+  opacity: .6;
+}
+
+/* 这四个数在左栏比正文重要，单独排 */
+.cu-facts {
+  margin: 0;
+  padding: 4px 0 0;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.cu-facts > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 3px 8px 4px;
+}
+
+.cu-facts dt {
+  color: var(--ink-3);
+  letter-spacing: .06em;
+}
+
+.cu-facts dd {
+  margin: 0;
+  color: var(--ink);
+}
+
+.kb-back {
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  transition: color .18s var(--ease);
+}
+
+.kb-back:hover {
+  color: var(--ink);
+}
+
+/* ---------- 课程头 ---------- */
+
+.cu-hero {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--gutter);
+  margin: clamp(22px, 2.6vw, 36px) 0 0;
+}
+
+.cu-cover {
+  position: relative;
+  grid-column: 1 / span 5;
+  align-self: start;
+  aspect-ratio: 100 / 44;
+  padding: 14px 16px;
+  background: var(--paper-deep);
+  overflow: hidden;
+}
+
+.cu-cover .kc-fig {
+  color: var(--ink-3);
+}
+
+.cu-cover .kc-no {
+  font-size: clamp(40px, 5vw, 68px);
+}
+
+.cu-info {
+  grid-column: 6 / -1;
+  min-width: 0;
+}
+
+.cu-kicker {
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: 9.5px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.cu-h1 {
+  margin: 10px 0 0;
+  font-size: clamp(30px, 3.9vw, 54px);
+  font-weight: 900;
+  line-height: 1.06;
+  letter-spacing: -.04em;
+}
+
+.cu-dek {
+  margin: 12px 0 0;
+  max-width: 26em;
+  font-size: clamp(14px, 1.16vw, 16px);
+  line-height: 1.72;
+  color: var(--ink-2);
+}
+
+.cu-cta {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-top: clamp(16px, 1.8vw, 24px);
+  padding: 9px 14px 10px;
+  border: 1px solid var(--ink);
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  letter-spacing: .1em;
+  color: var(--ink);
+  transition: background-color .18s var(--ease), color .18s var(--ease);
+}
+
+.cu-cta i {
+  font-style: normal;
+  transition: transform .24s var(--ease);
+}
+
+.cu-cta:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.cu-cta:hover i {
+  transform: translateX(4px);
+}
+
+/* ---------- 单元 ---------- */
+
+.cu-list {
+  margin-top: clamp(30px, 3.6vw, 54px);
+}
+
+.cu-line {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--gutter);
+  margin: 0 0 4px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--ink);
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: .12em;
+  color: var(--ink-3);
+}
+
+.cu-line b {
+  font-weight: 400;
+  color: var(--ink-2);
+}
+
+.cu-unit {
+  border-bottom: 1px solid var(--line);
+}
+
+.cu-head {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) 62px 74px;
+  align-items: baseline;
+  gap: var(--gutter);
+  position: relative;
+  padding: 16px 22px 15px 2px;
+  cursor: pointer;
+  list-style: none;
+  transition: background-color .18s var(--ease);
+}
+
+.cu-head::-webkit-details-marker {
+  display: none;
+}
+
+/* 开合指示：不加这个，收起来的单元看着像死行。
+   绝对定位贴右沿，别让它跟 grid 列抢位。 */
+.cu-head::after {
+  content: "\2212";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  margin-top: -.55em;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  line-height: 1;
+  color: var(--ink-3);
+}
+
+.cu-unit:not([open]) .cu-head::after {
+  content: "+";
+  color: var(--ink-2);
+}
+
+.cu-head:hover {
+  background: var(--paper-deep);
+}
+
+.cu-no {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: .08em;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.cu-wrap {
+  min-width: 0;
+}
+
+.cu-title {
+  display: block;
+  font-size: clamp(15px, 1.24vw, 18px);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -.012em;
+}
+
+.cu-sub {
+  display: block;
+  margin-top: 3px;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--ink-3);
+}
+
+.cu-state {
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: .08em;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+
+.cu-state.is-done {
+  color: var(--ink-2);
+}
+
+.cu-state.is-now {
+  color: var(--ink);
+}
+
+.cu-bar {
+  display: block;
+  align-self: center;
+  height: 2px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.cu-bar i {
+  display: block;
+  height: 100%;
+  width: var(--p, 0%);
+  background: var(--ink-2);
+}
+
+/* 单元里的课时 */
+.cu-lessons {
+  margin: 0 0 6px;
+  padding: 0 2px 0 0;
+  list-style: none;
+}
+
+.cu-lesson a {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) 58px;
+  align-items: baseline;
+  gap: var(--gutter);
+  padding: 9px 2px 10px 2px;
+  border-top: 1px dashed var(--line);
+  transition: background-color .16s var(--ease), color .16s var(--ease);
+}
+
+.cu-lesson a:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.cu-lesson a:hover .cl-no,
+.cu-lesson a:hover .cl-time {
+  color: var(--paper);
+}
+
+.cl-no {
+  font-family: var(--f-mono);
+  font-size: 9.5px;
+  letter-spacing: .08em;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.cl-title {
+  min-width: 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cl-time {
+  margin-left: auto;
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: .06em;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+/* 看过的压下去；正在看的抬起来 */
+.cu-lesson.is-done .cl-title {
+  color: var(--ink-3);
+}
+
+.cu-lesson.is-now .cl-title {
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.cu-lesson.is-now .cl-no {
+  color: var(--ink);
+}
+
+.cu-lesson.is-now a {
+  position: relative;
+}
+
+.cu-lesson.is-now a::before {
+  content: "";
+  position: absolute;
+  left: -9px;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  margin-top: -3px;
+  background: var(--ink);
+}
+
+/* ---------- 微残缺 ---------- */
+
+.cu-unit:nth-child(3) .cu-bar {
+  /* 第二条单元的进度线细一半 */
+  height: 1px;
+}
+
+.cu-unit#u2 .cu-head {
+  border-bottom-width: .5px;
+}
+
+.cu-unit#u4 .cu-title {
+  letter-spacing: -.026em;
+}
+
+.cu-unit#u5 .cu-lesson a {
+  transform: translateX(3px);
+}
+
+.cu-unit#u6 .cu-lesson:first-child .cl-time {
+  transform: translateY(1px);
+}
+
+.cu-cover .kc-no {
+  bottom: -3px;
+}
+
+/* ---------- 断点 ---------- */
+
+@media (max-width: 1100px) {
+  .cu-hero {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .cu-cover {
+    grid-column: 1 / -1;
+    aspect-ratio: 100 / 34;
+  }
+
+  .cu-info {
+    grid-column: 1 / -1;
+  }
+
+  .cu-head {
+    grid-template-columns: 30px minmax(0, 1fr) 56px;
+  }
+
+  .cu-bar {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .cu-nav {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+
+  .cu-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .cu-nav li {
+    flex: 0 0 auto;
+  }
+
+  .cu-nav a {
+    padding: 5px 10px 6px;
+    border: 1px solid var(--line);
+    white-space: nowrap;
+  }
+
+  .cu-facts {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .cu-facts::-webkit-scrollbar {
+    display: none;
+  }
+
+  .cu-facts > div {
+    flex: 0 0 auto;
+    padding: 0;
+    gap: 6px;
+  }
+
+  .cu-hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .cu-head {
+    grid-template-columns: 26px minmax(0, 1fr) 52px;
+    gap: 12px;
+    padding: 14px 0 13px;
+  }
+
+  .cu-lesson a {
+    grid-template-columns: 26px minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .cl-time {
+    display: none;
+  }
+
+  .cu-line {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cu-nav a,
+  .cu-head,
+  .cu-cta,
+  .cu-cta i,
+  .cu-lesson a,
+  .kb-back {
+    transition: none;
+  }
+}
