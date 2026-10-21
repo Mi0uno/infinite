@@ -1,0 +1,454 @@
+/* ============================================================
+   INFINITE — 文章页
+   正文不是装在一个居中的窄栏里，是直接坐在十二列的网格上。
+   代码与表格允许向左右各出血一列 —— 正文窄，证据宽。
+   ============================================================ */
+
+/* ---------- 阅读进度 ---------- */
+
+.progress {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  z-index: 12;
+  pointer-events: none;
+  background: transparent;
+}
+.progress i {
+  display: block;
+  height: 100%;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  will-change: transform;
+}
+
+/* ---------- 文章头 ---------- */
+
+.post-head {
+  padding-top: clamp(44px, 6.2vw, 96px);
+  padding-bottom: clamp(38px, 5vw, 76px);
+}
+
+.post-kicker {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: clamp(10px, 1.4vw, 20px);
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  color: var(--ink-3);
+  text-transform: uppercase;
+  padding-bottom: clamp(18px, 2.4vw, 30px);
+  border-bottom: 1px solid var(--ink);
+}
+/* 微残缺：编号的右下角被吃掉一块 */
+.pk-num {
+  color: var(--ink);
+  letter-spacing: .14em;
+  padding: 0 2px;
+  background: linear-gradient(
+    to bottom right,
+    transparent 0 76%,
+    var(--paper) 76%
+  );
+}
+.pk-len { margin-left: auto; }
+
+.post-title {
+  margin-top: clamp(22px, 3vw, 40px);
+  font-family: var(--f-cjk);
+  font-size: clamp(38px, 6.5vw, 94px);
+  font-weight: 900;
+  line-height: 1.04;
+  letter-spacing: -.045em;
+  /* 微残缺：整个标题比版心往左多出去一点 */
+  margin-left: -.02em;
+}
+
+.post-sub {
+  margin-top: clamp(14px, 1.6vw, 22px);
+  font-family: var(--f-mono);
+  font-size: clamp(10px, .84vw, 12px);
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  /* 微残缺：英文副题没和中文标题左对齐 */
+  margin-left: clamp(2px, 1.4vw, 26px);
+}
+
+.post-dek {
+  margin-top: clamp(26px, 3.4vw, 46px);
+  max-width: 31em;
+  font-size: clamp(17px, 1.9vw, 25px);
+  font-weight: 300;
+  line-height: 1.56;
+  letter-spacing: -.012em;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+
+.post-meta {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--gutter);
+  margin-top: clamp(32px, 4vw, 58px);
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  line-height: 1.5;
+}
+.post-meta dt {
+  font-size: 9px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 2px;
+}
+.post-meta dd { color: var(--ink); }
+
+/* ---------- 正文网格 ---------- */
+
+.post-body {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--gutter);
+}
+
+/* 目录：左边两列，跟着读 */
+.post-toc {
+  grid-column: 1 / 3;
+  position: sticky;
+  top: clamp(96px, 11vw, 132px);
+  align-self: start;
+  padding-top: 6px;
+}
+.toc-k {
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+.toc-list { margin-top: 12px; font-size: 12.5px; line-height: 1.42; }
+.toc-list li + li { margin-top: 9px; }
+.toc-list a {
+  display: block;
+  color: var(--ink-3);
+  transition: color .2s var(--ease), transform .2s var(--ease);
+}
+.toc-list a span {
+  display: block;
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: .12em;
+  opacity: .7;
+  margin-bottom: 1px;
+}
+.toc-list a:hover { color: var(--ink); }
+/* 当前章节：往右挪 3px，和网格错开 */
+.toc-list a.is-cur { color: var(--ink); transform: translateX(3px); }
+.toc-list a.is-cur span { opacity: 1; }
+
+/* 正文 */
+.prose { grid-column: 4 / 10; }
+
+/* 代码与表格向左右各出血一列 —— 正文窄，证据宽。
+   一格出血 = (1 列 + 1 gap) / 正文宽，正文固定六列，所以这个比例
+   在各种宽度下都稳定在 17.2% 附近，不必跟着断点重算。 */
+.prose > .wide {
+  margin-left: -17.2%;
+  margin-right: -17.2%;
+}
+
+.prose > p {
+  font-size: clamp(16px, 1.16vw, 17.5px);
+  line-height: 1.94;
+  letter-spacing: .002em;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+.prose > p + p { margin-top: 1.18em; }
+
+.prose > p code,
+.prose > blockquote code,
+.prose td code {
+  font-family: var(--f-mono);
+  font-size: .86em;
+  letter-spacing: .01em;
+  background: rgba(15, 15, 15, .055);
+  padding: .1em .36em;
+  /* 微残缺：内联代码的底色比字高一点点 */
+  vertical-align: .02em;
+}
+
+/* 章节标题：编号小字挂在左边，与中文标题共基线 */
+.prose > h2 {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(9px, 1.1vw, 16px);
+  margin-top: clamp(42px, 5.4vw, 82px);
+  margin-bottom: clamp(15px, 1.7vw, 24px);
+  font-family: var(--f-cjk);
+  font-size: clamp(21px, 2.1vw, 31px);
+  font-weight: 800;
+  line-height: 1.24;
+  letter-spacing: -.026em;
+  scroll-margin-top: 130px;
+}
+.h-num {
+  flex: 0 0 auto;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: .12em;
+  color: var(--ink-3);
+  /* 微残缺：编号比标题高 1px */
+  transform: translateY(-2px);
+}
+
+/* ---------- 代码块 ---------- */
+
+.code {
+  margin: clamp(26px, 3.2vw, 44px) 0;
+}
+.code-cap {
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding-bottom: 8px;
+}
+.code pre {
+  background: var(--paper-deep);
+  border-left: 2px solid var(--ink);
+  padding: clamp(13px, 1.5vw, 20px) clamp(14px, 1.6vw, 22px);
+  overflow-x: auto;
+  scrollbar-width: thin;
+  /* 微残缺：右上角被裁掉一小块，像纸被撕了 */
+  clip-path: polygon(0 0, calc(100% - 13px) 0, 100% 13px, 100% 100%, 0 100%);
+}
+.code code {
+  display: block;
+  font-family: var(--f-mono);
+  font-size: clamp(11.5px, .88vw, 12.8px);
+  line-height: 1.88;
+  letter-spacing: .01em;
+  color: var(--ink);
+  white-space: pre;
+  font-variant-ligatures: none;
+}
+.code pre::-webkit-scrollbar { height: 6px; }
+.code pre::-webkit-scrollbar-thumb { background: var(--line); }
+
+/* ---------- 引用 ---------- */
+
+.pq {
+  margin: clamp(32px, 4vw, 56px) 0;
+  padding-top: clamp(16px, 1.8vw, 24px);
+  position: relative;
+}
+/* 上方一条 64px 的短横，不画竖线 */
+.pq::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 64px;
+  height: 1px;
+  background: var(--ink);
+}
+.pq p {
+  font-family: var(--f-cjk);
+  font-size: clamp(19px, 2.3vw, 32px);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.38;
+  letter-spacing: -.022em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+/* ---------- 表格 ---------- */
+
+.data { margin: clamp(28px, 3.4vw, 46px) 0; }
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: clamp(12.5px, .96vw, 14px);
+  line-height: 1.6;
+  text-align: left;
+}
+.data-table caption {
+  text-align: left;
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding-bottom: 10px;
+}
+.data-table thead th {
+  font-family: var(--f-mono);
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding: 0 12px 9px 0;
+  border-bottom: 1px solid var(--ink);
+  white-space: nowrap;
+}
+.data-table tbody th,
+.data-table tbody td {
+  padding: 11px 12px 11px 0;
+  border-bottom: 1px solid var(--line);
+  vertical-align: baseline;
+  font-weight: 400;
+}
+.data-table tbody th {
+  font-weight: 500;
+  color: var(--ink);
+}
+.data-table tbody td { color: var(--ink-2); }
+/* 微残缺：第三行的最后一格没坐到底线上 */
+.data-table tbody tr:nth-child(3) td:last-child { transform: translateY(1.5px); }
+.data figcaption {
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: .12em;
+  color: var(--ink-3);
+  padding-top: 10px;
+}
+
+/* ---------- 页边注：出栏，占右侧三列 ---------- */
+
+.mnote {
+  float: right;
+  /* 三列 + 两个 gap，相对正文六列的高度 48.4%；
+     负右边界把它推到第 10 列上，正好落在正文之外。 */
+  width: 48.4%;
+  margin-right: -51.6%;
+  margin-left: 3%;
+  margin-bottom: clamp(20px, 2.4vw, 32px);
+  padding-left: 13px;
+  /* 微残缺：竖线只有 96% 高，底下短了一截 */
+  background: linear-gradient(
+    to bottom,
+    var(--line) 0 96%,
+    transparent 96%
+  ) no-repeat left top / 1px 100%;
+}
+.mnote-k {
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 5px;
+}
+.mnote p {
+  font-size: 12.5px;
+  line-height: 1.74;
+  color: var(--ink-2);
+}
+
+/* ---------- 文末 ---------- */
+
+.post-foot {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gutter);
+  margin-top: clamp(58px, 8vw, 120px);
+  padding-top: clamp(20px, 2.2vw, 32px);
+  border-top: 2px solid var(--ink);
+}
+.pf-item { display: block; }
+.pf-k {
+  display: block;
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 8px;
+}
+.pf-t {
+  display: block;
+  font-size: clamp(16px, 1.5vw, 21px);
+  font-weight: 500;
+  letter-spacing: -.018em;
+  line-height: 1.35;
+  transition: transform .3s var(--ease-out);
+}
+.pf-d {
+  display: block;
+  margin-top: 7px;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: .06em;
+  color: var(--ink-3);
+}
+.pf-item:hover .pf-t { transform: translateX(8px); }
+.pf-back {
+  text-align: right;
+  /* 微残缺：右侧那一块的底线低 1px */
+  transform: translateY(1px);
+}
+.pf-back:hover .pf-t { transform: translateX(-8px); }
+
+/* ---------- 窄屏 ---------- */
+
+@media (max-width: 900px) {
+  /* 目录挪到正文上方，不再跟着读 */
+  .post-toc {
+    grid-column: 1 / -1;
+    position: static;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 18px;
+    padding: 0 0 22px;
+  }
+  .toc-k { border: 0; padding: 0; }
+  .toc-list { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 0; }
+  .toc-list li + li { margin-top: 0; }
+  .toc-list a span { display: inline; margin-right: 5px; }
+  .prose { grid-column: 1 / -1; }
+  /* 满宽时不再出血，否则会顶出 wrap */
+  .prose > .wide { margin-left: 0; margin-right: 0; }
+  /* 边注回到正文里，不再出栏 */
+  .mnote {
+    float: none;
+    width: auto;
+    margin: clamp(22px, 3vw, 32px) 0;
+  }
+  .post-title { margin-left: 0; }
+  .post-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 16px; }
+}
+
+@media (max-width: 640px) {
+  .br-w { display: none; }
+  .post-title { font-size: clamp(30px, 9.6vw, 44px); letter-spacing: -.035em; }
+  .post-dek { font-size: 16px; }
+  .prose > p { font-size: 16px; line-height: 1.9; }
+  .prose > h2 { font-size: 20px; }
+  .code pre { padding: 12px 14px; }
+  .code code { font-size: 11px; }
+  /* 表格横向滚动，不压缩字 */
+  .data { overflow-x: auto; }
+  .data-table { min-width: 480px; }
+  .post-foot { grid-template-columns: minmax(0, 1fr); row-gap: 26px; }
+  .pf-back { text-align: left; transform: none; }
+  .pf-back:hover .pf-t { transform: translateX(8px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toc-list a,
+  .pf-t { transition: none; }
+  .toc-list a.is-cur { transform: none; }
+}

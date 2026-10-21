@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>项目 — INFINITE</title>
+<meta name="description" content="做过的东西。有的还在跑，有的半年没打开，有的写完之后我自己把它关了。">
+<meta name="theme-color" content="#ECEBE7">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230F0F0F'/%3E%3Crect x='6' y='12' width='20' height='8' fill='%23ECEBE7'/%3E%3C/svg%3E">
+<link rel="preload" href="assets/fonts/nssc-900.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/projects.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body class="is-projects">
+
+
+<div class="veil" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="scan" aria-hidden="true"></div>
+<div class="overlay" id="overlay" aria-hidden="true"></div>
+<div class="crop" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="mh-bar">
+      <a class="mh-brand" href="index.html">INFINITE<i></i></a>
+      <span class="mh-sub">项目 —— 做过的东西，含做废的</span>
+      <span class="mh-clock"><b id="issue">PROJECTS</b> / <span id="clock">--:--:--</span> CST</span>
+    </div>
+    <nav class="mh-nav" aria-label="主导航">
+      <a href="index.html#index">索引</a>
+      <a href="archive.html">记录</a>
+      <a href="projects.html" class="is-active" aria-current="page">项目</a>
+      <a href="about.html">关于</a>
+      <button type="button" id="gridBtn" class="mh-grid" aria-pressed="false">网格 <kbd>G</kbd></button>
+    </nav>
+  </div>
+</header>
+
+<main class="pj wrap" id="top">
+
+  <header class="pj-top">
+    <p class="pj-kicker">Projects / 2019 — 2025</p>
+    <h1 class="pj-h1">项目</h1>
+    <p class="pj-dek">做过的东西。有的还在跑，有的半年没打开，有的写完之后我自己把它关了。</p>
+
+    <dl class="pj-stat">
+      <div><dt>项目</dt><dd>6</dd></div>
+      <div><dt>还在跑</dt><dd>4</dd></div>
+      <div><dt>半死</dt><dd>1</dd></div>
+      <div><dt>停了</dt><dd>1</dd></div>
+      <div><dt>代码</dt><dd>5,740 行</dd></div>
+    </dl>
+  </header>
+
+  <div class="pj-toolbar">
+    <div class="pj-trow">
+      <nav class="pj-filter pj-filter--s" id="sfilter" aria-label="按状态筛选"></nav>
+      <label class="pj-search">
+        <span class="pj-search-l">搜索</span>
+        <input type="search" id="pq" placeholder="名称 / 说明 / 栈" autocomplete="off" spellcheck="false">
+        <kbd class="pj-search-k">/</kbd>
+      </label>
+    </div>
+    <div class="pj-trow">
+      <nav class="pj-filter" id="tfilter" aria-label="按技术栈筛选"></nav>
+    </div>
+  </div>
+
+  <ol class="pj-list" id="list">
+
+    <li class="item" data-state="live" data-stack="c">
+      <div class="it-head">
+        <span class="it-num">001</span>
+        <h2 class="it-name">hx-dump</h2>
+        <span class="it-state"><i></i>还在跑</span>
+      </div>
+      <div class="it-body">
+        <div class="it-fig" aria-hidden="true">
+          <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1">
+            <path d="M8 20V100M24 20V100M40 20V100M56 20V100M72 20V100M88 20V100M104 20V100"/>
+            <path d="M8 20H104M8 40H104M8 60H104M8 80H104M8 100H104"/>
+            <rect x="24" y="40" width="16" height="20" fill="currentColor" stroke="none"/>
+            <rect x="56" y="60" width="16" height="40" fill="currentColor" stroke="none"/>
+            <rect x="88" y="20" width="16" height="20" fill="currentColor" stroke="none"/>
+          </svg>
+        </div>
+        <div class="it-txt">
+          <p class="it-lead">把任何文件摊成一页能读的字节。</p>
+          <p class="it-desc">为一块八个引脚的老设备写的。默认 8 字节一组、组间留空、校验和标在行尾——比 xxd 慢百分之三，但看得懂。整个工具只有一个文件，编译出来 41KB。</p>
+        </div>
+        <dl class="it-meta">
+          <div><dt>栈</dt><dd>C · ncurses</dd></div>
+          <div><dt>起于</dt><dd>2023.06</dd></div>
+          <div><dt>规模</dt><dd>2,180 行</dd></div>
+          <div><dt>状态</dt><dd>每天在用</dd></div>
+        </dl>
+      </div>
+    </li>
+
+    <li class="item" data-state="live" data-stack="python">
+      <div class="it-head">
+        <span class="it-num">002</span>
+        <h2 class="it-name">wirelog</h2>
+        <span class="it-state"><i></i>还在跑</span>
+      </div>
+      <div class="it-body">
+        <div class="it-fig" aria-hidden="true">
+          <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1">
+            <path d="M8 60H26L34 32L44 92L54 44L64 76L74 60H112"/>
+            <path d="M26 10V110M74 10V110" stroke-dasharray="2 4"/>
+          </svg>
+        </div>
+        <div class="it-txt">
+          <p class="it-lead">把 4GB 的抓包变成两百行能读的东西。</p>
+          <p class="it-desc">按会话归并、丢掉重传、按时间窗口折叠。默认输出是给人看的，不是给机器解析的——要机器读的部分单独给一个 <code>--json</code>。它救过我一次，也骗过我一次，原因写在 004 里。</p>
+        </div>
+        <dl class="it-meta">
+          <div><dt>栈</dt><dd>Python · dpkt</dd></div>
+          <div><dt>起于</dt><dd>2024.02</dd></div>
+          <div><dt>规模</dt><dd>1,460 行</dd></div>
+          <div><dt>状态</dt><dd>每周在用</dd></div>
+        </dl>
+      </div>
+    </li>
+
+    <li class="item" data-state="live" data-stack="js">
+      <div class="it-head">
+        <span class="it-num">003</span>
+        <h2 class="it-name">wear</h2>
+        <span class="it-state"><i></i>还在跑</span>
+      </div>
+      <div class="it-body">
+        <div class="it-fig" aria-hidden="true">
+          <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1">
+            <path d="M12 12H108M12 36H108M12 60H108M12 84H108M12 108H108"/>
+            <path d="M12 12V108M36 12V108M60 12V108M84 12V108M108 12V108"/>
+            <rect class="cut" x="11.5" y="35.5" width="25" height="25"/>
+            <rect class="cut" x="59.5" y="11.5" width="25" height="25"/>
+            <rect class="cut" x="83.5" y="83.5" width="25" height="25"/>
+          </svg>
+        </div>
+        <div class="it-txt">
+          <p class="it-lead">给文字注入真实的损耗。</p>
+          <p class="it-desc">三种独立的手法：形近误识、标点掉落、零宽字符。它不是随机噪声——每一次替换都对应一种真实发生过的事故。这个站上所有错位都是它跑出来的，包括你现在看到的这一行。</p>
+        </div>
+        <dl class="it-meta">
+          <div><dt>栈</dt><dd>JS · 无依赖</dd></div>
+          <div><dt>起于</dt><dd>2024.11</dd></div>
+          <div><dt>规模</dt><dd>180 行</dd></div>
+          <div><dt>状态</dt><dd>本站在用</dd></div>
+        </dl>
+      </div>
+    </li>
+
+    <li class="item" data-state="half" data-stack="shell">
+      <div class="it-head">
+        <span class="it-num">004</span>
+        <h2 class="it-name">coldboot</h2>
+        <span class="it-state is-half"><i></i>半死</span>
+      </div>
+      <div class="it-body">
+        <div class="it-fig" aria-hidden="true">
+          <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1">
+            <rect x="20" y="20" width="80" height="80"/>
+            <rect x="34" y="34" width="52" height="52"/>
+            <rect x="48" y="48" width="24" height="24" fill="currentColor" stroke="none"/>
+            <path d="M10 60H20M100 60H110"/>
+          </svg>
+        </div>
+        <div class="it-txt">
+          <p class="it-lead">给那台 2013 年的 ThinkPad 写的开机自检。</p>
+          <p class="it-desc">查电池健康、风扇转速、内核 panic 记录，跑完在终端画一张 ASCII 的机器肖像——哪个部件不对，肖像上那一块就是空的。半年没动过了，因为机器一直没坏。</p>
+        </div>
+        <dl class="it-meta">
+          <div><dt>栈</dt><dd>Shell · systemd</dd></div>
+          <div><dt>起于</dt><dd>2022.09</dd></div>
+          <div><dt>规模</dt><dd>680 行</dd></div>
+          <div><dt>状态</dt><dd>半年没开</dd></div>
+        </dl>
+      </div>
+    </li>
+
+    <li class="item" data-state="live" data-stack="go">
+      <div class="it-head">
+        <span class="it-num">005</span>
+        <h2 class="it-name">seal</h2>
+        <span class="it-state"><i></i>还在跑</span>
+      </div>
+      <div class="it-body">
+        <div class="it-fig" aria-hidden="true">
+          <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1">
+            <circle cx="60" cy="60" r="44"/>
+            <rect x="38" y="54" width="44" height="34"/>
+            <path d="M48 54V42a12 12 0 0 1 24 0v12"/>
+            <circle cx="60" cy="70" r="3" fill="currentColor" stroke="none"/>
+          </svg>
+        </div>
+        <div class="it-txt">
+          <p class="it-lead">不联网也能签一个文件。</p>
+          <p class="it-desc">Ed25519 加一个 2KB 的密钥环，全部在本地跑完。刻意不做密钥轮换——轮换需要一个在线的、能被信任的第三方，那就不是离线工具了。这个决定让我在去年丢过一次密钥。</p>
+        </div>
+        <dl class="it-meta">
+          <div><dt>栈</dt><dd>Go · ed25519</dd></div>
+          <div><dt>起于</dt><dd>2023.11</dd></div>
+          <div><dt>规模</dt><dd>1,240 行</dd></div>
+          <div><dt>状态</dt><dd>每月在用</dd></div>
+        </dl>
+      </div>
+    </li>
+
+    <li class="item" data-state="off" data-stack="shell">
+      <div class="it-head">
+        <span class="it-num">006</span>
+        <h2 class="it-name">deadman</h2>
+        <span class="it-state is-off"><i></i>停了</span>
+      </div>
+      <div class="it-body">
+        <div class="it-fig" aria-hidden="true">
+          <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1">
+            <path d="M12 60H96"/>
+            <rect x="96" y="56" width="8" height="8" fill="currentColor" stroke="none"/>
+            <path d="M12 40V80"/>
+            <path d="M30 68V84M44 62V90M58 70V82" stroke-dasharray="2 3"/>
+          </svg>
+        </div>
+        <div class="it-txt">
+          <p class="it-lead">如果我没按时出现，它会替我发一封信。</p>
+          <p class="it-desc">本地 cron 加三个 GPG 公钥。没有服务器，没有云，机器一关就永远不发。写完之后我跑了一次，确认它真的会发，然后把它关了——我发现自己并不想让一封信替我说话。</p>
+        </div>
+        <dl class="it-meta">
+          <div><dt>栈</dt><dd>Shell · GPG</dd></div>
+          <div><dt>起于</dt><dd>2021.04</dd></div>
+          <div><dt>规模</dt><dd>没统计</dd></div>
+          <div><dt>状态</dt><dd>已停用</dd></div>
+        </dl>
+      </div>
+    </li>
+
+  </ol>
+
+  <nav class="pj-pager" id="pager" aria-label="分页"></nav>
+
+  <footer class="pj-foot">
+    <span>没有一个是开源的。不是不想，是这里面没有一行代码值得别人花时间读。</span>
+    <span><a href="index.html#index">回到索引 ↑</a></span>
+  </footer>
+
+</main>
+
+<div class="crosshair" id="crosshair" aria-hidden="true"><i></i><i></i><span id="coords">0,0</span></div>
+
+<script src="assets/js/veil.js"></script>
+<script src="assets/js/projects.js"></script>
+</body>
+</html>

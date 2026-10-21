@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>记录 — INFINITE</title>
+<meta name="description" content="全部条目，包括没写完的、封存的、和只有一个编号的。2024 年 11 月起。">
+<meta name="theme-color" content="#ECEBE7">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230F0F0F'/%3E%3Crect x='6' y='12' width='20' height='8' fill='%23ECEBE7'/%3E%3C/svg%3E">
+<link rel="preload" href="assets/fonts/nssc-900.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/archive.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body class="is-archive">
+
+
+<div class="veil" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="scan" aria-hidden="true"></div>
+<div class="overlay" id="overlay" aria-hidden="true"></div>
+<div class="crop" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="mh-bar">
+      <a class="mh-brand" href="index.html">INFINITE<i></i></a>
+      <span class="mh-sub">记录 —— 全部条目，含未完成的</span>
+      <span class="mh-clock"><b id="issue">ARCHIVE</b> / <span id="clock">--:--:--</span> CST</span>
+    </div>
+    <nav class="mh-nav" aria-label="主导航">
+      <a href="index.html#index">索引</a>
+      <a href="archive.html" class="is-active" aria-current="page">记录</a>
+      <a href="projects.html">项目</a>
+      <a href="about.html">关于</a>
+      <button type="button" id="gridBtn" class="mh-grid" aria-pressed="false">网格 <kbd>G</kbd></button>
+    </nav>
+  </div>
+</header>
+
+<main class="ar wrap" id="top">
+
+  <header class="ar-head">
+    <p class="ar-kicker">Archive / 2024.11 — 2025.03</p>
+    <h1 class="ar-h1">记录</h1>
+    <p class="ar-dek">全部条目，包括没写完的、封存的、和只有一个编号的。归档不做筛选是有意的——空的地方也算内容。</p>
+
+    <dl class="ar-stat">
+      <div><dt>编号</dt><dd>001 — 020</dd></div>
+      <div><dt>有正文</dt><dd>16</dd></div>
+      <div><dt>空着</dt><dd>3</dd></div>
+      <div><dt>封存</dt><dd>1</dd></div>
+      <div><dt>总计字数</dt><dd>49,700</dd></div>
+    </dl>
+  </header>
+
+  <div class="ar-toolbar">
+    <div class="ar-trow">
+      <nav class="ar-filter ar-filter--y" id="yfilter" aria-label="按年份筛选"></nav>
+      <div class="ar-view" role="group" aria-label="显示模式">
+        <button type="button" class="is-on" data-view="page" aria-pressed="true">分页</button>
+        <button type="button" data-view="flow" aria-pressed="false">全览</button>
+      </div>
+    </div>
+
+    <div class="ar-trow">
+      <nav class="ar-filter" id="filter" aria-label="按栏目筛选">
+        <button type="button" class="is-on" data-tag="全部" aria-pressed="true">全部</button>
+        <button type="button" data-tag="逆向" aria-pressed="false">逆向</button>
+        <button type="button" data-tag="攻防" aria-pressed="false">攻防</button>
+        <button type="button" data-tag="开发" aria-pressed="false">开发</button>
+        <button type="button" data-tag="运维" aria-pressed="false">运维</button>
+        <button type="button" data-tag="随笔" aria-pressed="false">随笔</button>
+        <button type="button" data-tag="日常" aria-pressed="false">日常</button>
+        <button type="button" data-tag="自述" aria-pressed="false">自述</button>
+      </nav>
+
+      <div class="ar-search">
+        <label class="ar-search-l" for="q">搜索</label>
+        <input type="search" id="q" placeholder="标题 / 摘要 / 编号 / 日期" autocomplete="off" spellcheck="false" enterkeyhint="search">
+        <kbd class="ar-search-k" aria-hidden="true">/</kbd>
+      </div>
+    </div>
+  </div>
+
+  <div class="ar-list" id="list">
+
+  <section class="ar-year">
+    <h2 class="ar-yhead">2025 <span>7 条</span></h2>
+    <ol class="ar-rows">
+
+      <li class="ar-row" data-tag="运维" data-state="已发">
+        <time class="ar-date" datetime="2025-03-12">2025.03.12</time>
+        <span class="ar-num">001</span>
+        <a class="ar-title" href="post.html">生产环境上的 SSH 我关了<em class="ar-abs">关掉 22 端口之后，代价来得很慢</em></a>
+        <span class="ar-tag">运维</span>
+        <span class="ar-words">3,100</span>
+        <span class="ar-rev">2</span>
+        <span class="ar-state">已发</span>
+      </li>
+
+      <li class="ar-row" data-tag="逆向" data-state="已发">
+        <time class="ar-date" datetime="2025-02-28">2025.02.28</time>
+        <span class="ar-num">002</span>
+        <span class="ar-title">一个 CRC 骗了我三个小时<em class="ar-abs">校验和通过了，数据是错的</em></span>
+        <span class="ar-tag">逆向</span>
+        <span class="ar-words">4,200</span>
+        <span class="ar-rev">4</span>
+        <span class="ar-state">已发</span>
+      </li>
+
+      <li class="ar-row" data-tag="—" data-state="封存">
+        <time class="ar-date" datetime="2025-02-20">2025.02.20</time>
+        <span class="ar-num">003</span>
+        <span class="ar-title"><span class="redact" aria-label="已封存"><em class="ar-abs">—</em></span></span>
+        <span class="ar-tag">—</span>
+        <span class="ar-words">—</span>
+        <span class="ar-rev">—</span>
+        <span class="ar-state">封存</span>
+      </li>
+
+      <li class="ar-row" data-tag="攻防" data-state="已发">
+        <time class="ar-date" datetime="2025-02-09">2025.02.09</time>
+        <span class="ar-num">004</span>
+        <span class="ar-title">抓包不会说谎，人会<em class="ar-abs">我以为是别人在攻击</em></span>
+        <span class="ar-tag">攻防</span>
+        <span class="ar-words">3,900</span>
+        <span class="ar-rev">3</span>
+        <span class="ar-state">已发</span>
+      </li>
+
+      <li class="ar-row" data-tag="逆向" data-state="已发">
+        <time class="ar-date" datetime="2025-01-22">2025.01.22</time>
+        <span class="ar-num">005</span>
+        <span class="ar-title">从一段十六进制还原一台设备<em class="ar-abs">一块板子，八个引脚，三天</em></span>
+        <span class="ar-tag">逆向</span>
+        <span class="ar-words">4,600</span>
+        <span class="ar-rev">6</span>
+        <span class="ar-state">已发</span>
+      </li>
+
+      <li class="ar-row" data-tag="—" data-state="空">
+        <time class="ar-date" datetime="2025-01-12">2025.01.12</time>
+        <span class="ar-num">006</span>
+        <span class="ar-title">写到第二段发现前提是错的，重写</span>
+        <span class="ar-tag">—</span>
+        <span class="ar-words">—</span>
+        <span class="ar-rev">3</span>
+        <span class="ar-state">重写中</span>
+      </li>
+
+      <li class="ar-row" data-tag="随笔" data-state="已发">
+        <time class="ar-date" datetime="2025-01-04">2025.01.04</time>
+        <span class="ar-num">007</span>
+        <span class="ar-title">我的终端比我的房间整洁<em class="ar-abs">桌面是乱的，终端是干净的</em></span>
+        <span class="ar-tag">随笔</span>
+        <span class="ar-words">2,400</span>
+        <span class="ar-rev">3</span>
+        <span class="ar-state">已发</span>
+      </li>
+
+    </ol>
+  </section>
+
+  <section class="ar-year">
+    <h2 class="ar-yhead">2024 <span>13 条</span></h2>
+    <ol class="ar-rows" start="8">
+
+      <li class="ar-row" data-tag="日常" data-state="已发">
+        <time class="ar-date" datetime="2024-12-19">2024.12.19</time>
+        <span class="ar-num">008</span>
+        <span class="ar-title">断网之后我还在改的东西<em class="ar-abs">停电那天我在做什么</em></span>
+        <span class="ar-tag">日常</span>
+        <span class="ar-words">1,700</span>
+        <span class="ar-rev">2</span>
+        <span class="ar-state">已发</span>
+      </li>
+
+      <li class="ar-row" data-tag="自述" data-state="已发">
+        <time class="ar-date" datetime="2024-12-02">2024.12.02</time>
+        <span class="ar-num">009</span>
+        <span class="ar-title">这个页面为什么看起来是坏的<em class="ar-abs">这一页的错位是故意的</em></span>
+        <span class="ar-tag">自述</span>
+        <span class="ar-words">2,100</span>
+        <span class="ar-rev">7</span>
+        <span class="ar-state">已发</span>
+      </li>
+
+      <li class="ar-row" data-tag="开发" data-state="已发">
+        <time class="ar-date" datetime="2024-11-15">2024.11.15</time>
+        <span class="ar-num">010</span>
+        <span class="ar-title">三十毫秒的偏执<em class="ar-abs">快三十毫秒之后我开始怀疑自己</em></span>
+        <span class="ar-tag">开发</span>
+        <span class="ar-words">2,800</span>
+        <span class="ar-rev">5</span>
+        <span class="ar-state">已发</span>
+      </li>
+
+      <li class="ar-row" data-tag="逆向" data-state="已发">
+        <time class="ar-date" datetime="2024-10-18">2024.10.18</time>
+        <span class="ar-num">011</span>
+        <span class="ar-title">十六进制里的一个错字<em class="ar-abs">一个字节写反，整包都废了</em></span>
+        <span class="ar-tag">逆向</span>
+        <span class="ar-words">3,300</span>
+        <span class="ar-rev">3</span>
+        <span class="ar-state">已发</span>
+      </li>
+
+      <li class="ar-row" data-tag="运维" data-state="已发">
+        <time class="ar-date" datetime="2024-09-14">2024.09.14</time>
+        <span class="ar-num">012</span>
+        <span class="ar-title">我被自己的脚本锁在门外<em class="ar-abs">chmod 之后我进不去自己的机器</em></span>
+        <span class="ar-tag">运维</span>
+        <span class="ar-words">1,900</span>
+        <span class="ar-rev">2</span>
+        <span class="ar-state">已发</span>
+      </li>
+
+      <li class="ar-row" data-tag="—" data-state="空">
+        <time class="ar-date">????.??.??</time>
+        <span class="ar-num">013</span>
+        <span class="ar-title">编号占住了，日期忘了</span>
+        <span class="ar-tag">—</span>
+        <span class="ar-words">—</span>
+        <span class="ar-rev">—</span>
+        <span class="ar-state">无记录</span>
+      </li>
+
+      <li class="ar-row" data-tag="攻防" data-state="已发">
+        <time class="ar-date" datetime="2024-08-05">2024.08.05</time>
+        <span class="ar-num">014</span>
+        <span class="ar-title">抓包工具的选择困难<em class="ar-abs">tcpdump 还是 Wireshark，每次都纠结</em></span>
+        <span class="ar-tag">攻防</span>
+        <span class="ar-words">3,100</span>
+        <span class="ar-rev">1</span>
+        <span class="ar-state">已发</span>
+      </li>
+
+      <li class="ar-row" data-tag="攻防" data-state="已发">
+        <time class="ar-date" datetime="2024-07-21">2024.07.21</time>
+        <span class="ar-num">015</span>
+        <span class="ar-title">一个 TLS 握手的十五分钟<em class="ar-abs">中间人没来，是 MTU 在捣鬼</em></span>
+        <span class="ar-tag">攻防</span>
+        <span class="ar-words">5,200</span>
+        <span class="ar-rev">8</span>
+        <span class="ar-state">已发</span>
+      </li>
+
+      <li class="ar-row" data-tag="随笔" data-state="已发">
+        <time class="ar-date" datetime="2024-06-30">2024.06.30</time>
+        <span class="ar-num">016</span>
+        <span class="ar-title">把日志读成故事<em class="ar-abs">日志会用第二人称说话</em></span>
+        <span class="ar-tag">随笔</span>
+        <span class="ar-words">1,500</span>
+        <span class="ar-rev">2</span>
+        <span class="ar-state">已发</span>
+      </li>
+
+      <li class="ar-row" data-tag="—" data-state="空">
+        <time class="ar-date" datetime="2024-05-12">2024.05.12</time>
+        <span class="ar-num">017</span>
+        <span class="ar-title">关于工具的道德</span>
+        <span class="ar-tag">—</span>
+        <span class="ar-words">—</span>
+        <span class="ar-rev">1</span>
+        <span class="ar-state">写到一半</span>
+      </li>
+
+      <li class="ar-row" data-tag="日常" data-state="已发">
+        <time class="ar-date" datetime="2024-04-08">2024.04.08</time>
+        <span class="ar-num">018</span>
+        <span class="ar-title">键盘换了三次<em class="ar-abs">HHKB、Filco，最后是那把三十块的</em></span>
+        <span class="ar-tag">日常</span>
+        <span class="ar-words">900</span>
+        <span class="ar-rev">1</span>
+        <span class="ar-state">已发</span>
+      </li>
+
+      <li class="ar-row" data-tag="开发" data-state="已发">
+        <time class="ar-date" datetime="2024-03-15">2024.03.15</time>
+        <span class="ar-num">019</span>
+        <span class="ar-title">第一次写驱动<em class="ar-abs">第一次让内核执行我写的代码</em></span>
+        <span class="ar-tag">开发</span>
+        <span class="ar-words">6,800</span>
+        <span class="ar-rev">11</span>
+        <span class="ar-state">已发</span>
+      </li>
+
+      <li class="ar-row" data-tag="运维" data-state="已发">
+        <time class="ar-date" datetime="2024-01-27">2024.01.27</time>
+        <span class="ar-num">020</span>
+        <span class="ar-title">那台不肯开机的服务器<em class="ar-abs">电源灯亮着，但什么都不响</em></span>
+        <span class="ar-tag">运维</span>
+        <span class="ar-words">2,200</span>
+        <span class="ar-rev">2</span>
+        <span class="ar-state">已发</span>
+      </li>
+
+    </ol>
+  </section>
+
+  <section class="ar-year">
+    <h2 class="ar-yhead">2023 <span>0 条</span></h2>
+    <p class="ar-blank"><b>2023</b> 这一年没写。不是没东西写，是那时候不觉得这些值得写下来。</p>
+  </section>
+
+  </div>
+
+  <nav class="ar-pager" id="pager" aria-label="分页"></nav>
+
+  <footer class="ar-foot">
+    <span>只有 001 有正文。其余的要么没写完，要么我不打算发。</span>
+    <span><a href="index.html#index">回到索引 ↑</a></span>
+  </footer>
+
+</main>
+
+<div class="crosshair" id="crosshair" aria-hidden="true"><i></i><i></i><span id="coords">0,0</span></div>
+
+<script src="assets/js/veil.js"></script>
+<script src="assets/js/archive.js"></script>
+</body>
+</html>

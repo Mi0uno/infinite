@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>生产环境上的 SSH 我关了 — INFINITE</title>
+<meta name="description" content="凌晨两点四十七，一台机器在往一个不存在的地址敲门。不是被攻破，是被敲门。我把 22 端口从生产机上拿掉了，代价比想象的大。">
+<meta name="theme-color" content="#ECEBE7">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230F0F0F'/%3E%3Crect x='6' y='12' width='20' height='8' fill='%23ECEBE7'/%3E%3C/svg%3E">
+<link rel="preload" href="assets/fonts/nssc-900.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/post.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body class="is-post">
+
+<div class="veil" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="scan" aria-hidden="true"></div>
+<div class="overlay" id="overlay" aria-hidden="true"></div>
+<div class="crop" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<!-- 阅读进度：一条 1px 的线，代替首页那套深度读数 -->
+<div class="progress" aria-hidden="true"><i id="bar"></i></div>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="mh-bar">
+      <a class="mh-brand" href="index.html">INFINITE<i></i></a>
+      <span class="mh-sub">生产环境上的 SSH 我关了</span>
+      <span class="mh-clock"><b id="issue">REC 001</b> / <span id="clock">--:--:--</span> CST</span>
+    </div>
+    <nav class="mh-nav" aria-label="主导航">
+      <a href="index.html#index" class="is-active">索引</a>
+      <a href="archive.html">记录</a>
+      <a href="projects.html">项目</a>
+      <a href="about.html">关于</a>
+      <button type="button" id="gridBtn" class="mh-grid" aria-pressed="false">网格 <kbd>G</kbd></button>
+    </nav>
+  </div>
+</header>
+
+<main>
+<article class="post" id="top">
+
+  <header class="post-head wrap">
+    <p class="post-kicker">
+      <span class="pk-num">001</span>
+      <span class="pk-tag">运维</span>
+      <time class="pk-date" datetime="2025-03-12">2025.03.12</time>
+      <span class="pk-len">12′</span>
+    </p>
+
+    <h1 class="post-title">生产环境上的<br class="br-w">SSH 我关了</h1>
+    <p class="post-sub" lang="en">Why I Killed SSH on Prod</p>
+
+    <p class="post-dek">凌晨两点四十七，一台机器在往一个不存在的地址敲门。不是被攻破，是被敲门。我把 22 端口从生产机上拿掉了——代价比想象的大，而且不在我以为的地方。</p>
+
+    <dl class="post-meta">
+      <div><dt>作者</dt><dd>本人</dd></div>
+      <div><dt>栏目</dt><dd>运维 · 攻防</dd></div>
+      <div><dt>字数</dt><dd>3,100</dd></div>
+      <div><dt>修订</dt><dd>2025.04.02 第二版</dd></div>
+    </dl>
+  </header>
+
+  <div class="post-body wrap">
+
+    <nav class="post-toc" aria-label="目录">
+      <p class="toc-k">目录</p>
+      <ol class="toc-list" id="toc">
+        <li><a href="#s1"><span>01</span>我以为是暴力破解</a></li>
+        <li><a href="#s2"><span>02</span>它不是在猜密码</a></li>
+        <li><a href="#s3"><span>03</span>关掉它是个决定</a></li>
+        <li><a href="#s4"><span>04</span>代价</a></li>
+        <li><a href="#s5"><span>05</span>三个月后</a></li>
+      </ol>
+    </nav>
+
+    <div class="prose">
+
+    <p>凌晨两点四十七，手机把我叫醒。</p>
+
+    <p>不是告警，是我自己三年前写的一个脚本——它每十分钟扫一次 <code>auth.log</code>，只要出现「同一个源、连续十分钟、失败次数过阈值」就给我发一条消息。三年里它响过两次，两次都是我自己把密钥配错了。</p>
+
+    <p>那天它响了一整夜。</p>
+
+    <aside class="mnote">
+      <p class="mnote-k">背景</p>
+      <p>三台生产机，一台跳板，全在内网。跳板的 22 端口对公网开着，因为「不然怎么进去」。这句话本身就是问题。</p>
+    </aside>
+
+    <h2 id="s1"><span class="h-num">01</span>我以为是暴力破解</h2>
+
+    <p>第一眼看日志，像标准剧本。</p>
+
+    <figure class="code wide">
+      <figcaption class="code-cap">shell / 一天一夜</figcaption>
+      <pre><code>$ sudo grep -c 'Failed password' /var/log/auth.log
+14823</code></pre>
+    </figure>
+
+    <p>一万四千多次失败。源地址不止一个，但前几名很集中：</p>
+
+    <figure class="code wide">
+      <figcaption class="code-cap">shell / 按源聚合</figcaption>
+      <pre><code>$ sudo awk '/Failed password/{for(i=1;i&lt;=NF;i++) if($i=="from") print $(i+1)}' \
+    /var/log/auth.log | sort | uniq -c | sort -rn | head -4
+   6418 45.155.x.x
+   3902 91.240.x.x
+   1877 103.94.x.x
+    940 61.177.x.x</code></pre>
+    </figure>
+
+    <p>正常操作是 fail2ban、改端口、加白名单。我全都试过——问题就在这儿：它们都有效，但没一个解释了同一件事。</p>
+
+    <p>这四个地址做的事太整齐了。</p>
+
+    <h2 id="s2"><span class="h-num">02</span>它不是在猜密码</h2>
+
+    <p>我把时间戳拉出来看间隔。</p>
+
+    <figure class="code wide">
+      <figcaption class="code-cap">shell / 只取秒</figcaption>
+      <pre><code>$ sudo awk '/Failed password/{print $3}' /var/log/auth.log | head -6
+02:11:00
+02:12:00
+02:13:00
+02:14:00
+02:15:00
+02:16:00</code></pre>
+    </figure>
+
+    <p>整六十秒。一秒不差。</p>
+
+    <p>人类爆破、甚至大多数爆破工具都不会这么整齐——它们有并发、有退避、有随机抖动，因为随机是效率的一部分。整点、准点、永不间断，这是 cron。</p>
+
+    <p>再看用户名那一列：</p>
+
+    <figure class="code wide">
+      <figcaption class="code-cap">shell / 用户名循环</figcaption>
+      <pre><code>02:11:00  user=root
+02:12:00  user=admin
+02:13:00  user=ubuntu
+02:14:00  user=root
+02:15:00  user=admin
+02:16:00  user=ubuntu</code></pre>
+    </figure>
+
+    <p>三个用户名，循环，六十秒一轮。它不换词表，不加大压力，不因为失败而调整策略。它在敲。</p>
+
+    <blockquote class="pq">
+      <p>它要的从来不是密码，是一个「在不在」的答案。</p>
+    </blockquote>
+
+    <p>想通这件事之后，前面那些做法全部失效了。fail2ban 挡得住猜密码的人，挡不住问问题的人——它每次只问一句，被拉黑就换个地址再问，反正地址是消耗品。改端口也是自我安慰：全端口扫描现在是一次 TCP SYN 的成本，不是一次猜测的成本。</p>
+
+    <p>只要那个端口还在监听，机器就会回答。回答的内容是什么已经不重要了。</p>
+
+    <h2 id="s3"><span class="h-num">03</span>关掉它是个决定</h2>
+
+    <p>我把它关了。不是改端口，是 <code>systemctl disable --now sshd</code>。</p>
+
+    <p>关之前我先给自己留了三条路，顺序很重要——先有替代通道，再拆旧通道，否则那不是决策，是事故。</p>
+
+    <p>第一条，云厂商的串口控制台。它绕过操作系统直接接在虚拟串口上，慢、丑、只能纯文本，但它是唯一在 sshd 没了、网络栈也没了的时候还能用的东西。</p>
+
+    <p>第二条，部署不走 SSH。agent 在机器上主动往外拉配置，机器不再接受「有人从外面进来」这件事。</p>
+
+    <p>第三条，唯一保留的交互通道是一条 WireGuard 隧道，端口随机，只有两个 IP 握得上手。</p>
+
+    <figure class="code wide">
+      <figcaption class="code-cap">/etc/wireguard/wg0.conf</figcaption>
+      <pre><code>[Interface]
+PrivateKey = &lt;redacted&gt;
+ListenPort = 51820
+Address    = 10.88.0.1/24
+
+[Peer]
+PublicKey  = &lt;redacted&gt;
+AllowedIPs = 10.88.0.2/32</code></pre>
+    </figure>
+
+    <p>WireGuard 有个别的方案没有的性质：它不回应任何未经认证的包。端口在不在监听，从外面看不出来。敲门的人连回声都听不到。</p>
+
+    <h2 id="s4"><span class="h-num">04</span>代价</h2>
+
+    <p>接下来这段我不想写得好看。关掉之后的第一周，我几乎每天都在后悔。</p>
+
+    <figure class="data wide">
+      <table class="data-table">
+        <caption>三个月内的实际操作对比（单人，三台机器）</caption>
+        <thead>
+          <tr><th scope="col">场景</th><th scope="col">以前</th><th scope="col">现在</th><th scope="col">倍率</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">改一行 nginx 配置</th><td>ssh + vim，40 秒</td><td>提交配置仓，等 agent 拉取，约 3 分钟</td><td>×4.5</td></tr>
+          <tr><th scope="row">机器起不来</th><td>ssh 上去救</td><td>串口控制台，等它转起来</td><td>不定</td></tr>
+          <tr><th scope="row">临时看一眼磁盘</th><td>ssh <code>df -h</code></td><td>开监控面板</td><td>×1，但得先有面板</td></tr>
+          <tr><th scope="row">凌晨被叫醒</th><td>直接上去看</td><td>先在面板上确认，再决定要不要开隧道</td><td>更慢，但少犯错</td></tr>
+        </tbody>
+      </table>
+      <figcaption>数字是我自己记的，不是估算。</figcaption>
+    </figure>
+
+    <p>「不定」那一行最要命。以前机器起不来是十分钟解决的事，现在是「等它转起来」，而它转不转得起来，我说了不算。</p>
+
+    <p>还有一个隐性的代价：所有依赖「临时连上去看一眼」的习惯，全部报废。我之前写的几个小脚本——凌晨自动拉日志的、批量重启服务的、给同事临时开个口的——一个都跑不动了。</p>
+
+    <blockquote class="pq">
+      <p>关掉一个入口的代价，从来不是那一次操作，是之后每一次你想起来「要是还能连上去」的瞬间。</p>
+    </blockquote>
+
+    <h2 id="s5"><span class="h-num">05</span>三个月后</h2>
+
+    <p>三个月，被叫醒四次。</p>
+
+    <p>其中三次是先看面板解决的——也就是以前会上机器、现在不会上的那种问题。它们本来就不需要机器，需要的是数据。第四次真的需要进机器，我花了九分钟开隧道，比以前的四十秒慢得多。</p>
+
+    <p>但 <code>auth.log</code> 现在是干净的。</p>
+
+    <figure class="code wide">
+      <figcaption class="code-cap">shell / 三个月后</figcaption>
+      <pre><code>$ sudo grep -c 'Failed password' /var/log/auth.log
+0</code></pre>
+    </figure>
+
+    <p>零。不是挡住了，是没有人再敲了。</p>
+
+    <p>我知道这个结论有个漏洞：它只说明没人敲，不说明没人试过。但我能确认的那部分是对的——监听在的东西，总会被找到；不监听的东西，找也白找。</p>
+
+    <p>一个没有人敲的门，不需要锁。</p>
+
+    </div>
+  </div>
+
+  <nav class="post-foot wrap" aria-label="文章导航">
+    <a class="pf-item" href="index.html#index">
+      <span class="pf-k">下一篇</span>
+      <span class="pf-t">002 一个 CRC 骗了我三个小时</span>
+      <span class="pf-d">8′ · 逆向</span>
+    </a>
+    <a class="pf-item pf-back" href="index.html">
+      <span class="pf-k">回到索引</span>
+      <span class="pf-t">全部 REC 001 — 010</span>
+      <span class="pf-d">往下滚，它不会到底</span>
+    </a>
+  </nav>
+
+</article>
+</main>
+
+<div class="crosshair" id="crosshair" aria-hidden="true"><i></i><i></i><span id="coords">0,0</span></div>
+
+<script src="assets/js/veil.js"></script>
+<script src="assets/js/post.js"></script>
+</body>
+</html>

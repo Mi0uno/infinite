@@ -1,0 +1,484 @@
+/* ==========================================================================
+   INFINITE — 项目页
+   六件东西，每件一块。左边一个抽象的记号，中间一句人话，右边一张卡片式的
+   档案。不用截图：截图会过期，线不会。
+   ========================================================================== */
+
+.is-projects { padding-bottom: clamp(30px, 5vw, 80px); }
+
+.pj { padding-top: clamp(24px, 3.4vw, 50px); }
+
+/* —— 页头 —— */
+.pj-top {
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: clamp(16px, 2.2vw, 30px);
+}
+
+.pj-kicker {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.pj-h1 {
+  margin-top: 6px;
+  font-family: var(--f-cjk);
+  font-size: clamp(52px, 9.4vw, 142px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -.04em;
+}
+
+.pj-dek {
+  margin-top: clamp(10px, 1.2vw, 16px);
+  max-width: 38em;
+  font-size: clamp(15px, 1.34vw, 19px);
+  font-weight: 300;
+  line-height: 1.55;
+  letter-spacing: -.01em;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+
+.pj-stat {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px clamp(16px, 2.6vw, 40px);
+  margin-top: clamp(20px, 2.4vw, 32px);
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  line-height: 1.5;
+}
+
+.pj-stat > div { display: flex; align-items: baseline; gap: 7px; }
+.pj-stat dt {
+  font-size: 9px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.pj-stat dd { color: var(--ink); font-variant-numeric: tabular-nums; }
+
+/* —— 列表 —— */
+.pj-list { list-style: none; margin: 0; padding: 0; }
+
+.item {
+  border-bottom: 1px solid var(--line);
+  padding: clamp(22px, 3vw, 42px) 0 clamp(24px, 3.2vw, 46px);
+}
+
+/* 第三块底线细一号，第六块整块往下挪一像素：都是刻意的 */
+.pj-list .item:nth-child(3) { border-bottom-width: .5px; }
+.pj-list .item:nth-child(6) { padding-top: calc(clamp(22px, 3vw, 42px) + 1px); }
+
+.it-head {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: clamp(12px, 1.6vw, 22px);
+}
+
+.it-num {
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  letter-spacing: .1em;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.it-name {
+  font-family: var(--f-mono);
+  font-size: clamp(19px, 2.3vw, 33px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -.02em;
+  transition: transform .28s var(--ease);
+}
+
+.item:nth-child(6) .it-name { letter-spacing: -.032em; }
+
+.it-state {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-left: auto;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: .13em;
+  color: var(--ink-3);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.it-state i {
+  display: block;
+  width: 7px;
+  height: 7px;
+  background: var(--ink);
+}
+
+/* 半死是空心，停了是一条横线 */
+.it-state.is-half i {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--ink-3);
+}
+.it-state.is-off i {
+  height: 1px;
+  background: var(--ink-3);
+  transform: translateY(-1px);
+}
+
+.item:nth-child(5) .it-state i { transform: translateY(-.5px); }
+
+/* —— 三栏 —— */
+.it-body {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--gutter);
+  align-items: start;
+}
+
+.it-fig { grid-column: 1 / span 2; }
+.it-txt { grid-column: 4 / span 5; }
+.it-meta { grid-column: 10 / span 3; }
+
+/* 被啃掉的三格：拿纸色盖住线，不是删掉线——缺口边缘才留得住
+   （SVG 属性里写 var() 不解析，必须走 CSS 规则） */
+.it-fig .cut { fill: var(--paper); stroke: none; }
+
+.it-fig svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  color: var(--ink-2);
+  overflow: visible;
+  transition: transform .4s var(--ease);
+}
+
+/* 两张图本来就歪的，不是渲染问题 */
+.item:nth-child(1) .it-fig svg { transform: rotate(.7deg); }
+.item:nth-child(3) .it-fig svg { transform: rotate(-.8deg); }
+
+.item:hover .it-name { transform: translateX(6px); }
+.item:hover .it-fig svg { transform: rotate(0deg); }
+.item:hover .it-state { color: var(--ink); }
+
+.it-lead {
+  font-size: clamp(16px, 1.3vw, 19px);
+  line-height: 1.5;
+  letter-spacing: -.012em;
+  text-wrap: pretty;
+}
+
+.it-desc {
+  margin-top: 10px;
+  font-size: 13.5px;
+  line-height: 1.82;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+
+.it-desc code {
+  font-family: var(--f-mono);
+  font-size: .92em;
+  letter-spacing: -.01em;
+  padding: 1px 4px 2px;
+  background: var(--paper-deep);
+  white-space: nowrap;
+}
+
+.it-meta {
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  line-height: 1.45;
+}
+
+.it-meta > div {
+  display: flex;
+  gap: 10px;
+  padding: 5px 0;
+  border-top: 1px solid var(--line);
+}
+.it-meta > div:last-child { border-bottom: 1px solid var(--line); }
+
+.it-meta dt {
+  flex: 0 0 3.2em;
+  font-size: 9px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding-top: 1px;
+}
+
+.it-meta dd { color: var(--ink-2); }
+
+/* 这一格的数字没坐正 */
+.item:nth-child(4) .it-meta > div:nth-child(3) dd { transform: translateX(1px); }
+
+/* —— 页脚 —— */
+.pj-foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px var(--gutter);
+  margin-top: clamp(26px, 3.4vw, 48px);
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  letter-spacing: .04em;
+  color: var(--ink-3);
+}
+
+.pj-foot a { border-bottom: 1px solid var(--line); }
+.pj-foot a:hover { color: var(--ink); border-color: var(--ink); }
+
+/* —— 工具栏 —— */
+.pj-toolbar {
+  margin-top: clamp(18px, 2.2vw, 30px);
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--ink);
+}
+
+.pj-trow {
+  display: flex;
+  align-items: center;
+  gap: 0 10px;
+  padding: 8px 0;
+}
+.pj-trow + .pj-trow { border-top: 1px solid var(--line); }
+
+.pj-filter { display: flex; flex-wrap: wrap; gap: 7px; }
+
+.pj-filter button {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  color: var(--ink-3);
+  background: transparent;
+  border: 1px solid var(--line);
+  padding: 5px 10px 6px;
+  cursor: pointer;
+  transition: background-color .18s var(--ease), color .18s var(--ease), border-color .18s var(--ease);
+}
+.pj-filter button:hover { color: var(--ink); border-color: var(--ink); }
+.pj-filter button.is-on {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+/* 状态那排是下划线，不是方框 —— 两组一眼分得开。
+   这几条必须写在上面方框规则之后：特异性相同，后写的赢。 */
+.pj-filter--s button {
+  border-color: transparent transparent var(--line);
+  padding: 4px 2px 5px;
+  letter-spacing: .12em;
+}
+.pj-filter--s button:hover { border-bottom-color: var(--ink); }
+.pj-filter--s button.is-on {
+  background: transparent;
+  color: var(--ink);
+  border-color: transparent transparent var(--ink);
+  font-weight: 500;
+}
+
+.pj-search {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-left: auto;
+  min-width: 0;
+  flex: 0 1 300px;
+  padding-bottom: 3px;
+}
+.pj-search::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(to right, var(--line) 0 88%, transparent 88%);
+  transition: background .2s var(--ease);
+}
+.pj-search:focus-within::after {
+  background: linear-gradient(to right, var(--ink) 0 97%, transparent 97%);
+}
+
+.pj-search-l {
+  flex: none;
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.pj-search input {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  font-family: var(--f-mono);
+  font-size: 11.5px;
+  letter-spacing: .04em;
+  color: var(--ink);
+  padding: 0 0 2px;
+  font-family: var(--f-mono), var(--f-cjk);
+}
+.pj-search input:focus { outline: none; }
+.pj-search input::placeholder { color: var(--ink-3); opacity: 1; }
+.pj-search input::-webkit-search-cancel-button { display: none; }
+
+.pj-search-k {
+  flex: none;
+  font-family: var(--f-mono);
+  font-size: 9px;
+  color: var(--ink-3);
+  border: 1px solid var(--line);
+  padding: 1px 4px;
+}
+
+/* —— 分页器 —— */
+.pj-pager {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: clamp(20px, 2.6vw, 34px);
+  padding-top: 13px;
+}
+
+/* 顶线在 34% 处断 26px */
+.pj-pager::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(to right,
+    var(--ink) 0 34%, transparent 34% calc(34% + 26px), var(--ink) calc(34% + 26px) 100%);
+}
+
+.pj-pg {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: .06em;
+  color: var(--ink-2);
+  background: transparent;
+  border: 1px solid var(--line);
+  padding: 5px 10px 6px;
+  cursor: pointer;
+  transition: color .18s var(--ease), border-color .18s var(--ease), background-color .18s var(--ease);
+}
+.pj-pg:hover:not(:disabled) { color: var(--ink); border-color: var(--ink); }
+.pj-pg:disabled { opacity: .3; cursor: default; }
+.pj-pg.is-cur {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+  transform: translateY(-1px);
+}
+
+.pj-pgmeta {
+  margin-left: auto;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: .06em;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+/* —— 空结果 —— */
+.pj-empty {
+  padding: clamp(34px, 5vw, 72px) 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 13.5px;
+  line-height: 1.9;
+  color: var(--ink-2);
+}
+.pj-empty p { margin: 0; }
+.pj-empty b {
+  font-family: var(--f-mono);
+  font-weight: 400;
+  color: var(--ink);
+}
+
+.pj-reset {
+  margin-top: 12px;
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  letter-spacing: .06em;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--ink);
+  padding: 6px 12px 7px;
+  cursor: pointer;
+}
+.pj-reset:hover { background: var(--ink); color: var(--paper); }
+
+.item[hidden] { display: none; }
+
+/* 逐块显影：JS 挂了就什么都不加，内容照常可见 */
+html.js .item.reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity .62s var(--ease), transform .62s var(--ease);
+}
+html.js .item.reveal.is-in { opacity: 1; transform: none; }
+
+/* —— 断点 —— */
+@media (max-width: 1080px) {
+  .it-txt { grid-column: 4 / span 5; }
+  .it-meta { grid-column: 9 / -1; }
+}
+
+@media (max-width: 900px) {
+  .it-body { grid-template-columns: repeat(6, 1fr); }
+  .it-fig { grid-column: 1 / span 2; }
+  .it-txt { grid-column: 3 / -1; }
+  .it-meta { grid-column: 3 / -1; margin-top: 14px; }
+  .it-fig svg { max-width: 130px; }
+  .pj-trow { flex-wrap: wrap; gap: 9px 0; }
+  .pj-search { flex: 1 1 100%; margin-left: 0; }
+  .pj-filter--s { flex: 1 1 auto; }
+}
+
+@media (max-width: 640px) {
+  .it-body { grid-template-columns: repeat(4, 1fr); }
+  .it-fig { grid-column: 1 / span 1; }
+  .it-txt { grid-column: 2 / -1; }
+  .it-meta {
+    grid-column: 1 / -1;
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 14px;
+  }
+  .it-name { font-size: clamp(18px, 6.2vw, 24px); }
+  .it-state { font-size: 9px; letter-spacing: .1em; }
+  .pj-foot { font-size: 10px; }
+}
+
+@media (max-width: 420px) {
+  .it-meta { grid-template-columns: 1fr; }
+  .it-head { gap: 10px; }
+  .pj-pgmeta { flex: 1 1 100%; margin-left: 0; }
+}
+
+@media (hover: none) {
+  .item:hover .it-name { transform: none; }
+  .item:hover .it-fig svg { transform: none; }
+  .item:nth-child(1) .it-fig svg { transform: rotate(.7deg); }
+  .item:nth-child(3) .it-fig svg { transform: rotate(-.8deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .it-name, .it-fig svg { transition: none; }
+  .item:hover .it-name,
+  .item:hover .it-fig svg { transform: none; }
+}

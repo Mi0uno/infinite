@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>INFINITE — 所有系统最终都会漏</title>
+<meta name="description" content="拆、读、修。逆向与攻防的现场记录，开发随笔，以及下班之后的部分。往下滚，它不会到底。">
+<meta name="theme-color" content="#ECEBE7">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230F0F0F'/%3E%3Crect x='6' y='12' width='20' height='8' fill='%23ECEBE7'/%3E%3C/svg%3E">
+<link rel="preload" href="assets/fonts/nssc-900.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/style.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<div class="veil" aria-hidden="true"></div>
+<!-- 纸张层：颗粒、扫描线、纵深暗化、暗角 -->
+<div class="grain" aria-hidden="true"></div>
+<div class="scan" aria-hidden="true"></div>
+<div class="depth-wash" id="wash" aria-hidden="true"></div>
+<div class="vignette" id="vignette" aria-hidden="true"></div>
+<div class="overlay" id="overlay" aria-hidden="true"></div>
+<div class="crop" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="mh-bar">
+      <span class="mh-brand">INFINITE<i></i></span>
+      <span class="mh-sub">拆过的东西都记在这里 —— 一册在浏览器里翻的残页</span>
+      <span class="mh-clock"><b id="issue">ISSUE 07</b> / <span id="clock">--:--:--</span> CST</span>
+    </div>
+    <nav class="mh-nav" aria-label="主导航">
+      <a href="#index" class="is-active">索引</a>
+      <a href="archive.html">记录</a>
+      <a href="projects.html">项目</a>
+      <a href="about.html">关于</a>
+      <button type="button" id="gridBtn" class="mh-grid" aria-pressed="false">网格 <kbd>G</kbd></button>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero" id="top">
+
+    <!-- 无限的记号：两个方环 + 腰部交叉，全部直线。
+         挪到右边去，中间那块留给字。四条延长线射出画外，
+         尺寸靠这个撑，不靠把图形做大。 -->
+    <div class="hero-inf" aria-hidden="true">
+      <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid meet">
+        <g class="inf-ext">
+          <path d="M62 56L-170 -70M62 144L-170 270M338 56L570 -70M338 144L570 270"/>
+        </g>
+        <g class="inf-geo">
+          <rect class="inf-box" x="62" y="56" width="100" height="88"/>
+          <rect class="inf-box" x="238" y="56" width="100" height="88"/>
+          <path class="inf-waist" d="M162 56L238 144M162 144L238 56"/>
+        </g>
+      </svg>
+    </div>
+    <div class="wrap hero-grid">
+      <div class="hero-side" data-par="0.06">
+        <p class="eyebrow">REC 001 — 010 &nbsp;/&nbsp; 精选</p>
+        <p class="hero-note">读日志。<br>别信截图。</p>
+        <span class="hero-chip" aria-hidden="true"></span>
+        <pre class="hex" aria-hidden="true">0000  52 45 41 44 B7 42 52 45  READ·BRE
+0008  41 4B B7 57 52 49 54 45  AK·WRITE</pre>
+      </div>
+
+      <h1 class="hero-title" data-par="0.2">
+        <span class="line l1"><span class="ln">所有系统</span></span>
+        <span class="line l2"><span class="ln"><em>最终</em></span></span>
+        <span class="line l3"><span class="ln">都会漏<span class="per">.</span></span></span>
+        <span class="line l4"><span class="ln">EVERY SYSTEM LEAKS</span></span>
+      </h1>
+
+      <div class="hero-vlabel" aria-hidden="true">READ · BREAK · WRITE</div>
+    </div>
+  </section>
+
+  <section class="intro" id="intro">
+    <div class="wrap intro-grid">
+      <div class="intro-col">
+        <p class="lead">这里放我拆过的东西——协议、固件、别人的系统、我自己的系统。留下来的都是拆完之后的现场：日志、十六进制、跑了一半的脚本、没解完的题。</p>
+      </div>
+      <div class="intro-col">
+        <p>不写教程，只写过程。能复现的会给出命令和当时的报错；不能复现的会说明为什么不能——大部分时候是因为那台机器已经不在了。</p>
+        <p>出问题的地方比正确的地方更值得记下来。所以编号会跳，有些条目会一直是空的。</p>
+      </div>
+      <div class="intro-col intro-meta">
+        <dl class="meta-list">
+          <div><dt>栏目</dt><dd>逆向 · 攻防 · 开发</dd></div>
+          <div><dt>语言</dt><dd>中文 / EN</dd></div>
+          <div><dt>周期</dt><dd>不定期</dd></div>
+          <div><dt>起于</dt><dd>2024.11</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="index" id="index">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>索引</h2>
+        <span class="sec-meta">INDEX / 2024 — 2025</span>
+        <span class="sec-count" id="count">10 条，其中 2 条已封存</span>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <div class="list" id="stream">
+
+        <article class="entry">
+          <a class="entry-link" href="post.html">
+            <span class="e-num">001</span>
+            <span class="e-title">
+              <span class="e-zh">生产环境上的 SSH 我关了</span>
+              <span class="e-en">Why I Killed SSH on Prod</span>
+            </span>
+            <span class="e-tag">运维</span>
+            <span class="e-date">2025.03.12</span>
+            <span class="e-len">12′</span>
+          </a>
+        </article>
+
+        <article class="entry">
+          <a class="entry-link" href="#">
+            <span class="e-num">002</span>
+            <span class="e-title">
+              <span class="e-zh">一个 CRC 骗了我三个小时</span>
+              <span class="e-en">A CRC Fooled Me for Three Hours</span>
+            </span>
+            <span class="e-tag">逆向</span>
+            <span class="e-date">2025.02.28</span>
+            <span class="e-len">8′</span>
+          </a>
+        </article>
+
+        <p class="entry-gap"><span>003</span> 已封存 —— 里面还留着真实的主机名</p>
+
+        <article class="entry">
+          <a class="entry-link" href="#">
+            <span class="e-num">004</span>
+            <span class="e-title">
+              <span class="e-zh">抓包不会说谎，人会</span>
+              <span class="e-en">Packets Don't Lie, People Do</span>
+            </span>
+            <span class="e-tag">攻防</span>
+            <span class="e-date">2025.02.09</span>
+            <span class="e-len">15′</span>
+          </a>
+        </article>
+
+        <article class="entry">
+          <a class="entry-link" href="#">
+            <span class="e-num">005</span>
+            <span class="e-title">
+              <span class="e-zh">从一段十六进制还原一台设备</span>
+              <span class="e-en">Rebuilding a Device from Hex</span>
+            </span>
+            <span class="e-tag">逆向</span>
+            <span class="e-date">2025.01.22</span>
+            <span class="e-len">21′</span>
+          </a>
+        </article>
+
+        <p class="entry-gap"><span>006</span> 尚在重写 —— 删了三次开头，都不满意</p>
+
+        <article class="entry">
+          <a class="entry-link" href="#">
+            <span class="e-num">007</span>
+            <span class="e-title">
+              <span class="e-zh">我的终端比我的房间整洁</span>
+              <span class="e-en">My Terminal Is Cleaner Than My Room</span>
+            </span>
+            <span class="e-tag">随笔</span>
+            <span class="e-date">2025.01.04</span>
+            <span class="e-len">6′</span>
+          </a>
+        </article>
+
+        <article class="entry">
+          <a class="entry-link" href="#">
+            <span class="e-num">008</span>
+            <span class="e-title">
+              <span class="e-zh">断网之后我还在改的东西</span>
+              <span class="e-en">What I Still Fix Offline</span>
+            </span>
+            <span class="e-tag">日常</span>
+            <span class="e-date">2024.12.19</span>
+            <span class="e-len">11′</span>
+          </a>
+        </article>
+
+        <article class="entry">
+          <a class="entry-link" href="#">
+            <span class="e-num">009</span>
+            <span class="e-title">
+              <span class="e-zh">这个页面为什么看起来是坏的</span>
+              <span class="e-en">Why This Page Looks Broken</span>
+            </span>
+            <span class="e-tag">自述</span>
+            <span class="e-date">2024.12.02</span>
+            <span class="e-len">4′</span>
+          </a>
+        </article>
+
+        <article class="entry">
+          <a class="entry-link" href="#">
+            <span class="e-num">010</span>
+            <span class="e-title">
+              <span class="e-zh">三十毫秒的偏执</span>
+              <span class="e-en">Thirty Milliseconds of Paranoia</span>
+            </span>
+            <span class="e-tag">开发</span>
+            <span class="e-date">2024.11.15</span>
+            <span class="e-len">9′</span>
+          </a>
+        </article>
+
+        <!-- 沉下去之后的第一张插页：引文 -->
+        <aside class="slot slot-pull">
+          <blockquote class="pull">
+            <p>所有临时方案，<br>最后都活过了<br>它的作者。</p>
+            <cite>—— 001 / 生产环境上的 SSH 我关了</cite>
+          </blockquote>
+        </aside>
+
+        <!-- 第二张插页：当下 -->
+        <aside class="slot slot-now" id="now">
+          <div class="now">
+            <h3 class="now-head">当下 <span>NOW</span></h3>
+            <dl class="now-list">
+              <div><dt>在读</dt><dd>《The Art of Exploitation》</dd></div>
+              <div><dt>在听</dt><dd>Aphex Twin — Selected Ambient Works</dd></div>
+              <div><dt>在修</dt><dd>一台 2013 年的 ThinkPad</dd></div>
+              <div><dt>在做</dt><dd>本页的第 11 处错位</dd></div>
+            </dl>
+          </div>
+        </aside>
+
+        <!-- 第三张插页：版权页。之后继续往下，没有底 -->
+        <footer class="slot slot-colophon colophon" id="colophon">
+          <div class="col-head">
+            <h2>版权页 <span>COLOPHON</span></h2>
+            <span class="col-meta">采用 12 列网格，允许 11 处偏差</span>
+          </div>
+          <dl class="col-grid">
+            <div><dt>字体</dt><dd>Inter Tight / Noto Sans SC</dd></div>
+            <div><dt>网格</dt><dd>12 列 · 8 pt 基线 · 1440 上限</dd></div>
+            <div><dt>构建</dt><dd>手写 HTML 与 CSS，无框架</dd></div>
+            <div><dt>纹理</dt><dd>无图片，全部由 SVG 与渐变生成</dd></div>
+            <div><dt>勘误</dt><dd>本页含 11 处刻意错位</dd></div>
+            <div><dt>联系</dt><dd><a href="mailto:hi@infinite.blog">hi@infinite.blog</a></dd></div>
+          </dl>
+          <div class="col-foot">
+            <span>© 2025 INFINITE</span>
+            <span>SET IN THE DARK · BUILT AT 3 AM</span>
+            <span>31°14′N 121°28′E</span>
+          </div>
+          <div class="colossus" aria-hidden="true">INFINITE</div>
+        </footer>
+
+      </div>
+
+      <div class="sentinel" id="sentinel" aria-hidden="true">
+        <span class="ss-rule"></span>
+        <span class="ss-label">继续下潜</span>
+        <span class="ss-rule"></span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- 深度仪表：左侧刻度尺，右下计数与回升 -->
+<div class="hud">
+  <div class="hud-scale" aria-hidden="true">
+    <span class="hs-track"></span>
+    <span class="hs-mark" id="hsMark"></span>
+  </div>
+
+  <div class="hud-read" aria-hidden="true">
+    <span class="hud-k">DEPTH</span>
+    <b id="depth">0000</b>
+    <span class="hud-u">m</span>
+    <span class="hud-sep"></span>
+    <span class="hud-k">LOADED</span>
+    <b id="loaded">010</b>
+  </div>
+
+  <button type="button" class="hud-top" id="toTop" aria-label="回到表面">
+    <span>回到表面</span>
+    <svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M6 10V2M2 6l4-4 4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>
+  </button>
+</div>
+
+<div class="crosshair" id="crosshair" aria-hidden="true"><i></i><i></i><span id="coords">0,0</span></div>
+
+<script src="assets/js/veil.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

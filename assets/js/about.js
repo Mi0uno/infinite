@@ -1,0 +1,72 @@
+/* ==========================================================
+   INFINITE — 关于页脚本
+   只有报头时钟、网格显影、十字准星。这一页不需要别的。
+   ========================================================== */
+
+(function () {
+  'use strict';
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var clock = document.getElementById('clock');
+  if (clock) {
+    var pad = function (n) { return n < 10 ? '0' + n : '' + n; };
+    var tick = function () {
+      var d = new Date();
+      clock.textContent = pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+    };
+    tick();
+    setInterval(tick, 1000);
+  }
+
+  var overlay = document.getElementById('overlay');
+  var gridBtn = document.getElementById('gridBtn');
+
+  var setGrid = function (on) {
+    if (!overlay || !gridBtn) return;
+    overlay.classList.toggle('is-on', on);
+    gridBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+  };
+
+  if (gridBtn) {
+    gridBtn.addEventListener('click', function () {
+      setGrid(!overlay.classList.contains('is-on'));
+    });
+  }
+
+  window.addEventListener('keydown', function (e) {
+    if (e.key === 'g' || e.key === 'G') {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      var t = e.target;
+      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+      setGrid(!overlay.classList.contains('is-on'));
+    }
+  });
+
+  var cross = document.getElementById('crosshair');
+  var coords = document.getElementById('coords');
+  var fine = window.matchMedia('(pointer: fine)').matches;
+
+  if (cross && coords && fine && !reduce) {
+    var tx = 0, ty = 0, cx = 0, cy = 0, live = false;
+
+    window.addEventListener('pointermove', function (e) {
+      tx = e.clientX;
+      ty = e.clientY;
+      if (!live) {
+        live = true;
+        cx = tx;
+        cy = ty;
+        cross.classList.add('is-live');
+      }
+      coords.textContent = Math.round(e.clientX) + ',' + Math.round(e.clientY);
+    }, { passive: true });
+
+    (function loop() {
+      cx += (tx - cx) * 0.22;
+      cy += (ty - cy) * 0.22;
+      cross.style.transform = 'translate3d(' + cx.toFixed(2) + 'px,' + cy.toFixed(2) + 'px,0)';
+      requestAnimationFrame(loop);
+    })();
+  }
+})();
