@@ -246,16 +246,18 @@ body.is-library {
   flex-direction: column;
 }
 
-.kb-top {
+.kb-head {
   position: sticky;
   top: 0;
   z-index: 6;
+  background: var(--paper);
+}
+
+.kb-top {
   display: flex;
   align-items: baseline;
   gap: clamp(14px, 2vw, 30px);
-  padding: 16px clamp(20px, 3.2vw, 52px) 13px;
-  border-bottom: 1px solid var(--ink);
-  background: var(--paper);
+  padding: 16px clamp(20px, 3.2vw, 52px) 11px;
 }
 
 /* 顶栏上的返回：面包屑说你在哪，这个带你出去 */
@@ -437,20 +439,84 @@ body.is-library {
   color: var(--line);
 }
 
-/* ---------- 计数条 ---------- */
+/* ---------- 筛选带 ---------- */
 
-.kb-line {
+.kb-bar {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--gutter);
-  margin: clamp(26px, 3vw, 44px) 0 0;
-  padding-bottom: 10px;
+  align-items: center;
+  gap: clamp(12px, 1.6vw, 24px);
+  padding: 0 clamp(20px, 3.2vw, 52px) 10px;
   border-bottom: 1px solid var(--ink);
 }
 
+.kf {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex: 0 0 auto;
+}
+
+.kf-label {
+  font-family: var(--f-mono);
+  font-size: 8.5px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.kf-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.kf-wrap::after {
+  content: "";
+  position: absolute;
+  right: 8px;
+  width: 5px;
+  height: 5px;
+  border-right: 1px solid var(--ink-3);
+  border-bottom: 1px solid var(--ink-3);
+  transform: translateY(-2px) rotate(45deg);
+  pointer-events: none;
+}
+
+.kf-sel {
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 3px 22px 4px 8px;
+  border: 1px solid var(--line);
+  background: transparent;
+  font-family: var(--f-mono), var(--f-cjk);
+  font-size: 10.5px;
+  letter-spacing: .04em;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color .16s var(--ease);
+}
+
+.kf-sel:hover {
+  border-color: var(--ink);
+}
+
+.kf-sel:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 1px;
+}
+
+.kf-sel option {
+  font-family: var(--f-mono), var(--f-cjk);
+  color: var(--ink);
+  background: var(--paper);
+}
+
+.kf-sel option:disabled {
+  color: var(--line);
+}
+
 .kb-count {
-  margin: 0;
+  margin: 0 0 0 auto;
   font-family: var(--f-mono);
   font-size: 10px;
   letter-spacing: .12em;
@@ -464,6 +530,7 @@ body.is-library {
   font-size: 9px;
   letter-spacing: .1em;
   color: var(--ink-3);
+  white-space: nowrap;
 }
 
 .kb-hint kbd {
@@ -473,7 +540,7 @@ body.is-library {
   color: var(--ink-2);
 }
 
-/* ---------- 封面卡片 ---------- */
+
 
 .kc-grid {
   display: grid;
@@ -851,6 +918,16 @@ body.is-library {
 
 /* 侧栏折成横条：它不再是框，是自己一行 */
 @media (max-width: 900px) {
+  /* 移动端顶栏本来就三行，再粘住就把屏幕占满了 */
+  .kb-head {
+    position: static;
+  }
+
+  .kb-bar {
+    flex-wrap: wrap;
+    gap: 10px 16px;
+  }
+
   .kb-shell { grid-template-columns: minmax(0, 1fr); }
 
   .kb-side {
@@ -995,7 +1072,6 @@ body.is-library {
     animation: boot-rise .64s var(--ease-out) both .16s;
   }
 
-  html.js .kb-line,
   html.js .cu-line {
     animation: boot-rise .58s var(--ease-out) both .22s;
   }
@@ -1033,7 +1109,6 @@ body.is-library {
   html.js .is-shut .cu-unit,
   html.js .is-shut .kb-hero,
   html.js .is-shut .cu-hero,
-  html.js .is-shut .kb-line,
   html.js .is-shut .cu-line,
   html.js .is-shut .kb-pager,
   html.js .is-shut .kb-foot {
@@ -1079,7 +1154,6 @@ html.js .is-boot .kb-side,
 html.js .is-boot .kb-top,
 html.js .is-boot .kb-hero,
 html.js .is-boot .cu-hero,
-html.js .is-boot .kb-line,
 html.js .is-boot .cu-line,
 html.js .is-boot .kc-item,
 html.js .is-boot .cu-unit,
@@ -1250,9 +1324,9 @@ html.js .loader.is-gone {
    用 paused 不用 none，揀开后从这一帧接着跑。 */
 html.is-loading .kb-side,
 html.is-loading .kb-top,
+html.is-loading .kb-bar,
 html.is-loading .kb-hero,
 html.is-loading .cu-hero,
-html.is-loading .kb-line,
 html.is-loading .cu-line,
 html.is-loading .kc-item,
 html.is-loading .cu-unit,

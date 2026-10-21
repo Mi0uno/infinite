@@ -63,29 +63,6 @@
         </ul>
       </nav>
 
-      <nav class="ks-block" aria-label="按领域">
-        <p class="ks-label">领域</p>
-        <ul class="ks-list" id="fieldList">
-          <li><input type="radio" name="field" id="f-0" value="全部" class="ks-radio" checked><label for="f-0"><span>全部</span><b>14</b></label></li>
-          <li><input type="radio" name="field" id="f-1" value="rev" class="ks-radio"><label for="f-1"><span>逆向</span><b>4</b></label></li>
-          <li><input type="radio" name="field" id="f-2" value="net" class="ks-radio"><label for="f-2"><span>网络协议</span><b>2</b></label></li>
-          <li><input type="radio" name="field" id="f-3" value="sys" class="ks-radio"><label for="f-3"><span>系统</span><b>4</b></label></li>
-          <li><input type="radio" name="field" id="f-4" value="sec" class="ks-radio"><label for="f-4"><span>密码学</span><b>1</b></label></li>
-          <li><input type="radio" name="field" id="f-5" value="fe" class="ks-radio"><label for="f-5"><span>前端</span><b>2</b></label></li>
-          <li><input type="radio" name="field" id="f-6" value="meta" class="ks-radio"><label for="f-6"><span>方法</span><b>1</b></label></li>
-        </ul>
-      </nav>
-
-      <nav class="ks-block" aria-label="按状态">
-        <p class="ks-label">状态</p>
-        <ul class="ks-list" id="stateList">
-          <li><input type="radio" name="state" id="s-0" value="全部" class="ks-radio" checked><label for="s-0"><span>全部</span><b>14</b></label></li>
-          <li><input type="radio" name="state" id="s-1" value="doing" class="ks-radio"><label for="s-1"><span>在读</span><b>3</b></label></li>
-          <li><input type="radio" name="state" id="s-2" value="todo" class="ks-radio"><label for="s-2"><span>没开始</span><b>1</b></label></li>
-          <li><input type="radio" name="state" id="s-3" value="done" class="ks-radio"><label for="s-3"><span>看完了</span><b>10</b></label></li>
-        </ul>
-      </nav>
-
       <div class="ks-block ks-meter">
         <p class="ks-label">整体进度</p>
         <div class="ks-bar"><i style="--p:71%"></i></div>
@@ -103,6 +80,7 @@
 
   <div class="kb-main">
 
+    <div class="kb-head">
     <header class="kb-top">
     <a class="kb-up" href="index.html"><i>&#8592;</i>索引</a>
       <p class="kb-crumb">Library<i>/</i><b id="crumb">全部</b></p>
@@ -116,6 +94,39 @@
       <p class="kb-clock"><b>LIBRARY</b> / <span id="clock">--:--:--</span></p>
     </header>
 
+      <div class="kb-bar">
+        <label class="kf">
+          <span class="kf-label">领域</span>
+          <span class="kf-wrap">
+            <select id="fieldSel" class="kf-sel" aria-label="按领域筛选">
+              <option value="全部">全部</option>
+              <option value="rev">逆向</option>
+              <option value="net">网络协议</option>
+              <option value="sys">系统</option>
+              <option value="sec">密码学</option>
+              <option value="fe">前端</option>
+              <option value="meta">方法</option>
+            </select>
+          </span>
+        </label>
+
+        <label class="kf">
+          <span class="kf-label">状态</span>
+          <span class="kf-wrap">
+            <select id="stateSel" class="kf-sel" aria-label="按状态筛选">
+              <option value="全部">全部</option>
+              <option value="doing">在读</option>
+              <option value="todo">没开始</option>
+              <option value="done">看完了</option>
+            </select>
+          </span>
+        </label>
+
+        <p class="kb-count" id="count">14 条</p>
+        <p class="kb-hint">每页 6 条 · <kbd>/</kbd> 搜索 · <kbd>G</kbd> 网格</p>
+      </div>
+    </div>
+
     <main class="kb-body" id="top">
 
       <section class="kb-hero">
@@ -123,11 +134,6 @@
         <h1 class="kb-h1">知识库</h1>
         <p class="kb-dek">六种东西，放在同一层。课程是连续的，笔记是碎的，知识库是长期改的，课件是给别人讲的，视频是没剪过的，幻灯片能直接在浏览器里翻。</p>
       </section>
-
-      <div class="kb-line">
-        <p class="kb-count" id="count">14 条</p>
-        <p class="kb-hint">每页 6 条 · <kbd>/</kbd> 搜索 · <kbd>G</kbd> 网格</p>
-      </div>
 
       <ol class="kc-grid" id="grid">
       <li class="kc-item" data-field="rev" data-kind="course" data-state="doing" data-text="逆向 逆向 逆向 逆向 逆向工程基础 12 讲 从 objdump 读到看懂一个 crackme。中间那几讲讲的是我当时想错的地方。 课程 12 讲 · 6 小时 40 分 2025.02 在读">
@@ -247,7 +253,7 @@
       <li class="kc-item" data-field="sys" data-kind="note" data-state="done" data-text="Linux 排障清单 机器起不来的时候，按顺序问自己的 31 个问题。顺序是花钱买的。 笔记 31 条 2024.10 看完了">
         <a class="kc-card" href="course.html">
           <span class="kc-cover">
-            <svg class="kc-fig" viewBox="0 0 100 44" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M5 5h90M5 20h90M5 34h90M5 48h90M5 5v43M27 5v43M49 5v43M71 5v43M93 5v43"/><rect x="49" y="20" width="22" height="14" class="fig-solid"/></svg>
+            <svg class="kc-fig" viewBox="0 0 100 44" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><g class="fig-solid"><rect x="8" y="10" width="5" height="5"/><rect x="20" y="10" width="5" height="5"/><rect x="32" y="10" width="5" height="5"/><rect x="44" y="10" width="5" height="5"/><rect x="56" y="10" width="5" height="5"/><rect x="68" y="10" width="5" height="5"/><rect x="80" y="10" width="5" height="5"/><rect x="8" y="24" width="5" height="5"/><rect x="20" y="24" width="5" height="5"/><rect x="32" y="24" width="5" height="5"/><rect x="44" y="24" width="5" height="5"/><rect x="56" y="24" width="5" height="5"/><rect x="68" y="24" width="5" height="5"/><rect x="80" y="24" width="5" height="5"/><rect x="8" y="38" width="5" height="5"/><rect x="20" y="38" width="5" height="5"/><rect x="32" y="38" width="5" height="5"/><rect x="44" y="38" width="5" height="5"/><rect x="56" y="38" width="5" height="5"/><rect x="68" y="38" width="5" height="5"/><rect x="80" y="38" width="5" height="5"/></g></svg>
             <span class="kc-no" aria-hidden="true">007</span>
             <span class="kc-tag">系统<b>Sys</b></span>
           </span>
@@ -266,7 +272,7 @@
       <li class="kc-item" data-field="sys" data-kind="wiki" data-state="done" data-text="常见错误码对照 HTTP、systemd、gRPC、内核 panic 四张表拼在一起，按数值排，不按来源排。 知识库 210 条 · 四张表 2024.09 看完了">
         <a class="kc-card" href="course.html">
           <span class="kc-cover">
-            <svg class="kc-fig" viewBox="0 0 100 44" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><g class="fig-solid"><rect x="8" y="10" width="5" height="5"/><rect x="20" y="10" width="5" height="5"/><rect x="32" y="10" width="5" height="5"/><rect x="44" y="10" width="5" height="5"/><rect x="56" y="10" width="5" height="5"/><rect x="68" y="10" width="5" height="5"/><rect x="80" y="10" width="5" height="5"/><rect x="8" y="24" width="5" height="5"/><rect x="20" y="24" width="5" height="5"/><rect x="32" y="24" width="5" height="5"/><rect x="44" y="24" width="5" height="5"/><rect x="56" y="24" width="5" height="5"/><rect x="68" y="24" width="5" height="5"/><rect x="80" y="24" width="5" height="5"/><rect x="8" y="38" width="5" height="5"/><rect x="20" y="38" width="5" height="5"/><rect x="32" y="38" width="5" height="5"/><rect x="44" y="38" width="5" height="5"/><rect x="56" y="38" width="5" height="5"/><rect x="68" y="38" width="5" height="5"/><rect x="80" y="38" width="5" height="5"/></g></svg>
+            <svg class="kc-fig" viewBox="0 0 100 44" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><rect x="34" y="9" width="32" height="36"/><rect x="42" y="15" width="16" height="24"/><rect x="48" y="21" width="4" height="12" class="fig-solid"/></svg>
             <span class="kc-no" aria-hidden="true">008</span>
             <span class="kc-tag">系统<b>Sys</b></span>
           </span>
@@ -285,7 +291,7 @@
       <li class="kc-item" data-field="rev" data-kind="deck" data-state="doing" data-text="从零写一个调试器 六节课，最后能单步执行自己写的程序。第六节开始就没有幻灯片了，全在终端里。 课件 6 课时 · 140 页 2024.08 在读">
         <a class="kc-card" href="course.html">
           <span class="kc-cover">
-            <svg class="kc-fig" viewBox="0 0 100 44" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><rect x="34" y="9" width="32" height="36"/><rect x="42" y="15" width="16" height="24"/><rect x="48" y="21" width="4" height="12" class="fig-solid"/></svg>
+            <svg class="kc-fig" viewBox="0 0 100 44" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><g class="fig-solid"><rect x="8" y="14" width="6" height="30"/><rect x="22" y="6" width="6" height="38"/><rect x="36" y="20" width="6" height="24"/><rect x="50" y="10" width="6" height="34"/><rect x="64" y="24" width="6" height="20"/><rect x="78" y="8" width="6" height="36"/></g></svg>
             <span class="kc-no" aria-hidden="true">009</span>
             <span class="kc-tag">逆向<b>Rev</b></span>
           </span>
@@ -304,7 +310,7 @@
       <li class="kc-item" data-field="sec" data-kind="course" data-state="todo" data-text="密码学 密码学不神秘 · 入门 8 讲 只讲能用手算出来的那部分。算不出来的留到进阶，而进阶我还没做完。 课程 8 讲 · 5 小时 2024.06 没开始">
         <a class="kc-card" href="course.html">
           <span class="kc-cover">
-            <svg class="kc-fig" viewBox="0 0 100 44" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><g class="fig-solid"><rect x="8" y="14" width="6" height="30"/><rect x="22" y="6" width="6" height="38"/><rect x="36" y="20" width="6" height="24"/><rect x="50" y="10" width="6" height="34"/><rect x="64" y="24" width="6" height="20"/><rect x="78" y="8" width="6" height="36"/></g></svg>
+            <svg class="kc-fig" viewBox="0 0 100 44" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M5 5h90M5 20h90M5 34h90M5 48h90M5 5v43M27 5v43M49 5v43M71 5v43M93 5v43"/><rect x="49" y="20" width="22" height="14" class="fig-solid"/></svg>
             <span class="kc-no" aria-hidden="true">010</span>
             <span class="kc-tag">密码学<b>Sec</b></span>
           </span>
@@ -323,7 +329,7 @@
       <li class="kc-item" data-field="fe" data-kind="video" data-state="done" data-text="前端 前端 三十毫秒去哪了 一次真实的首屏性能排查，全程录屏。结论是一行 CSS，找它的过程是十一分钟。 视频 22 分 2024.12 看完了">
         <a class="kc-card" href="course.html">
           <span class="kc-cover">
-            <svg class="kc-fig" viewBox="0 0 100 44" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M4 26h16l6-16 8 32 8-26 6 20 8-10h38"/></svg>
+            <svg class="kc-fig" viewBox="0 0 100 44" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M12 47L32 7M28 47L48 7M44 47L64 7M60 47L80 7M76 47L96 7"/></svg>
             <span class="kc-no" aria-hidden="true">011</span>
             <span class="kc-tag">前端<b>FE</b></span>
           </span>
@@ -342,7 +348,7 @@
       <li class="kc-item" data-field="fe" data-kind="slide" data-state="done" data-text="反设计的十一条规则 这个站为什么长这样。十一条里只有三条是规则，剩下八条是例外。 幻灯片 11 页 · 浏览器翻 2025.01 看完了">
         <a class="kc-card" href="course.html">
           <span class="kc-cover">
-            <svg class="kc-fig" viewBox="0 0 100 44" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M12 47L32 7M28 47L48 7M44 47L64 7M60 47L80 7M76 47L96 7"/></svg>
+            <svg class="kc-fig" viewBox="0 0 100 44" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M4 26h16l6-16 8 32 8-26 6 20 8-10h38"/></svg>
             <span class="kc-no" aria-hidden="true">012</span>
             <span class="kc-tag">前端<b>FE</b></span>
           </span>
@@ -361,7 +367,7 @@
       <li class="kc-item" data-field="sys" data-kind="note" data-state="done" data-text="位运算的十七种用法 真实代码里的位运算，不是面试题。每一条都标了在哪个项目里第一次见到。 笔记 17 条 · 4,200 字 2024.07 看完了">
         <a class="kc-card" href="course.html">
           <span class="kc-cover">
-            <svg class="kc-fig" viewBox="0 0 100 44" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M5 5h90M5 20h90M5 34h90M5 48h90M5 5v43M27 5v43M49 5v43M71 5v43M93 5v43"/><rect x="49" y="20" width="22" height="14" class="fig-solid"/></svg>
+            <svg class="kc-fig" viewBox="0 0 100 44" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><g class="fig-solid"><rect x="8" y="10" width="5" height="5"/><rect x="20" y="10" width="5" height="5"/><rect x="32" y="10" width="5" height="5"/><rect x="44" y="10" width="5" height="5"/><rect x="56" y="10" width="5" height="5"/><rect x="68" y="10" width="5" height="5"/><rect x="80" y="10" width="5" height="5"/><rect x="8" y="24" width="5" height="5"/><rect x="20" y="24" width="5" height="5"/><rect x="32" y="24" width="5" height="5"/><rect x="44" y="24" width="5" height="5"/><rect x="56" y="24" width="5" height="5"/><rect x="68" y="24" width="5" height="5"/><rect x="80" y="24" width="5" height="5"/><rect x="8" y="38" width="5" height="5"/><rect x="20" y="38" width="5" height="5"/><rect x="32" y="38" width="5" height="5"/><rect x="44" y="38" width="5" height="5"/><rect x="56" y="38" width="5" height="5"/><rect x="68" y="38" width="5" height="5"/><rect x="80" y="38" width="5" height="5"/></g></svg>
             <span class="kc-no" aria-hidden="true">013</span>
             <span class="kc-tag">系统<b>Sys</b></span>
           </span>
@@ -380,7 +386,7 @@
       <li class="kc-item" data-field="meta" data-kind="wiki" data-state="done" data-text="方法 我踩过的坑 按时间倒序，每条一句现象一句原因。没有劝告，只有记录——劝告没人看。 知识库 58 条 2025.03 看完了">
         <a class="kc-card" href="course.html">
           <span class="kc-cover">
-            <svg class="kc-fig" viewBox="0 0 100 44" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><g class="fig-solid"><rect x="8" y="10" width="5" height="5"/><rect x="20" y="10" width="5" height="5"/><rect x="32" y="10" width="5" height="5"/><rect x="44" y="10" width="5" height="5"/><rect x="56" y="10" width="5" height="5"/><rect x="68" y="10" width="5" height="5"/><rect x="80" y="10" width="5" height="5"/><rect x="8" y="24" width="5" height="5"/><rect x="20" y="24" width="5" height="5"/><rect x="32" y="24" width="5" height="5"/><rect x="44" y="24" width="5" height="5"/><rect x="56" y="24" width="5" height="5"/><rect x="68" y="24" width="5" height="5"/><rect x="80" y="24" width="5" height="5"/><rect x="8" y="38" width="5" height="5"/><rect x="20" y="38" width="5" height="5"/><rect x="32" y="38" width="5" height="5"/><rect x="44" y="38" width="5" height="5"/><rect x="56" y="38" width="5" height="5"/><rect x="68" y="38" width="5" height="5"/><rect x="80" y="38" width="5" height="5"/></g></svg>
+            <svg class="kc-fig" viewBox="0 0 100 44" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><rect x="34" y="9" width="32" height="36"/><rect x="42" y="15" width="16" height="24"/><rect x="48" y="21" width="4" height="12" class="fig-solid"/></svg>
             <span class="kc-no" aria-hidden="true">014</span>
             <span class="kc-tag">方法<b>Meta</b></span>
           </span>
