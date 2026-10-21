@@ -30,6 +30,7 @@
 
   if (cross && fine && !reduce) {
     let tx = 0, ty = 0, cx = 0, cy = 0, raf = null;
+    let hot = null;
 
     const loop = () => {
       cx += (tx - cx) * 0.22;
@@ -43,7 +44,13 @@
     addEventListener('pointermove', (e) => {
       tx = e.clientX;
       ty = e.clientY;
-      coords.textContent = `${Math.round(tx)},${Math.round(ty)}`;
+      coords.textContent = ('000' + Math.round(tx)).slice(-4) + ' ' + ('000' + Math.round(ty)).slice(-4);
+      var t = e.target;
+      var hit = t && t.closest ? t.closest('a,button,input,select,textarea,label,summary') : null;
+      if (hit !== hot) {
+        hot = hit;
+        cross.classList.toggle('is-hot', !!hit);
+      }
       cross.classList.add('is-live');
       if (!raf) raf = requestAnimationFrame(loop);
     }, { passive: true });

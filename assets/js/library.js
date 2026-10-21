@@ -29,6 +29,7 @@
 
   if (cross && coords && fine && !reduce) {
     var tx = 0, ty = 0, cx = 0, cy = 0, live = false;
+    var hot = null;
 
     window.addEventListener('pointermove', function (e) {
       tx = e.clientX;
@@ -39,7 +40,13 @@
         cy = ty;
         cross.classList.add('is-live');
       }
-      coords.textContent = Math.round(e.clientX) + ',' + Math.round(e.clientY);
+      coords.textContent = ('000' + Math.round(e.clientX)).slice(-4) + ' ' + ('000' + Math.round(e.clientY)).slice(-4);
+      var t = e.target;
+      var hit = t && t.closest ? t.closest('a,button,input,select,textarea,label,summary') : null;
+      if (hit !== hot) {
+        hot = hit;
+        cross.classList.toggle('is-hot', !!hit);
+      }
     }, { passive: true });
 
     window.addEventListener('pointerleave', function () {
