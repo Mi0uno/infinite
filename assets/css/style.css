@@ -198,34 +198,6 @@ h1, h2, h3, p, dl, dd, dt, blockquote, pre { margin: 0; }
 .crop i:nth-child(3) { bottom: 12px; left: 12px;  border-bottom-width: 1px; border-left-width: 1px; }
 .crop i:nth-child(4) { bottom: 12px; right: 12px; border-bottom-width: 1px; border-right-width: 1px; }
 
-/* 网格显影层，按 G 或点「网格」触发 */
-.overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 11;
-  pointer-events: none;
-  display: none;
-  max-width: var(--maxw);
-  margin-inline: auto;
-  padding-inline: var(--pad);
-}
-.overlay.is-on { display: grid; }
-.overlay::before {
-  content: "";
-  position: absolute;
-  inset: 0 var(--pad);
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: var(--gutter);
-  background: repeating-linear-gradient(
-    90deg,
-    rgba(15, 15, 15, .06) 0,
-    rgba(15, 15, 15, .06) calc((100% - 11 * var(--gutter)) / 12),
-    transparent calc((100% - 11 * var(--gutter)) / 12),
-    transparent calc((100% - 11 * var(--gutter)) / 12 + var(--gutter))
-  );
-}
-
 /* ---------- 报头 ---------- */
 
 .masthead {
@@ -314,39 +286,6 @@ h1, h2, h3, p, dl, dd, dt, blockquote, pre { margin: 0; }
 .mh-nav a:hover::after { transform: scaleX(1); }
 .mh-nav a.is-active { color: var(--ink); font-weight: 500; }
 .mh-nav a.is-active::after { transform: scaleX(1); height: 2px; }
-
-.mh-grid {
-  margin-left: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 5px 9px;
-  border: 1px solid var(--line);
-  background: none;
-  color: var(--ink-2);
-  font-family: var(--f-mono);
-  font-size: 10px;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: border-color .2s var(--ease), color .2s var(--ease);
-}
-.mh-grid:hover { border-color: var(--ink); color: var(--ink); }
-.mh-grid[aria-pressed="true"] {
-  background: var(--ink);
-  border-color: var(--ink);
-  color: var(--paper);
-}
-.mh-grid kbd {
-  font-family: var(--f-mono);
-  font-size: 9px;
-  line-height: 1;
-  padding: 2px 3px 1px;
-  border: 1px solid currentColor;
-  opacity: .55;
-  min-width: 13px;
-  text-align: center;
-}
 
 /* ---------- 首屏 ---------- */
 

@@ -23,30 +23,6 @@
     setInterval(tick, 1000);
   }
 
-  /* ---------- 网格显影 ---------- */
-  const overlay = document.getElementById('overlay');
-  const gridBtn = document.getElementById('gridBtn');
-
-  if (overlay && gridBtn) {
-    const setGrid = (on) => {
-      overlay.classList.toggle('is-on', on);
-      gridBtn.setAttribute('aria-pressed', String(on));
-    };
-
-    gridBtn.addEventListener('click', () => {
-      setGrid(gridBtn.getAttribute('aria-pressed') !== 'true');
-    });
-
-    addEventListener('keydown', (e) => {
-      if (e.key !== 'g' && e.key !== 'G') return;
-      if (e.metaKey || e.ctrlKey || e.altKey) return;
-      const t = e.target;
-      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
-      e.preventDefault();
-      setGrid(gridBtn.getAttribute('aria-pressed') !== 'true');
-    });
-  }
-
   /* ---------- 对准标记 ---------- */
   const cross = document.getElementById('crosshair');
   const coords = document.getElementById('coords');

@@ -205,7 +205,7 @@ body.is-library {
 .ks-foot {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 8px;
   padding: 12px 14px calc(14px + env(safe-area-inset-bottom, 0px));
   border-top: 1px solid var(--line);
@@ -215,34 +215,10 @@ body.is-library {
 }
 
 .ks-foot a,
-.ks-grid {
-  color: var(--ink-2);
-  transition: color .18s var(--ease), border-color .18s var(--ease);
-}
-
 .ks-foot a:hover,
-.ks-grid:hover {
+.ks-foot a:focus {
   color: var(--ink);
-}
-
-.ks-grid {
-  padding: 4px 7px 5px;
-  border: 1px solid var(--line);
-  background: transparent;
-  font: inherit;
-  letter-spacing: .1em;
-  cursor: pointer;
-}
-
-.ks-grid[aria-pressed="true"] {
-  border-color: var(--ink);
-  color: var(--ink);
-}
-
-.ks-grid kbd {
-  padding-left: 3px;
-  font: inherit;
-  color: var(--ink-3);
+  text-decoration: none;
 }
 
 /* ============================================================

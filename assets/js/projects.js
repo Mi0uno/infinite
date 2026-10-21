@@ -22,32 +22,6 @@
     setInterval(tick, 1000);
   }
 
-  /* ---------- 网格显影 ---------- */
-
-  var overlay = document.getElementById('overlay');
-  var gridBtn = document.getElementById('gridBtn');
-
-  var setGrid = function (on) {
-    if (!overlay || !gridBtn) return;
-    overlay.classList.toggle('is-on', on);
-    gridBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
-  };
-
-  if (gridBtn) {
-    gridBtn.addEventListener('click', function () {
-      setGrid(!overlay.classList.contains('is-on'));
-    });
-  }
-
-  window.addEventListener('keydown', function (e) {
-    if (e.key === 'g' || e.key === 'G') {
-      if (e.metaKey || e.ctrlKey || e.altKey) return;
-      var t = e.target;
-      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
-      setGrid(!overlay.classList.contains('is-on'));
-    }
-  });
-
   /* ---------- 十字准星 ---------- */
 
   var cross = document.getElementById('crosshair');
