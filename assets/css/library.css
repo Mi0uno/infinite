@@ -954,3 +954,138 @@ body.is-library {
     transition: none;
   }
 }
+
+/* ============================================================
+   载入 / 卸载
+   进来的时候像一台机器在起：左栏先推入，顶栏落下，标题浮起，
+   卡片一张接一张落位，最后是分页和页脚。
+   回去的时候反过来 —— 最后一张先熄，纸从下面盖上来。
+   用 animation 不用 transition：脚本没跑到也不该留一页空白。
+   ============================================================ */
+
+@media (prefers-reduced-motion: no-preference) {
+
+  @keyframes boot-slide {
+    from { opacity: 0; transform: translateX(-26px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  @keyframes boot-drop {
+    from { opacity: 0; transform: translateY(-14px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  @keyframes boot-rise {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* ---- 载入 ---- */
+
+  html.js .kb-side {
+    animation: boot-slide .66s var(--ease-out) both .04s;
+  }
+
+  html.js .kb-top {
+    animation: boot-drop .52s var(--ease-out) both .1s;
+  }
+
+  html.js .kb-hero,
+  html.js .cu-hero {
+    animation: boot-rise .64s var(--ease-out) both .16s;
+  }
+
+  html.js .kb-line,
+  html.js .cu-line {
+    animation: boot-rise .58s var(--ease-out) both .22s;
+  }
+
+  html.js .kc-item {
+    animation: boot-rise .6s var(--ease-out) both;
+  }
+
+  html.js .kc-item:nth-child(1) { animation-delay: .26s; }
+  html.js .kc-item:nth-child(2) { animation-delay: .31s; }
+  html.js .kc-item:nth-child(3) { animation-delay: .36s; }
+  html.js .kc-item:nth-child(4) { animation-delay: .41s; }
+  html.js .kc-item:nth-child(5) { animation-delay: .46s; }
+  html.js .kc-item:nth-child(6) { animation-delay: .51s; }
+
+  html.js .cu-unit {
+    animation: boot-rise .58s var(--ease-out) both;
+  }
+
+  html.js .cu-unit:nth-of-type(1) { animation-delay: .24s; }
+  html.js .cu-unit:nth-of-type(2) { animation-delay: .29s; }
+  html.js .cu-unit:nth-of-type(3) { animation-delay: .34s; }
+  html.js .cu-unit:nth-of-type(4) { animation-delay: .39s; }
+  html.js .cu-unit:nth-of-type(5) { animation-delay: .44s; }
+  html.js .cu-unit:nth-of-type(6) { animation-delay: .49s; }
+
+  html.js .kb-pager,
+  html.js .kb-foot {
+    animation: boot-rise .56s var(--ease-out) both .58s;
+  }
+
+  /* ---- 卸载：body 挂 .is-shut，最后一张先走 ---- */
+
+  html.js .is-shut .kc-item,
+  html.js .is-shut .cu-unit,
+  html.js .is-shut .kb-hero,
+  html.js .is-shut .cu-hero,
+  html.js .is-shut .kb-line,
+  html.js .is-shut .cu-line,
+  html.js .is-shut .kb-pager,
+  html.js .is-shut .kb-foot {
+    animation: none;
+    opacity: 0;
+    transform: translateY(-12px);
+    transition: opacity .24s var(--ease), transform .24s var(--ease);
+    transition-delay: 0s;
+  }
+
+  html.js .is-shut .kc-item:nth-child(6),
+  html.js .is-shut .cu-unit:nth-of-type(6) { transition-delay: 0s; }
+  html.js .is-shut .kc-item:nth-child(5),
+  html.js .is-shut .cu-unit:nth-of-type(5) { transition-delay: .026s; }
+  html.js .is-shut .kc-item:nth-child(4),
+  html.js .is-shut .cu-unit:nth-of-type(4) { transition-delay: .052s; }
+  html.js .is-shut .kc-item:nth-child(3),
+  html.js .is-shut .cu-unit:nth-of-type(3) { transition-delay: .078s; }
+  html.js .is-shut .kc-item:nth-child(2),
+  html.js .is-shut .cu-unit:nth-of-type(2) { transition-delay: .104s; }
+  html.js .is-shut .kc-item:nth-child(1),
+  html.js .is-shut .cu-unit:nth-of-type(1) { transition-delay: .13s; }
+
+  html.js .is-shut .kb-side {
+    animation: none;
+    opacity: 0;
+    transform: translateX(-26px);
+    transition: opacity .26s var(--ease), transform .26s var(--ease);
+  }
+
+  html.js .is-shut .kb-top {
+    animation: none;
+    opacity: 0;
+    transform: translateY(-14px);
+    transition: opacity .22s var(--ease), transform .22s var(--ease);
+  }
+}
+
+/* 兜底：有的引擎（省电模式、后台标签页、老内核）根本不推进
+   CSS 动画，元素会一直停在 opacity 0 那一帧。veil.js 在 1.4s 后
+   挂 .is-boot，无论如何把内容放出来。 */
+html.js .is-boot .kb-side,
+html.js .is-boot .kb-top,
+html.js .is-boot .kb-hero,
+html.js .is-boot .cu-hero,
+html.js .is-boot .kb-line,
+html.js .is-boot .cu-line,
+html.js .is-boot .kc-item,
+html.js .is-boot .cu-unit,
+html.js .is-boot .kb-pager,
+html.js .is-boot .kb-foot {
+  animation: none;
+  opacity: 1;
+  transform: none;
+}

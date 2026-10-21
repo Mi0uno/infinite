@@ -19,8 +19,18 @@
 
   /* 从往返缓存回来时，遮罩可能还停在盖住位置的样子 */
   window.addEventListener('pageshow', function (e) {
-    if (e.persisted) veil.classList.remove('is-fall');
+    if (e.persisted) {
+      veil.classList.remove('is-fall');
+      document.body.classList.remove('is-shut');
+    }
   });
+
+  /* 载入动画的兜底：有的引擎（省电模式、后台标签页、老内核）
+     根本不推进 CSS 动画，元素会一直停在 opacity 0 那一帧。
+     一秒半以后无论如何都让内容出来。 */
+  window.setTimeout(function () {
+    document.body.classList.add('is-boot');
+  }, 1400);
 
   var leaving = false;
 
@@ -49,6 +59,9 @@
 
     e.preventDefault();
     leaving = true;
+
+    /* 知识库和课程页让内容先散场，纸再盖上来 */
+    document.body.classList.add('is-shut');
 
     veil.classList.remove('is-fall');
     /* 强制一帧，让动画从头播 */
