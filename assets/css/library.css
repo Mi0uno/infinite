@@ -1166,7 +1166,6 @@ html.js .loader {
   gap: 20px;
   padding: clamp(20px, 3vw, 42px);
   background: var(--paper);
-  will-change: transform;
 }
 
 /* 载入时页面别在底下偷偷滚 */
@@ -1338,7 +1337,10 @@ html.js .loader.is-out {
 }
 
 html.js .loader.is-gone {
-  display: none;
+  /* 不用 display:none 收尾：切 display 的那一帧合成结果会被整层丢掉，
+     在部分内核上表现为整页闪白。visibility 不碰布局，也不重建层。 */
+  visibility: hidden;
+  pointer-events: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
