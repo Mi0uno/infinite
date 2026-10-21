@@ -258,7 +258,7 @@
   background: transparent;
   border: 1px solid var(--line);
   padding: 5px 10px 6px;
-  cursor: pointer;
+  cursor: url("../cursor/hand.png") 13 3, pointer;
   transition: background-color .18s var(--ease), color .18s var(--ease), border-color .18s var(--ease);
 }
 .pj-filter button:hover { color: var(--ink); border-color: var(--ink); }
@@ -372,11 +372,11 @@
   background: transparent;
   border: 1px solid var(--line);
   padding: 5px 10px 6px;
-  cursor: pointer;
+  cursor: url("../cursor/hand.png") 13 3, pointer;
   transition: color .18s var(--ease), border-color .18s var(--ease), background-color .18s var(--ease);
 }
 .pj-pg:hover:not(:disabled) { color: var(--ink); border-color: var(--ink); }
-.pj-pg:disabled { opacity: .3; cursor: default; }
+.pj-pg:disabled { opacity: .3; cursor: url("../cursor/arrow.png") 1 1, default; }
 .pj-pg.is-cur {
   background: var(--ink);
   color: var(--paper);
@@ -417,7 +417,7 @@
   background: transparent;
   border: 1px solid var(--ink);
   padding: 6px 12px 7px;
-  cursor: pointer;
+  cursor: url("../cursor/hand.png") 13 3, pointer;
 }
 .pj-reset:hover { background: var(--ink); color: var(--paper); }
 

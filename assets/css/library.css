@@ -120,7 +120,7 @@ body.is-library {
   font-size: 13.5px;
   line-height: 1.5;
   color: var(--ink-2);
-  cursor: pointer;
+  cursor: url("../cursor/hand.png") 13 3, pointer;
   transition: background-color .16s var(--ease), color .16s var(--ease), transform .16s var(--ease);
 }
 
@@ -477,7 +477,7 @@ body.is-library {
   font-size: 10.5px;
   letter-spacing: .04em;
   color: var(--ink);
-  cursor: pointer;
+  cursor: url("../cursor/hand.png") 13 3, pointer;
   transition: border-color .16s var(--ease);
 }
 
@@ -790,7 +790,7 @@ body.is-library {
   font-size: 10px;
   letter-spacing: .06em;
   color: var(--ink-2);
-  cursor: pointer;
+  cursor: url("../cursor/hand.png") 13 3, pointer;
   font-variant-numeric: tabular-nums;
   transition: border-color .16s var(--ease), background-color .16s var(--ease), color .16s var(--ease);
 }
@@ -809,7 +809,7 @@ body.is-library {
 
 .kb-pg:disabled {
   opacity: .3;
-  cursor: default;
+  cursor: url("../cursor/arrow.png") 1 1, default;
 }
 
 .kb-pgmeta {
@@ -856,7 +856,7 @@ body.is-library {
   font-family: var(--f-cjk);
   font-size: 12px;
   color: var(--ink);
-  cursor: pointer;
+  cursor: url("../cursor/hand.png") 13 3, pointer;
   transition: background-color .18s var(--ease), color .18s var(--ease);
 }
 

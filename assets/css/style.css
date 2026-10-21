@@ -1166,7 +1166,7 @@ h1, h2, h3, p, dl, dd, dt, blockquote, pre { margin: 0; }
   font-size: 9.5px;
   letter-spacing: .12em;
   text-transform: uppercase;
-  cursor: pointer;
+  cursor: url("../cursor/hand.png") 13 3, pointer;
   pointer-events: auto;
   opacity: 0;
   transform: translateY(8px);
@@ -1461,4 +1461,18 @@ html.js .reveal.is-in { opacity: 1; transform: none; will-change: auto; }
   .sentinel { animation: none; opacity: .55; }
   [data-par] { will-change: auto; }
   .entry.is-gen, .gen-mark { animation: none; }
+}
+
+/* ---------- 指针 ---------- */
+/* Bibata 的形态，本仓配色。热点打在图形尖端；白护边贴纸色，只用来压深底。 */
+html, body {
+  cursor: url("../cursor/arrow.png") 1 1, default;
+}
+
+a, button, summary, label, select, [role="button"], .kc-item, .kb-item {
+  cursor: url("../cursor/hand.png") 13 3, pointer;
+}
+
+input, textarea {
+  cursor: text;
 }

@@ -213,7 +213,7 @@
   gap: var(--gutter);
   position: relative;
   padding: 16px 22px 15px 2px;
-  cursor: pointer;
+  cursor: url("../cursor/hand.png") 13 3, pointer;
   list-style: none;
   transition: background-color .18s var(--ease);
 }

@@ -93,7 +93,7 @@
   font-family: var(--f-mono);
   font-size: 10px;
   letter-spacing: .1em;
-  cursor: pointer;
+  cursor: url("../cursor/hand.png") 13 3, pointer;
   transition: background-color .16s var(--ease), color .16s var(--ease),
     border-color .16s var(--ease);
 }
@@ -179,7 +179,7 @@
   font-family: var(--f-mono);
   font-size: 10px;
   letter-spacing: .1em;
-  cursor: pointer;
+  cursor: url("../cursor/hand.png") 13 3, pointer;
   transition: background-color .18s var(--ease), color .18s var(--ease),
     border-color .18s var(--ease);
 }
@@ -433,7 +433,7 @@ a.ar-title:hover { transform: translateX(5px); }
   font-size: 10.5px;
   letter-spacing: .08em;
   font-variant-numeric: tabular-nums;
-  cursor: pointer;
+  cursor: url("../cursor/hand.png") 13 3, pointer;
   transition: background-color .16s var(--ease), color .16s var(--ease),
     border-color .16s var(--ease);
 }
@@ -448,7 +448,7 @@ a.ar-title:hover { transform: translateX(5px); }
   transform: translateY(-1px);
 }
 
-.ar-pg:disabled { opacity: .32; cursor: default; }
+.ar-pg:disabled { opacity: .32; cursor: url("../cursor/arrow.png") 1 1, default; }
 
 .ar-pg-gap {
   min-width: 16px;
@@ -502,7 +502,7 @@ a.ar-title:hover { transform: translateX(5px); }
   font-family: var(--f-mono);
   font-size: 10px;
   letter-spacing: .1em;
-  cursor: pointer;
+  cursor: url("../cursor/hand.png") 13 3, pointer;
   transition: background-color .18s var(--ease), color .18s var(--ease);
 }
 
