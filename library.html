@@ -17,6 +17,22 @@
 <body class="is-library">
 
 
+<div class="loader" id="loader" role="status" aria-label="正在载入">
+  <div class="ld-head">
+    <span class="ld-mark">INFINITE<i></i></span>
+    <span class="ld-tag">Library</span>
+  </div>
+  <div class="ld-mid">
+    <p class="ld-title">知识库</p>
+    <p class="ld-desc">十四件东西 · 六种类型</p>
+  </div>
+  <div class="ld-foot">
+    <div class="ld-track"><i id="ldFill"></i></div>
+    <p class="ld-num"><b id="ldPct">000</b><span>%</span></p>
+    <p class="ld-phase" id="ldPhase">正在取索引</p>
+  </div>
+</div>
+
 <div class="veil" aria-hidden="true"></div>
 <div class="grain" aria-hidden="true"></div>
 <div class="scan" aria-hidden="true"></div>
@@ -389,6 +405,7 @@
 <div class="crosshair" id="crosshair" aria-hidden="true"><i></i><i></i><span id="coords">0,0</span></div>
 
 <script src="assets/js/veil.js"></script>
+<script src="assets/js/boot.js"></script>
 <script src="assets/js/library.js"></script>
 </body>
 </html>

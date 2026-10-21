@@ -1089,3 +1089,158 @@ html.js .is-boot .kb-foot {
   opacity: 1;
   transform: none;
 }
+
+/* ============================================================
+   载入页
+   进来先是一张封面：站点标记、这页的名字、一条进度。
+   走完才揭。放在 veil 上面（z-index 80），垫底那层纸已经揭开了。
+   ============================================================ */
+
+.loader { display: none; }
+
+html.js .loader {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 20px;
+  padding: clamp(20px, 3vw, 42px);
+  background: var(--paper);
+  will-change: transform;
+}
+
+/* 载入时页面别在底下偷偷滚 */
+html.js.is-loading,
+html.js.is-loading body {
+  overflow: hidden;
+}
+
+.ld-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--ink);
+}
+
+.ld-mark {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--f-display);
+  font-size: 17px;
+  font-weight: 900;
+  letter-spacing: -.02em;
+}
+
+.ld-mark i {
+  display: block;
+  width: 8px;
+  height: 8px;
+  background: var(--ink);
+  transform: translate(.4px, -.4px) rotate(-.6deg);
+}
+
+.ld-tag {
+  font-family: var(--f-mono);
+  font-size: 9.5px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.ld-mid {
+  align-self: center;
+  min-width: 0;
+}
+
+.ld-title {
+  margin: 0;
+  font-family: var(--f-cjk);
+  font-size: clamp(40px, 8.4vw, 118px);
+  font-weight: 900;
+  line-height: .96;
+  letter-spacing: -.04em;
+}
+
+.ld-desc {
+  margin: 14px 0 0;
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  letter-spacing: .14em;
+  color: var(--ink-3);
+}
+
+.ld-foot {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 10px 20px;
+  padding-top: 14px;
+  border-top: 1px solid var(--ink);
+}
+
+.ld-track {
+  position: relative;
+  height: 3px;
+  background: var(--paper-deep);
+  overflow: hidden;
+}
+
+.ld-track i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--ink);
+}
+
+.ld-num {
+  grid-row: 1 / span 2;
+  grid-column: 2;
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: clamp(30px, 3.6vw, 48px);
+  font-weight: 500;
+  line-height: .84;
+  letter-spacing: -.03em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.ld-num span {
+  font-size: .42em;
+  font-weight: 400;
+  letter-spacing: .04em;
+  color: var(--ink-3);
+}
+
+.ld-phase {
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: 9.5px;
+  letter-spacing: .14em;
+  color: var(--ink-3);
+}
+
+/* 满了之后先停一拍，再整体揭走 */
+html.js .loader.is-out {
+  animation: ld-lift .56s var(--ease-out) forwards;
+}
+
+@keyframes ld-lift {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-101%); }
+}
+
+html.js .loader.is-gone {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js .loader { display: none; }
+}
