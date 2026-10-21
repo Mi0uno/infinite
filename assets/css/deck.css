@@ -400,6 +400,21 @@ body.is-full .dk-tool {
   visibility: hidden;
 }
 
+/* 满屏之后工具条藏了，留一行最小的退出口令，别让人被关在里面 */
+body.is-full::after {
+  content: "F / ESC 退出满屏";
+  position: fixed;
+  right: 20px;
+  bottom: 16px;
+  z-index: 601;
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: .14em;
+  color: var(--ink-3);
+  opacity: .55;
+  pointer-events: none;
+}
+
 /* ---------- 微残缺 ---------- */
 
 .dk-stage::after {
@@ -499,9 +514,46 @@ body.is-full .dk-tool {
     aspect-ratio: 3 / 4;
   }
 
+  /* 竖屏舞台很高，别再给中间留 1fr 的伸缩行 ——
+     一行行按内容往下排，图就贴在正文下面，而不是被推到舞台底部 */
   .dk-slide {
-    grid-template-rows: auto auto 1fr;
+    grid-template-rows: none;
+    grid-auto-rows: auto;
+    align-content: start;
+    gap: 3cqw;
     padding: 6cqw;
+  }
+
+  /* 竖屏的舞台很高，图别再居中飘在中间，贴着正文走 */
+  .ds-fig {
+    align-self: start;
+    width: 100%;
+    margin-top: 2cqw;
+  }
+
+  /* 竖屏的舞台高，末页四块内容不能被 1fr 撑开 */
+  .dk-slide--end {
+    grid-template-rows: auto auto auto 1fr;
+    align-content: start;
+    gap: 3cqw;
+  }
+
+  .dk-slide--end .ds-list {
+    columns: 1;
+    margin-top: 2cqw;
+  }
+
+  .ds-big {
+    font-size: 15cqw;
+  }
+
+  .ds-list li {
+    font-size: 3cqw;
+    padding: 1.4cqw 0;
+  }
+
+  .ds-list b {
+    font-size: 2.4cqw;
   }
 
   .ds-note {
