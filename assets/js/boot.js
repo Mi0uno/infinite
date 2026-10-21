@@ -90,6 +90,9 @@
 
     window.setTimeout(function () {
       el.classList.add('is-out');
+      /* 纸开始上移的同一帧解冻内容：两件事同时发生，
+         才看得出是纸在揭开、东西在落位，而不是先白一下再出现 */
+      doc.classList.remove('is-loading');
       window.setTimeout(finish, 640);
     }, HOLD);
   };
