@@ -1244,3 +1244,19 @@ html.js .loader.is-gone {
 @media (prefers-reduced-motion: reduce) {
   html.js .loader { display: none; }
 }
+
+/* 加载页盖着的时候，底下的进场先冻住——
+   不冻的话副作用是：揀开时内容早就位了，落位感白做。
+   用 paused 不用 none，揀开后从这一帧接着跑。 */
+html.is-loading .kb-side,
+html.is-loading .kb-top,
+html.is-loading .kb-hero,
+html.is-loading .cu-hero,
+html.is-loading .kb-line,
+html.is-loading .cu-line,
+html.is-loading .kc-item,
+html.is-loading .cu-unit,
+html.is-loading .kb-pager,
+html.is-loading .kb-foot {
+  animation-play-state: paused;
+}

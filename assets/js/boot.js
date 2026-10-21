@@ -40,19 +40,10 @@
     return;
   }
 
-  /* 这个会话里已经看过一遍了，不拦第二遍 */
-  var KEY = 'infinite.boot';
-  try {
-    if (sessionStorage.getItem(KEY) === '1') {
-      finish();
-      return;
-    }
-    sessionStorage.setItem(KEY, '1');
-  } catch (err) { /* 隐私模式下 sessionStorage 会抛，当没看过 */ }
-
   doc.classList.add('is-loading');
 
   var started = performance.now();
+  var loadedAt = 0;
   var loaded = false;
   var revealed = false;
 
@@ -60,11 +51,17 @@
   var RAMP = 780;   /* 爬到九十二用这么久 */
   var HOLD = 180;   /* 满格之后停这一下 */
 
+  var three = 0;   /* 100 只留给 reveal，不让数字和文字对不上 */
+
   var valueAt = function (now) {
-    if (loaded) return 100;
     var t = Math.min(1, (now - started) / RAMP);
-    /* easeOutQuad 偏三次，前十帧涨得快，后面拖住 */
-    return (1 - Math.pow(1 - t, 2.4)) * 92;
+    var base = (1 - Math.pow(1 - t, 2.4)) * 92;
+
+    if (!loaded) return base;
+
+    /* 资源到了，往九十六补，剩下那四个数等 reveal */
+    var k = Math.min(1, (now - loadedAt) / 240);
+    return base + (96 - base) * k;
   };
 
   var loop = function (now) {
@@ -91,9 +88,11 @@
 
   /* 三条路都会走到这里：load 了、load 迟迟不来、或者时间已经够久 */
   var settle = function () {
+    if (loaded) return;
     loaded = true;
-    var waited = performance.now() - started;
-    window.setTimeout(reveal, Math.max(0, MIN - waited));
+    loadedAt = performance.now();
+    var waited = loadedAt - started;
+    window.setTimeout(reveal, Math.max(0, MIN - waited) + 260);
   };
 
   window.addEventListener('load', settle, { once: true });

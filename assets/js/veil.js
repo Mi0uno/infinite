@@ -30,7 +30,7 @@
      一秒半以后无论如何都让内容出来。 */
   window.setTimeout(function () {
     document.body.classList.add('is-boot');
-  }, 1400);
+  }, 2600);
 
   var leaving = false;
 
